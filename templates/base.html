@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="{% static "assets/css/style.css" %}" />
+		<link rel="stylesheet" href="{% static "assets/css/jquery.ui.all.css" %}" />
+		<link rel="shortcut icon" href="{% static "assets/images/icon.png" %}" />
+		<title>{% block title %}Library{% endblock %}</title>
+	</head>
+	<body>
+		<nav>
+			<ul>
+				<!--<li class="selected" ><a href="./">Search</a></li><li><a href="?s=library">Library</a></li><li><a href="?s=purchased">Purchased</a></li><li><a href="?s=sub">SUB</a></li><li><a href="?s=read">Read</a></li><li><a href="?s=wish">Wish List</a></li><li><a href="?s=ebooks">Ebooks</a></li><li><a href="?s=statistics">Statistics</a></li><li><a href="?s=preferences">Preferences</a></li><li><a href="?s=add">Add</a></li>-->
+			<li><a href="/admin/">Admin</a></li>
+			</ul>
+		</nav>
+		<div id="content">
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>

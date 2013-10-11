@@ -1,0 +1,12 @@
+{% load static %}
+
+<figure id="list">
+	<a class="overview" id="{{ book.id }}" href="/books/{{ book.id }}/">
+		{% if book.cover_image %}
+			<img src="{{ book.cover_image.url }}" height="140px" alt=" {{ book.title }} by {{ book.authors.all|first }} " title=" {{ book.title }} by {{ book.authors.all|first }} " />
+		{% else %}
+			<img src="{% static "assets/images/default_cover.jpg" %}" height="140px" alt=" {{ book.title }} by {{ book.authors.all|first }} " title=" {{ book.title }} by {{ book.authors.all|first }} " />
+		{% endif %}
+		<figcaption>{{ book.title }} by {{ book.authors.all|first }}</figcaption>
+	</a>
+</figure>
