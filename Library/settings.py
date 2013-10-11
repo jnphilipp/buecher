@@ -14,7 +14,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2'
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'dj_library',
 		'USER': 'library',
 		'PASSWORD': 'library',
@@ -118,10 +118,8 @@ INSTALLED_APPS = (
 	'django.contrib.sites',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	# Uncomment the next line to enable the admin:
-	# 'django.contrib.admin',
-	# Uncomment the next line to enable admin documentation:
-	# 'django.contrib.admindocs',
+	'django.contrib.admin',
+	'south',
 )
 
 # A sample logging configuration. The only tangible logging
