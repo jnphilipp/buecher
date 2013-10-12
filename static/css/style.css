@@ -26,6 +26,16 @@ a:hover {color: #333;
 	font-weight: bold;
 	text-decoration: none;}
 
+table.statistics {border-collapse: separate;
+	border-spacing: 10px 5px;
+	margin: 5em auto 0;}
+
+table.statistics td,
+table.statistics th {min-width: 6em;}
+
+table.statistics td.right,
+table.statistics th.right {text-align: right;}
+
 
 
 /*### navigation ###*/
