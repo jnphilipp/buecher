@@ -2,11 +2,22 @@ from books.models import Binding
 from books.models import Book
 from books.models import EBookFile
 from datetime import date
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Sum
 from django.shortcuts import get_object_or_404, get_list_or_404, render_to_response
 
 def index(request):
-	books = Book.objects.all().order_by('-updated_at')
+	book_list = Book.objects.all().order_by('-updated_at')
+	paginator = Paginator(book_list, 30)
+
+	page = request.GET.get('page')
+	try:
+		books = paginator.page(page)
+	except PageNotAnInteger:
+		books = paginator.page(1)
+	except EmptyPage:
+		books = paginator.page(paginator.num_pages)
+
 	return render_to_response('books/index.html', {'books': books})
 
 def detail(request, book_id):
