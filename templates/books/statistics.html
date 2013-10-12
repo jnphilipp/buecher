@@ -17,12 +17,12 @@
 	{% for binding in statistics.book_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
 	{% endfor %}
-	<tr>
+	<tr class="border_top">
 		<th> Purchased: </th>
 		<td></td>
 		<td class="right"> {{ statistics.purchased_count }} </td>
@@ -31,12 +31,12 @@
 	{% for binding in statistics.purchased_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
 	{% endfor %}
-	<tr>
+	<tr class="border_top">
 		<th> SUB: </th>
 		<td></td>
 		<td class="right"> {{ statistics.sub_count }} </td>
@@ -45,12 +45,12 @@
 	{% for binding in statistics.sub_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
 	{% endfor %}
-	<tr>
+	<tr class="border_top">
 		<th> Read: </th>
 		<td></td>
 		<td class="right"> {{ statistics.read_count }} </td>
@@ -59,12 +59,12 @@
 	{% for binding in statistics.read_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
 	{% endfor %}
-	<tr>
+	<tr class="border_top">
 		<th> Wish List: </th>
 		<td></td>
 		<td class="right"> {{ statistics.wishlist_count }} </td>
@@ -73,26 +73,26 @@
 	{% for binding in statistics.wishlist_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
 	{% endfor %}
-	<tr>
+	<tr class="border_top">
 		<th> Purchased this year: </th>
 		<td></td>
 		<td class="right"> {{ statistics.year_purchased_count }} </td>
-		<td class="right" style="padding-left: 2em;"> {{ statistics.year_purchased_sum.total_price }} &euro; </td>
+		<td class="right" style="padding-left: 2em;"> {{ statistics.year_purchased_sum.sum }} &euro; </td>
 	</tr>
 	{% for binding in statistics.year_purchased_binding_counts %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
 	{% endfor %}
-	<tr>
+	<tr class="border_top">
 		<th> Purchased this month: </th>
 		<td></td>
 		<td class="right"> {{ statistics.month_purchased_count }} </td>
@@ -101,12 +101,12 @@
 	{% for binding in statistics.month_purchased_binding_counts %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
 	{% endfor %}
-	<tr>
+	<tr class="border_top">
 		<th> Read this year: </th>
 		<td></td>
 		<td class="right"> {{ statistics.year_read_count }} </td>
@@ -115,12 +115,12 @@
 	{% for binding in statistics.year_read_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
 	{% endfor %}
-	<tr>
+	<tr class="border_top">
 		<th> Read this month: </th>
 		<td></td>
 		<td class="right"> {{ statistics.month_read_count }} </td>
@@ -129,7 +129,7 @@
 	{% for binding in statistics.month_read_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding }} </td>
+			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>

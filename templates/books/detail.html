@@ -22,7 +22,9 @@
 	<p><b>Publisher:</b> {{ book.publisher }}</p>
 {% endif %}
 <p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>
-<p><b>Binding:</b> {{ book.binding }}</p>
+{% if book.binding %}
+	<p><b>Binding:</b> {{ book.binding }}</p>
+{% endif %}
 {% with count=book.languages.count %}
 	<p><b>Language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</p>
 {% endwith %}
@@ -52,6 +54,6 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p><a href="/books/">back</a></p>
+<p style="text-align: center;"><a href="/books/" style="margin-right: 5em;">back</a> <a href="{% url 'admin:books_book_change' book.id %}">edit</a></p>
 
 {% endblock %}
