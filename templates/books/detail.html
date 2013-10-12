@@ -1,59 +1,73 @@
 {% extends "base.html" %}
 
+{% block page_arrows %}
+{% if books.has_previous %}
+	<div class="left_arrow"><a href="?page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
+{% endif %}
+{% if books.has_next %}
+	<div class="right_arrow"><a href="?page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
+{% endif %}
+{% endblock %}
+
 {% block content %}
-{% if book.cover_image %}
-	<img src="{{ book.cover_image.url }}" style="float: right; min-height: 400px; max-height: 500px;" />
-{% endif %}
-<h1>{{ book.title }}</h1>
-{% if book.series %}
-	<p><b>Series:</b> Volume {{ book.volume }} of {{ book.series }}</p>
-{% endif %}
-<p><b>Authors:</b> {{ book.authors.all|join:", " }}</p>
+<div class="details" style="width: 55%; margin: 0 auto;">
+	<h1>{{ book.title }}</h1>
+	{% if book.cover_image %}
+		<img src="{{ book.cover_image.url }}" style="float: right; min-height: 400px; max-height: 500px; margin-top: -1.5em;" />
+	{% endif %}
+	{% if book.series %}
+		<p><b>Series:</b> Volume {{ book.volume }} of {{ book.series }}</p>
+	{% endif %}
+	<p><b>Authors:</b> {{ book.authors.all|join:", " }}</p>
 
-<p>&nbsp;</p>
-<h3>Edition details:</h3>
-{% if book.isbn %}
-	<p><b>ISBN:</b> {{ book.isbn }}</p>
-{% endif %}
-{% if book.asin %}
-	<p><b>ASIN:</b> <a href="http://amazon.com/dp/{{ book.asin }}" target="_blank">{{ book.asin }}</a></p>
-{% endif %}
-{% if book.publisher %}
-	<p><b>Publisher:</b> {{ book.publisher }}</p>
-{% endif %}
-<p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>
-{% if book.binding %}
-	<p><b>Binding:</b> {{ book.binding }}</p>
-{% endif %}
-{% with count=book.languages.count %}
-	<p><b>Language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</p>
-{% endwith %}
-{% if book.price %}
-	<p><b>Price:</b> {{ book.price }} €</p>
-{% endif %}
+	<div class="edition">
+		<p>&nbsp;</p>
+		<h3>Edition details:</h3>
+		{% if book.isbn %}
+			<p><b>ISBN:</b> {{ book.isbn }}</p>
+		{% endif %}
+		{% if book.asin %}
+			<p><b>ASIN:</b> <a href="http://amazon.com/dp/{{ book.asin }}" target="_blank">{{ book.asin }}</a></p>
+		{% endif %}
+		{% if book.publisher %}
+			<p><b>Publisher:</b> {{ book.publisher }}</p>
+		{% endif %}
+		<p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>
+		{% if book.binding %}
+			<p><b>Binding:</b> {{ book.binding }}</p>
+		{% endif %}
+		{% with count=book.languages.count %}
+			<p><b>Language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</p>
+		{% endwith %}
+		{% if book.price %}
+			<p><b>Price:</b> {{ book.price }} €</p>
+		{% endif %}
+	</div>
 
-{% if book.purchased_on or book.read_on or ebook_files %}
+	{% if book.purchased_on or book.read_on or ebook_files %}
+		<div class="owning">
+			<p>&nbsp;</p>
+			<h3>Owning details:</h3>
+			{% if book.purchased_on %}
+				<p><b>Purchased on:</b> {{ book.purchased_on|date:"d. M Y" }}</p>
+			{% endif %}
+			{% if book.read_on %}
+				<p><b>Read on:</b> {{ book.read_on|date:"d. M Y" }}</p>
+			{% endif %}
+			{% if ebook_files %}
+				<p><b>E-Book files:</b>
+				<ul>
+				{% for ebook_file in ebook_files %}
+					<li><a href="{{ ebook_file }}">{{ ebook_file }}</a></li>
+				{% endfor %}
+				</ul></p>
+			{% endif %}
+		</div>
+	{% endif %}
+
 	<p>&nbsp;</p>
-	<h3>Owning details:</h3>
-	{% if book.purchased_on %}
-		<p><b>Purchased on:</b> {{ book.purchased_on|date:"d. M Y" }}</p>
-	{% endif %}
-	{% if book.read_on %}
-		<p><b>Read on:</b> {{ book.read_on|date:"d. M Y" }}</p>
-	{% endif %}
-	{% if ebook_files %}
-		<p><b>E-Book files:</b>
-		<ul>
-		{% for ebook_file in ebook_files %}
-			<li><a href="{{ ebook_file }}">open</a></li>
-		{% endfor %}
-		</ul></p>
-	{% endif %}
-{% endif %}
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p style="text-align: center;"><a href="/books/" style="margin-right: 5em;">back</a> <a href="{% url 'admin:books_book_change' book.id %}">edit</a></p>
-
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p style="text-align: center;"><a href="/books/" style="margin-right: 5em;">back</a> <a href="{% url 'admin:books_book_change' book.id %}">edit</a></p>
+</div>
 {% endblock %}

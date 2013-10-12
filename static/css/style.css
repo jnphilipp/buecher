@@ -167,3 +167,12 @@ figure#list img:hover {border: 2px solid #303030;}
 #search:focus { margin-left: -275px;
 	width: 550px;
 	outline: 0;}
+
+
+
+/*### details ###*/
+
+.details img {border: 2px solid gray;}
+
+.details .edition p,
+.details .owning p {margin-left: 2em;}

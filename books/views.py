@@ -23,7 +23,15 @@ def index(request):
 def detail(request, book_id):
 	book = get_object_or_404(Book, pk=book_id)
 	ebook_files = EBookFile.objects.filter(book=book_id)
-	return render_to_response('books/detail.html', {'book': book, 'ebook_files': ebook_files})
+
+	next = Book.objects.filter(id__gt=book_id).order_by('id')[:1]
+	if next:
+		next = next[0]
+	previous = Book.objects.filter(id__lt=book_id).order_by('-id')[:1]
+	if previous:
+		previous = previous[0]
+
+	return render_to_response('books/detail.html', {'book': book, 'ebook_files': ebook_files, 'next': next, 'previous': previous})
 
 def statistics(request):
 	statistics = {}
