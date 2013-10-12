@@ -4,15 +4,15 @@ import os
 import shutil
 
 def get_ebook_path(instance, filename):
-	name = instance.book.title if not instance.book.authors else instance.book.title + ' - ' + ', '.join([str(author) for author in instance.book.authors.all()])
-	return os.path.join('books', str(instance.book.id), name + os.path.splitext(filename)[1])
+	name = instance.book.title if not instance.book.authors else u"%s - %s" % (instance.book.title, u", ".join([unicode(author) for author in instance.book.authors.all()]))
+	return os.path.join('books', unicode(instance.book.id), name + os.path.splitext(filename)[1])
 
 class Person(models.Model):
 	firstname = models.TextField()
 	lastname = models.TextField()
 
 	def __unicode__(self):
-		return self.firstname + ' ' + self.lastname
+		return u"%s %s" % (self.firstname, self.lastname)
 
 	class Meta:
 		ordering = ('lastname', 'firstname')
@@ -69,13 +69,17 @@ class Book(models.Model):
 	def save(self):
 		if self.id is None:
 			super(Book, self).save()
-			self.cover_image = self.get_image_path(self.cover_image)
-			super(Book, self).save()
+			if self.cover_image.name:
+				self.cover_image = self.get_image_path(self.cover_image)
+				super(Book, self).save()
 		else:
 			super(Book, self).save()
+			if self.cover_image.name:
+				self.cover_image = self.get_image_path(self.cover_image)
+				super(Book, self).save()
 
 	def get_image_path(self, filename):
-		save_name = os.path.join('books', str(self.id), 'cover.jpg')
+		save_name = os.path.join('books', unicode(self.id), 'cover.jpg')
 		current_path = os.path.join(settings.MEDIA_ROOT, self.cover_image.path)
 		new_path = os.path.join(settings.MEDIA_ROOT, save_name)
 
@@ -91,11 +95,11 @@ class Book(models.Model):
 		return "/books/%i/" % self.id
 
 	def get_authors(self):
-		return ', '.join([str(author) for author in self.authors.all()])
+		return u", ".join([unicode(author) for author in self.authors.all()])
 
 	def __unicode__(self):
-		base = self.title if not self.authors else self.title + ' - ' + ', '.join([str(author) for author in self.authors.all()])
-		base = base if not self.series else base + ' (' + str(self.series) + ' #' + str(self.volume) + ')'
+		base = self.title if not self.authors else u"%s - %s" % (self.title, u", ".join([unicode(author) for author in self.authors.all()]))
+		base = base if not self.series else u"%s (%s #%s)" % (base, unicode(self.series), unicode(self.volume))
 		return base
 
 class EBookFile(models.Model):
