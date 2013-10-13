@@ -23,11 +23,17 @@ class Publisher(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	class Meta:
+		ordering = ('name',)
+
 class Binding(models.Model):
 	binding = models.TextField()
 
 	def __unicode__(self):
 		return self.binding
+
+	class Meta:
+		ordering = ('binding',)
 
 class Language(models.Model):
 	language = models.TextField()
@@ -43,6 +49,9 @@ class Series(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	class Meta:
+		ordering = ('name',)
 
 class Book(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
