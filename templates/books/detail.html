@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block page_arrows %}
-{% if books.has_previous %}
-	<div class="left_arrow"><a href="?page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
+{% if previous %}
+	<div class="left_arrow"><a href="{{ previous.get_absolute_url }}"><span class="arrow-w"></span></a></div>
 {% endif %}
-{% if books.has_next %}
-	<div class="right_arrow"><a href="?page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
+{% if next %}
+	<div class="right_arrow"><a href="{{ next.get_absolute_url }}"><span class="arrow-e"></span></a></div>
 {% endif %}
 {% endblock %}
 
@@ -58,7 +58,7 @@
 				<p><b>E-Book files:</b>
 				<ul>
 				{% for ebook_file in ebook_files %}
-					<li><a href="{{ ebook_file }}">{{ ebook_file }}</a></li>
+					<li><a href="{{ ebook_file }}">{{ ebook_file.filename }}</a></li>
 				{% endfor %}
 				</ul></p>
 			{% endif %}

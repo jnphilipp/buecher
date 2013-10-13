@@ -106,5 +106,8 @@ class EBookFile(models.Model):
 	ebook_file = models.FileField(upload_to=get_ebook_path)
 	book = models.ForeignKey(Book)
 
+	def filename(self):
+		return os.path.basename(self.ebook_file.name)
+
 	def __unicode__(self):
 		return self.ebook_file.url
