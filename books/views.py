@@ -1,13 +1,60 @@
 from books.models import Binding
 from books.models import Book
 from books.models import EBookFile
+from books.models import Person
+from books.models import Series
 from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, get_list_or_404, render_to_response
+from operator import attrgetter
+import json
+
+def books_autocomplete(request):
+	if request.is_ajax():
+		q = request.GET.get('term', '')
+		books = Book.objects.filter(title__icontains=q)[:20]
+		results = []
+		for book in books:
+			book_json = {}
+			book_json['id'] = book.id
+			book_json['label'] = book.title
+			book_json['value'] = book.title
+			results.append(book_json)
+
+		persons = Person.objects.filter(Q(firstname__icontains=q) | Q(lastname__icontains=q))[:20]
+		for person in persons:
+			person_json = {}
+			person_json['id'] = person.id
+			person_json['label'] = unicode(person)
+			person_json['value'] = unicode(person)
+			results.append(person_json)
+
+		series = Series.objects.filter(name__icontains=q)[:20]
+		for s in series:
+			series_json = {}
+			series_json['id'] = s.id
+			series_json['label'] = s.name
+			series_json['value'] = s.name
+			results.append(series_json)
+
+		results = sorted(results, key=lambda result: result['label'])
+		data = json.dumps(results)
+	else:
+		data = 'fail'
+
+	mimetype = 'application/json'
+	return HttpResponse(data, mimetype)
+
 
 def index(request):
-	book_list = Book.objects.all().order_by('-updated_at')
+	search = request.GET.get('search')
+	if search:
+		firstname, _, lastname = search.rpartition(' ')
+		book_list = Book.objects.filter(Q(title__icontains=search) | Q(series__name__icontains=search) | (Q(authors__firstname__icontains=firstname) & Q(authors__lastname__icontains=lastname))).order_by('-updated_at')
+	else:
+		book_list = Book.objects.all().order_by('-updated_at')
 	paginator = Paginator(book_list, 30)
 
 	page = request.GET.get('page')
