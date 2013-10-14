@@ -52,7 +52,7 @@ def index(request):
 	search = request.GET.get('search')
 	if search:
 		firstname, _, lastname = search.rpartition(' ')
-		book_list = Book.objects.filter(Q(title__icontains=search) | Q(series__name__icontains=search) | (Q(authors__firstname__icontains=firstname) & Q(authors__lastname__icontains=lastname))).order_by('-updated_at')
+		book_list = Book.objects.filter(Q(title__icontains=search) | Q(series__name__icontains=search) | (Q(authors__firstname__icontains=firstname) & Q(authors__lastname__icontains=lastname))).order_by('authors__lastname', 'authors__firstname', 'series__name', 'volume', 'published_on')
 	else:
 		book_list = Book.objects.all().order_by('-updated_at')
 	paginator = Paginator(book_list, 30)
