@@ -1,8 +1,4 @@
-from books.models import Binding
-from books.models import Book
-from books.models import EBookFile
-from books.models import Person
-from books.models import Series
+from books.models import Binding, Book, EBookFile, Person, Publisher, Series
 from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Sum, Q
@@ -14,7 +10,7 @@ import json
 def books_autocomplete(request):
 	if request.is_ajax():
 		q = request.GET.get('term', '')
-		books = Book.objects.filter(title__icontains=q)[:20]
+		books = Book.objects.filter(title__icontains=q).distinct('title')[:10]
 		results = []
 		for book in books:
 			book_json = {}
@@ -23,7 +19,7 @@ def books_autocomplete(request):
 			book_json['value'] = book.title
 			results.append(book_json)
 
-		persons = Person.objects.filter(Q(firstname__icontains=q) | Q(lastname__icontains=q))[:20]
+		persons = Person.objects.filter(Q(firstname__icontains=q) | Q(lastname__icontains=q)).distinct('lastname', 'firstname')[:10]
 		for person in persons:
 			person_json = {}
 			person_json['id'] = person.id
@@ -31,7 +27,7 @@ def books_autocomplete(request):
 			person_json['value'] = unicode(person)
 			results.append(person_json)
 
-		series = Series.objects.filter(name__icontains=q)[:20]
+		series = Series.objects.filter(name__icontains=q).distinct('name')[:10]
 		for s in series:
 			series_json = {}
 			series_json['id'] = s.id
@@ -39,7 +35,15 @@ def books_autocomplete(request):
 			series_json['value'] = s.name
 			results.append(series_json)
 
-		results = sorted(results, key=lambda result: result['label'])[:20]
+		publishers = Publisher.objects.filter(name__icontains=q).distinct('name')[:10]
+		for publisher in publishers:
+			publisher_json = {}
+			publisher_json['id'] = publisher.id
+			publisher_json['label'] = publisher.name
+			publisher_json['value'] = publisher.name
+			results.append(publisher_json)
+
+		results = sorted(results, key=lambda result: result['label'])[:10]
 		data = json.dumps(results)
 	else:
 		data = 'fail'
@@ -52,7 +56,7 @@ def index(request):
 	search = request.GET.get('search')
 	if search:
 		firstname, _, lastname = search.rpartition(' ')
-		book_list = Book.objects.filter(Q(title__icontains=search) | Q(series__name__icontains=search) | (Q(authors__firstname__icontains=firstname) & Q(authors__lastname__icontains=lastname))).order_by('authors__lastname', 'authors__firstname', 'series__name', 'volume', 'published_on')
+		book_list = Book.objects.filter(Q(title__icontains=search) | Q(series__name__icontains=search) | (Q(authors__firstname__icontains=firstname) & Q(authors__lastname__icontains=lastname)) | Q(publisher__name__icontains=search)).order_by('authors__lastname', 'authors__firstname', 'series__name', 'volume', 'published_on')
 	else:
 		book_list = Book.objects.all().order_by('-updated_at')
 	paginator = Paginator(book_list, 30)
