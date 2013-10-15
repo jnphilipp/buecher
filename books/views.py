@@ -39,7 +39,7 @@ def books_autocomplete(request):
 			series_json['value'] = s.name
 			results.append(series_json)
 
-		results = sorted(results, key=lambda result: result['label'])
+		results = sorted(results, key=lambda result: result['label'])[:20]
 		data = json.dumps(results)
 	else:
 		data = 'fail'
@@ -65,7 +65,7 @@ def index(request):
 	except EmptyPage:
 		books = paginator.page(paginator.num_pages)
 
-	return render_to_response('books/index.html', {'books': books})
+	return render_to_response('books/index.html', {'request': request, 'books': books})
 
 def detail(request, book_id):
 	book = get_object_or_404(Book, pk=book_id)
@@ -78,7 +78,7 @@ def detail(request, book_id):
 	if previous:
 		previous = previous[0]
 
-	return render_to_response('books/detail.html', {'book': book, 'ebook_files': ebook_files, 'next': next, 'previous': previous})
+	return render_to_response('books/detail.html', {'request': request, 'book': book, 'ebook_files': ebook_files, 'next': next, 'previous': previous})
 
 def statistics(request):
 	statistics = {}

@@ -1,7 +1,7 @@
 {% load static %}
 
 <figure id="list">
-	<a class="overview" id="{{ book.id }}" href="/books/{{ book.id }}/">
+	<a class="overview" id="{{ book.id }}" href="{% url 'books.views.detail' book.id %}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">
 		{% if book.cover_image %}
 			<img src="{{ book.cover_image.url }}" height="140px" alt=" {{ book.title }} by {{ book.authors.all|first }} " title=" {{ book.title }} by {{ book.authors.all|first }} " />
 		{% else %}

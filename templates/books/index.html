@@ -10,10 +10,10 @@
 
 {% block page_arrows %}
 {% if books.has_previous %}
-	<div class="left_arrow"><a href="?page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
+	<div class="left_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
 {% endif %}
 {% if books.has_next %}
-	<div class="right_arrow"><a href="?page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
+	<div class="right_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
 {% endif %}
 {% endblock %}
 

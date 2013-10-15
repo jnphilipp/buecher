@@ -16,9 +16,12 @@
 		<img src="{{ book.cover_image.url }}" style="float: right; min-height: 400px; max-height: 500px; margin-top: -1.5em;" />
 	{% endif %}
 	{% if book.series %}
-		<p><b>Series:</b> Volume {{ book.volume }} of {{ book.series }}</p>
+		<p><b>Series:</b> Volume {{ book.volume }} of <a href="{% url 'books.views.index' %}?search={{ book.series }}">{{ book.series }}</a></p>
 	{% endif %}
-	<p><b>Authors:</b> {{ book.authors.all|join:", " }}</p>
+	<p><b>Authors:</b>
+		{% for author in book.authors.all %}
+			<a href="{% url 'books.views.index' %}?search={{ author }}">{{ author }}</a>{%if not forloop.last %},{% endif %}
+		{% endfor %}</p>
 
 	<div class="edition">
 		<p>&nbsp;</p>
@@ -30,7 +33,7 @@
 			<p><b>ASIN:</b> <a href="http://amazon.com/dp/{{ book.asin }}" target="_blank">{{ book.asin }}</a></p>
 		{% endif %}
 		{% if book.publisher %}
-			<p><b>Publisher:</b> {{ book.publisher }}</p>
+			<p><b>Publisher:</b> <a href="{% url 'books.views.index' %}?search={{ book.publisher }}">{{ book.publisher }}</a></p>
 		{% endif %}
 		<p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>
 		{% if book.binding %}
@@ -68,6 +71,8 @@
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>
-	<p style="text-align: center;"><a href="/books/" style="margin-right: 5em;">back</a> <a href="{% url 'admin:books_book_change' book.id %}">edit</a></p>
+	<p style="text-align: center;">
+		<a href="{% url 'books.views.index' %}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" style="margin-right: 5em;">back</a>
+		<a href="{% url 'admin:books_book_change' book.id %}">edit</a></p>
 </div>
 {% endblock %}
