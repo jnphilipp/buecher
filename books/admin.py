@@ -1,10 +1,4 @@
-from books.models import EBookFile
-from books.models import Binding
-from books.models import Book
-from books.models import Language
-from books.models import Person
-from books.models import Publisher
-from books.models import Series
+from books.models import Binding, Book, EBookFile, Language, Person, Publisher, Series, Url
 from django.contrib import admin
 from django.forms import TextInput
 from django.db import models
@@ -58,6 +52,14 @@ class EBookFileInline(admin.StackedInline):
 	model = EBookFile
 	extra = 1
 
+class UrlInline(admin.StackedInline):
+	formfield_overrides = {
+		models.TextField: {'widget': TextInput(attrs={'size':'200', 'autocomplete':'off'})},
+	}
+
+	model = Url
+	extra = 1
+
 class BookAdmin(admin.ModelAdmin):
 	list_display = ('title', 'get_authors', 'series', 'volume', 'show_link')
 
@@ -74,7 +76,7 @@ class BookAdmin(admin.ModelAdmin):
 		('Edition details', {'fields': ['isbn', 'asin', 'publisher', 'published_on', 'binding', 'languages', 'price', 'cover_image']}),
 		('Details', {'fields': ['purchased_on', 'read_on']}),
 	]
-	inlines = [EBookFileInline]
+	inlines = [EBookFileInline, UrlInline]
 	filter_horizontal = ('authors', 'languages')
 
 	def show_link(self, obj):

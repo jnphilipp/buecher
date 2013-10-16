@@ -121,3 +121,10 @@ class EBookFile(models.Model):
 
 	def __unicode__(self):
 		return self.ebook_file.url
+
+class Url(models.Model):
+	url = models.TextField()
+	book = models.ForeignKey(Book)
+
+	def __unicode__(self):
+		return self.url
