@@ -10,8 +10,8 @@
 {% endblock %}
 
 {% block content %}
+<h1>{{ book.title }}</h1>
 <div class="details" style="width: 55%; margin: 0 auto;">
-	<h1>{{ book.title }}</h1>
 	{% if book.cover_image %}
 		<img src="{{ book.cover_image.url }}" style="float: right; min-height: 400px; max-height: 500px; margin-top: -1.5em;" />
 	{% endif %}
