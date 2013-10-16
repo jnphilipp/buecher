@@ -16,9 +16,10 @@ class Person(models.Model):
 
 	class Meta:
 		ordering = ('lastname', 'firstname')
+		unique_together = ('firstname', 'lastname')
 
 class Publisher(models.Model):
-	name = models.TextField()
+	name = models.TextField(unique=True)
 
 	def __unicode__(self):
 		return self.name
@@ -27,7 +28,7 @@ class Publisher(models.Model):
 		ordering = ('name',)
 
 class Binding(models.Model):
-	binding = models.TextField()
+	binding = models.TextField(unique=True)
 
 	def __unicode__(self):
 		return self.binding
@@ -36,7 +37,7 @@ class Binding(models.Model):
 		ordering = ('binding',)
 
 class Language(models.Model):
-	language = models.TextField()
+	language = models.TextField(unique=True)
 
 	def __unicode__(self):
 		return self.language
@@ -45,7 +46,7 @@ class Language(models.Model):
 		ordering = ('language',)
 
 class Series(models.Model):
-	name = models.TextField()
+	name = models.TextField(unique=True)
 
 	def __unicode__(self):
 		return self.name
