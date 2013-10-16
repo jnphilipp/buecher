@@ -112,7 +112,7 @@ class Book(models.Model):
 		return base
 
 class EBookFile(models.Model):
-	ebook_file = models.FileField(upload_to=get_ebook_path)
+	ebook_file = models.FileField(upload_to=get_ebook_path, max_length=4096)
 	book = models.ForeignKey(Book)
 
 	def filename(self):
