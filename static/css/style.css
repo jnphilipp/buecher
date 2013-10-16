@@ -176,3 +176,6 @@ figure#list img:hover {border: 2px solid #303030;}
 
 .details .edition p,
 .details .owning p {margin-left: 2em;}
+
+.details .edition li,
+.details .owning li {margin-left: 2.25em;}

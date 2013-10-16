@@ -45,6 +45,14 @@
 		{% if book.price %}
 			<p><b>Price:</b> {{ book.price }} €</p>
 		{% endif %}
+		{% if urls %}
+			<p><b>Urls:</b>
+				<ul>
+				{% for url in urls %}
+					<li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+				{% endfor %}
+				</ul></p>
+			{% endif %}
 	</div>
 
 	{% if book.purchased_on or book.read_on or ebook_files %}

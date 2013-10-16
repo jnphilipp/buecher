@@ -120,7 +120,10 @@ class EBookFile(models.Model):
 		return os.path.basename(self.ebook_file.name)
 
 	def __unicode__(self):
-		return self.ebook_file.url
+		return self.filename()
+
+	class Meta:
+		verbose_name = 'E-Book File'
 
 class Url(models.Model):
 	url = models.TextField()

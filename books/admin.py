@@ -48,13 +48,29 @@ class SeriesAdmin(admin.ModelAdmin):
 		(None, {'fields': ['name']}),
 	]
 
+class EBookFileAdmin(admin.ModelAdmin):
+	fieldsets = [
+		('E-Book File', {'fields': ['ebook_file']}),
+		('Book', {'fields': ['book']})
+	]
+
 class EBookFileInline(admin.StackedInline):
 	model = EBookFile
 	extra = 1
 
+class UrlAdmin(admin.ModelAdmin):
+	formfield_overrides = {
+		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
+	}
+
+	fieldsets = [
+		(None, {'fields': ['url']}),
+		('Book', {'fields': ['book']})
+	]
+
 class UrlInline(admin.StackedInline):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'size':'200', 'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
 	}
 
 	model = Url
@@ -85,7 +101,9 @@ class BookAdmin(admin.ModelAdmin):
 
 admin.site.register(Binding, BindingAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(EBookFile, EBookFileAdmin)
 admin.site.register(Language, LanguageAdmin)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Publisher, PublisherAdmin)
 admin.site.register(Series, SeriesAdmin)
+admin.site.register(Url, UrlAdmin)
