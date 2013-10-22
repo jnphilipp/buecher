@@ -76,14 +76,7 @@ def detail(request, book_id):
 	ebook_files = EBookFile.objects.filter(book=book_id)
 	urls = Url.objects.filter(book=book_id)
 
-	next = Book.objects.filter(id__gt=book_id).order_by('id')[:1]
-	if next:
-		next = next[0]
-	previous = Book.objects.filter(id__lt=book_id).order_by('-id')[:1]
-	if previous:
-		previous = previous[0]
-
-	return render_to_response('books/detail.html', {'request': request, 'book': book, 'ebook_files': ebook_files, 'urls': urls, 'next': next, 'previous': previous})
+	return render_to_response('books/detail.html', {'request': request, 'book': book, 'ebook_files': ebook_files, 'urls': urls})
 
 def statistics(request):
 	statistics = {}
