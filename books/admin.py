@@ -78,6 +78,7 @@ class UrlInline(admin.StackedInline):
 
 class BookAdmin(admin.ModelAdmin):
 	list_display = ('title', 'get_authors', 'series', 'volume', 'show_link')
+	ordering = ('-updated_at',)
 
 	formfield_overrides = {
 		models.CharField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
