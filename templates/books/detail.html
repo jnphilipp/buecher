@@ -69,7 +69,7 @@
 				<p><b>E-Book files:</b>
 				<ul>
 				{% for ebook_file in ebook_files %}
-					<li><a href="{{ ebook_file }}">{{ ebook_file.filename }}</a></li>
+					<li><a href="{{ ebook_file.ebook_file.url }}">{{ ebook_file.filename }}</a></li>
 				{% endfor %}
 				</ul></p>
 			{% endif %}
