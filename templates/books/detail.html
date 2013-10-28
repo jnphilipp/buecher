@@ -6,66 +6,68 @@
 	{% if book.cover_image %}
 		<img src="{{ book.cover_image.url }}" style="float: right; min-height: 400px; max-height: 500px; margin-top: -1.5em;" />
 	{% endif %}
-	{% if book.series %}
-		<p><b>Series:</b> Volume {{ book.volume }} of <a href="{% url 'books.views.index' %}?search={{ book.series }}">{{ book.series }}</a></p>
-	{% endif %}
-	<p><b>Authors:</b>
-		{% for author in book.authors.all %}
-			<a href="{% url 'books.views.index' %}?search={{ author }}">{{ author }}</a>{%if not forloop.last %},{% endif %}
-		{% endfor %}</p>
+	<div style="width: 50%;">
+		{% if book.series %}
+			<p><b>Series:</b> Volume {{ book.volume }} of <a href="{% url 'books.views.index' %}?search={{ book.series }}">{{ book.series }}</a></p>
+		{% endif %}
+		<p><b>Authors:</b>
+			{% for author in book.authors.all %}
+				<a href="{% url 'books.views.index' %}?search={{ author }}">{{ author }}</a>{%if not forloop.last %},{% endif %}
+			{% endfor %}</p>
 
-	<div class="edition">
-		<p>&nbsp;</p>
-		<h3>Edition details:</h3>
-		{% if book.isbn %}
-			<p><b>ISBN:</b> {{ book.isbn }}</p>
-		{% endif %}
-		{% if book.asin %}
-			<p><b>ASIN:</b> <a href="http://amazon.com/dp/{{ book.asin }}" target="_blank">{{ book.asin }}</a></p>
-		{% endif %}
-		{% if book.publisher %}
-			<p><b>Publisher:</b> <a href="{% url 'books.views.index' %}?search={{ book.publisher }}">{{ book.publisher }}</a></p>
-		{% endif %}
-		<p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>
-		{% if book.binding %}
-			<p><b>Binding:</b> {{ book.binding }}</p>
-		{% endif %}
-		{% with count=book.languages.count %}
-			<p><b>Language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</p>
-		{% endwith %}
-		{% if book.price %}
-			<p><b>Price:</b> {{ book.price }} €</p>
-		{% endif %}
-		{% if urls %}
-			<p><b>Urls:</b>
-				<ul>
-				{% for url in urls %}
-					<li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
-				{% endfor %}
-				</ul></p>
-			{% endif %}
-	</div>
-
-	{% if book.purchased_on or book.read_on or ebook_files %}
-		<div class="owning">
+		<div class="edition">
 			<p>&nbsp;</p>
-			<h3>Owning details:</h3>
-			{% if book.purchased_on %}
-				<p><b>Purchased on:</b> {{ book.purchased_on|date:"d. M Y" }}</p>
+			<h3>Edition details:</h3>
+			{% if book.isbn %}
+				<p><b>ISBN:</b> {{ book.isbn }}</p>
 			{% endif %}
-			{% if book.read_on %}
-				<p><b>Read on:</b> {{ book.read_on|date:"d. M Y" }}</p>
+			{% if book.asin %}
+				<p><b>ASIN:</b> <a href="http://amazon.com/dp/{{ book.asin }}" target="_blank">{{ book.asin }}</a></p>
 			{% endif %}
-			{% if ebook_files %}
-				<p><b>E-Book files:</b>
-				<ul>
-				{% for ebook_file in ebook_files %}
-					<li><a href="{{ ebook_file.ebook_file.url }}">{{ ebook_file.filename }}</a></li>
-				{% endfor %}
-				</ul></p>
+			{% if book.publisher %}
+				<p><b>Publisher:</b> <a href="{% url 'books.views.index' %}?search={{ book.publisher }}">{{ book.publisher }}</a></p>
 			{% endif %}
+			<p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>
+			{% if book.binding %}
+				<p><b>Binding:</b> {{ book.binding }}</p>
+			{% endif %}
+			{% with count=book.languages.count %}
+				<p><b>Language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</p>
+			{% endwith %}
+			{% if book.price %}
+				<p><b>Price:</b> {{ book.price }} €</p>
+			{% endif %}
+			{% if urls %}
+				<p><b>Urls:</b>
+					<ul>
+					{% for url in urls %}
+						<li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+					{% endfor %}
+					</ul></p>
+				{% endif %}
 		</div>
-	{% endif %}
+
+		{% if book.purchased_on or book.read_on or ebook_files %}
+			<div class="owning">
+				<p>&nbsp;</p>
+				<h3>Owning details:</h3>
+				{% if book.purchased_on %}
+					<p><b>Purchased on:</b> {{ book.purchased_on|date:"d. M Y" }}</p>
+				{% endif %}
+				{% if book.read_on %}
+					<p><b>Read on:</b> {{ book.read_on|date:"d. M Y" }}</p>
+				{% endif %}
+				{% if ebook_files %}
+					<p><b>E-Book files:</b>
+					<ul>
+					{% for ebook_file in ebook_files %}
+						<li><a href="{{ ebook_file.ebook_file.url }}">{{ ebook_file.filename }}</a></li>
+					{% endfor %}
+					</ul></p>
+				{% endif %}
+			</div>
+		{% endif %}
+	</div>
 
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>
