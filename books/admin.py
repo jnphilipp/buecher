@@ -4,6 +4,8 @@ from django.forms import TextInput
 from django.db import models
 
 class PersonAdmin(admin.ModelAdmin):
+	search_fields = ('firstname', 'lastname')
+
 	formfield_overrides = {
 		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
 	}
@@ -13,6 +15,8 @@ class PersonAdmin(admin.ModelAdmin):
 	]
 
 class PublisherAdmin(admin.ModelAdmin):
+	search_fields = ('name',)
+
 	formfield_overrides = {
 		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
 	}
@@ -40,6 +44,8 @@ class LanguageAdmin(admin.ModelAdmin):
 	]
 
 class SeriesAdmin(admin.ModelAdmin):
+	search_fields = ('name',)
+
 	formfield_overrides = {
 		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
 	}
