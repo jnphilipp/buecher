@@ -83,8 +83,12 @@ class UrlInline(admin.StackedInline):
 	extra = 1
 
 class BookAdmin(admin.ModelAdmin):
+	def show_link(self, obj):
+		return '<a href="%s">view</a>' % obj.get_absolute_url()
+
 	list_display = ('title', 'get_authors', 'series', 'volume', 'show_link')
 	ordering = ('-updated_at',)
+	show_link.allow_tags = True
 
 	formfield_overrides = {
 		models.CharField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
@@ -101,10 +105,6 @@ class BookAdmin(admin.ModelAdmin):
 	]
 	inlines = [EBookFileInline, UrlInline]
 	filter_horizontal = ('authors', 'languages')
-
-	def show_link(self, obj):
-		return '<a href="%s">view</a>' % obj.get_absolute_url()
-	show_link.allow_tags = True
 
 admin.site.register(Binding, BindingAdmin)
 admin.site.register(Book, BookAdmin)
