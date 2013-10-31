@@ -5,6 +5,7 @@ from django.db.models import Count, Sum, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, get_list_or_404, render_to_response
 from operator import attrgetter
+import calendar
 import json
 
 def books_autocomplete(request):
@@ -72,6 +73,37 @@ def index(request):
 	return render_to_response('books/index.html', {'request': request, 'books': books})
 
 def detail(request, book_id):
+	book = get_object_or_404(Book, pk=book_id)
+	ebook_files = EBookFile.objects.filter(book=book_id)
+	urls = Url.objects.filter(book=book_id)
+
+	return render_to_response('books/detail.html', {'request': request, 'book': book, 'ebook_files': ebook_files, 'urls': urls})
+
+def publishing_list(request):
+	year = request.GET.get('year')
+	month = request.GET.get('month')
+	if month and year:
+		month = int(month)
+		year = int(year)
+		book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month)).order_by('series__name', 'volume', 'published_on')
+	else:
+		year = date.today().year
+		month = date.today().month
+		book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month)).order_by('series__name', 'volume', 'published_on')
+	paginator = Paginator(book_list, 30)
+
+	page = request.GET.get('page')
+	try:
+		books = paginator.page(page)
+	except PageNotAnInteger:
+		books = paginator.page(1)
+	except EmptyPage:
+		books = paginator.page(paginator.num_pages)
+
+	years = Book.objects.dates('published_on', 'year')
+	return render_to_response('books/publishing_list.html', {'request': request, 'books': books, 'months': calendar.month_name[1:], 'selected_month': month, 'years': years, 'selected_year': year})
+
+def publishing_list_detail(request, book_id):
 	book = get_object_or_404(Book, pk=book_id)
 	ebook_files = EBookFile.objects.filter(book=book_id)
 	urls = Url.objects.filter(book=book_id)

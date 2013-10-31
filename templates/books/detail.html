@@ -73,7 +73,15 @@
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>
 	<p style="text-align: center;">
-		<a href="{% url 'books.views.index' %}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" style="margin-right: 5em;">back</a>
+		{% url 'books.views.detail' book_id=book.id as detail %}
+		{% if request.path = detail %}
+			{% url 'books.views.index' as url %}
+		{% endif %}
+		{% url 'books.views.publishing_list_detail' book_id=book.id as publishing_list %}
+		{% if request.path = publishing_list %}
+			{% url 'books.views.publishing_list' as url %}
+		{% endif %}
+		<a href="{{ url }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" style="margin-right: 5em;">back</a>
 		<a href="{% url 'admin:books_book_change' book.id %}">edit</a></p>
 </div>
 {% endblock %}

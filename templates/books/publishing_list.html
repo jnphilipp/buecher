@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block searchbox %}
+<div id="publishing_list_box">
+	<form action="" method="get" accept-charset="UTF-8" autocomplete="off">
+		<select name="month">
+			{% for month in months %}
+				<option value="{{ forloop.counter }}"{% ifequal forloop.counter selected_month %} selected{% endifequal %}>{{ month }}</option>
+			{% endfor %}
+		</select>
+		<select name="year">
+			{% for year in years %}
+				<option value="{{ year.year }}"{% ifequal year.year selected_year %} selected{% endifequal %}>{{ year.year }}</option>				
+			{% endfor %}
+		</select>
+		<button type="submit" class="reload_button" />
+	</form>
+</div>
+{% endblock %}
+
+{% block page_arrows %}
+{% if books.has_previous %}
+	<div class="left_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
+{% endif %}
+{% if books.has_next %}
+	<div class="right_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if books %}
+	{% for book in books %}
+			{% include "books/book_list_partial.html" with book=book %}
+	{% endfor %}
+{% else %}
+	<p>No books are available.</p>
+{% endif %}
+{% endblock %}

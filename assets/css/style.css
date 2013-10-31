@@ -146,7 +146,7 @@ figure#list img:hover {border: 2px solid #303030;}
 	left: 50%;
 	width: 0;}
 
-#search { background: url('../images/search-white.png') 6px center no-repeat #fcfcfc;
+#search { background: url(/static/images/search-white.png) 6px center no-repeat #fcfcfc;
 	border: 1px solid #b1b1b1;
 	color: black;
 	width: 400px;
@@ -179,3 +179,39 @@ figure#list img:hover {border: 2px solid #303030;}
 
 .details .edition li,
 .details .owning li {margin-left: 2.25em;}
+
+
+
+/*### publishing box list ###*/
+
+#publishing_list_box { margin-left: auto;
+	margin-right: auto;
+	text-align: center;}
+
+.reload_button {
+	background-image: url(/static/images/refresh.png);
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+	background-position: center;
+	-webkit-border-radius: 45px;
+	-moz-border-radius: 45px;
+	border-radius: 45px;
+	border: 1px solid #b1b1b1;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	position: relative;
+	top: -5px;
+	overflow: hidden;
+	-webkit-transition-duration: 0.8s;
+	-moz-transition-duration: 0.8s;
+	-o-transition-duration: 0.8s;
+	transition-duration: 0.8s;
+	-webkit-transition-property: -webkit-transform;
+	-moz-transition-property: -moz-transform;
+	-o-transition-property: -o-transform;
+	transition-property: transform;}
+
+.reload_button:hover { -webkit-transform:rotate(360deg);
+	-moz-transform:rotate(360deg);
+	-o-transform:rotate(360deg);}
