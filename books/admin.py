@@ -7,7 +7,7 @@ class PersonAdmin(admin.ModelAdmin):
 	search_fields = ('firstname', 'lastname')
 
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -18,7 +18,7 @@ class PublisherAdmin(admin.ModelAdmin):
 	search_fields = ('name',)
 
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput('autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -27,7 +27,7 @@ class PublisherAdmin(admin.ModelAdmin):
 
 class BindingAdmin(admin.ModelAdmin):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -36,7 +36,7 @@ class BindingAdmin(admin.ModelAdmin):
 
 class LanguageAdmin(admin.ModelAdmin):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -47,7 +47,7 @@ class SeriesAdmin(admin.ModelAdmin):
 	search_fields = ('name',)
 
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -66,7 +66,7 @@ class EBookFileInline(admin.StackedInline):
 
 class UrlAdmin(admin.ModelAdmin):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -76,7 +76,7 @@ class UrlAdmin(admin.ModelAdmin):
 
 class UrlInline(admin.StackedInline):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	model = Url
@@ -91,10 +91,10 @@ class BookAdmin(admin.ModelAdmin):
 	show_link.allow_tags = True
 
 	formfield_overrides = {
-		models.CharField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
-		models.FloatField: {'widget': TextInput(attrs={'size':'50', 'autocomplete':'off'})},
-		models.TextField: {'widget': TextInput(attrs={'size':'100', 'autocomplete':'off'})},
-		models.DateField: {'widget': admin.widgets.AdminDateWidget(attrs={'size':'50', 'autocomplete':'off'})},
+		models.CharField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		models.FloatField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		models.DateField: {'widget': admin.widgets.AdminDateWidget(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
