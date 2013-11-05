@@ -72,7 +72,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-	(os.path.join(PROJECT_PATH, 'assets')), 
+	(os.path.join(PROJECT_PATH, 'assets')),
 )
 
 # List of finder classes that know how to find static files in
@@ -114,7 +114,7 @@ WSGI_APPLICATION = 'Library.wsgi.application'
 
 TEMPLATE_DIRS = (
 	os.path.join(PROJECT_PATH, 'templates'),
-	'/var/www/Library/templates',
+	#'/var/www/Library/templates',
 )
 
 INSTALLED_APPS = (
