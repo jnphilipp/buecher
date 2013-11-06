@@ -18,7 +18,7 @@ class PublisherAdmin(admin.ModelAdmin):
 	search_fields = ('name',)
 
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput('autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
