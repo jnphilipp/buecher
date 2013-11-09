@@ -20,7 +20,8 @@
 {% block content %}
 {% if books %}
 	{% for book in books %}
-			{% include "books/book_list_partial.html" with book=book %}
+		{% url 'books.views.detail' book.id as url %}
+		{% include "books/book_list_partial.html" with book=book url=url %}
 	{% endfor %}
 {% else %}
 	<p>No books are available.</p>

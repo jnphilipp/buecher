@@ -1,16 +1,8 @@
 {% load static %}
 
 <figure id="list">
-	{% url 'books.views.index' as index %}
-	{% if request.path = index or request.get_full_path = '/' %}
-		{% url 'books.views.detail' book.id as url %}
-	{% endif %}
-	{% url 'books.views.publishing_list' as publishing_list %}
-	{% if request.path = publishing_list %}
-		{% url 'books.views.publishing_list_detail' book.id as url %}
-	{% endif %}
 	<a class="overview" id="{{ book.id }}" href="{{ url }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">
-			<img src="{% if book.cover_image %}{{ book.cover_image.url }}{% else %}{% static "images/default_cover.jpg" %}{% endif %}" height="140px" alt=" {{ book.title }} by {{ book.authors.all|first }} " title=" {{ book.title }} by {{ book.authors.all|first }} " />
+		<img src="{% if book.cover_image %}{{ book.cover_image.url }}{% else %}{% static "images/default_cover.jpg" %}{% endif %}" height="140px" alt=" {{ book.title }} by {{ book.authors.all|first }} " title=" {{ book.title }} by {{ book.authors.all|first }} " />
 		<figcaption>{{ book.title }} by {{ book.authors.all|first }}</figcaption>
 	</a>
 </figure>

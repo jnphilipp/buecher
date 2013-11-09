@@ -3,7 +3,7 @@ from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Sum, Q
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, get_list_or_404, render_to_response
+from django.shortcuts import get_object_or_404, get_list_or_404, render
 from operator import attrgetter
 import calendar
 import json
@@ -70,25 +70,30 @@ def index(request):
 	except EmptyPage:
 		books = paginator.page(paginator.num_pages)
 
-	return render_to_response('books/index.html', {'request': request, 'books': books})
+	return render(request, 'books/index.html', {'books': books})
 
 def detail(request, book_id):
 	book = get_object_or_404(Book, pk=book_id)
 	ebook_files = EBookFile.objects.filter(book=book_id)
 	urls = Url.objects.filter(book=book_id)
 
-	return render_to_response('books/detail.html', {'request': request, 'book': book, 'ebook_files': ebook_files, 'urls': urls})
+	return render(request, 'books/detail.html', {'book': book, 'ebook_files': ebook_files, 'urls': urls})
 
 def publishing_list(request):
 	year = request.GET.get('year')
 	month = request.GET.get('month')
+	purchased = request.GET.get('purchased')
 	if month and year:
 		month = int(month)
 		year = int(year)
-		book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month)).order_by('series__name', 'volume', 'published_on')
+		if purchased == 'True':
+			book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month)).order_by('series__name', 'volume', 'published_on')
+		else:
+			book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month) & Q(purchased_on__isnull=True)).order_by('series__name', 'volume', 'published_on')
 	else:
 		year = date.today().year
 		month = date.today().month
+		purchased = True
 		book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month)).order_by('series__name', 'volume', 'published_on')
 	paginator = Paginator(book_list, 30)
 
@@ -101,14 +106,14 @@ def publishing_list(request):
 		books = paginator.page(paginator.num_pages)
 
 	years = Book.objects.dates('published_on', 'year')
-	return render_to_response('books/publishing_list.html', {'request': request, 'books': books, 'months': calendar.month_name[1:], 'selected_month': month, 'years': years, 'selected_year': year})
+	return render(request, 'books/publishing_list.html', {'books': books, 'months': calendar.month_name[1:], 'selected_month': month, 'years': years, 'selected_year': year, 'selected_purchased': purchased})
 
 def publishing_list_detail(request, book_id):
 	book = get_object_or_404(Book, pk=book_id)
 	ebook_files = EBookFile.objects.filter(book=book_id)
 	urls = Url.objects.filter(book=book_id)
 
-	return render_to_response('books/detail.html', {'request': request, 'book': book, 'ebook_files': ebook_files, 'urls': urls})
+	return render(request, 'books/detail.html', {'book': book, 'ebook_files': ebook_files, 'urls': urls})
 
 def statistics(request):
 	statistics = {}
@@ -148,4 +153,4 @@ def statistics(request):
 	statistics['month_read_sum'] = Book.objects.filter(read_on__isnull=False, read_on__year=date.today().year, read_on__month=date.today().month).aggregate(sum=Sum('price'))
 	statistics['month_read_bindings'] = Book.objects.filter(read_on__isnull=False, read_on__year=date.today().year, read_on__month=date.today().month).values('binding__binding').annotate(sum=Sum('price'), count=Count('title')).order_by('binding')
 
-	return render_to_response('books/statistics.html', {'statistics': statistics})
+	return render(request, 'books/statistics.html', {'statistics': statistics})

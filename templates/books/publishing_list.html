@@ -13,6 +13,10 @@
 				<option value="{{ year.year }}"{% ifequal year.year selected_year %} selected{% endifequal %}>{{ year.year }}</option>				
 			{% endfor %}
 		</select>
+		<select name="purchased">
+			<option value="True" {% if selected_purchased %} selected{% endif %}>include purchased</option>
+			<option value="False" {% if not selected_purchased %} selected{% endif %}>exclude purchased</option>
+		</select>
 		<button type="submit" class="reload_button" />
 	</form>
 </div>
@@ -30,7 +34,8 @@
 {% block content %}
 {% if books %}
 	{% for book in books %}
-			{% include "books/book_list_partial.html" with book=book %}
+		{% url 'books.views.publishing_list_detail' book.id as url %}
+		{% include "books/book_list_partial.html" with book=book url=url %}
 	{% endfor %}
 {% else %}
 	<p>No books are available.</p>
