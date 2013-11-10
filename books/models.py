@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.conf import settings
 from django.db import models
 import os
@@ -106,6 +108,12 @@ class Book(models.Model):
 
 	def get_authors(self):
 		return u", ".join([unicode(author) for author in self.authors.all()])
+
+	def get_list_title(self, length):
+		if len(self.title) + len(unicode(self.authors.first())) + 4 > length:
+			return self.title[:length - len(unicode(self.authors.first())) - 5] + u"… by " + unicode(self.authors.first())
+		else:
+			return self.title + u" by " + unicode(self.authors.first())
 
 	def __unicode__(self):
 		base = self.title if not self.authors else u"%s - %s" % (self.title, u", ".join([unicode(author) for author in self.authors.all()]))

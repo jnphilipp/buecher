@@ -1,8 +1,9 @@
 {% load static %}
+{% load books_extras %}
 
 <figure id="list">
 	<a class="overview" id="{{ book.id }}" href="{{ url }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">
 		<img src="{% if book.cover_image %}{{ book.cover_image.url }}{% else %}{% static "images/default_cover.jpg" %}{% endif %}" height="140px" alt=" {{ book.title }} by {{ book.authors.all|first }} " title=" {{ book.title }} by {{ book.authors.all|first }} " />
-		<figcaption>{{ book.title }} by {{ book.authors.all|first }}</figcaption>
+		<figcaption>{{ book|list_title:45 }}</figcaption>
 	</a>
 </figure>
