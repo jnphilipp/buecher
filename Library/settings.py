@@ -2,9 +2,19 @@
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 import os
 
+def env_var(key, default=None):
+	"""Retrieves env vars and makes Python boolean replacements"""
+	val = os.environ.get(key, default)
+	if val == 'True':
+		val = True
+	elif val == 'False':
+		val = False
+	return val
+
+
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
 
-DEBUG = True
+DEBUG = env_var('DEBUG', True)
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -16,9 +26,9 @@ MANAGERS = ADMINS
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'dj_library',
-		'USER': 'library',
-		'PASSWORD': 'library',
+		'NAME': env_var('DATABASE_NAME', 'dj_library'),
+		'USER': env_var('DATABASE_USER', ''),
+		'PASSWORD': env_var('DATABASE_PASSWORD', ''),
 		'HOST': '',
 		'PORT': '',
 	}
@@ -113,8 +123,7 @@ ROOT_URLCONF = 'Library.urls'
 WSGI_APPLICATION = 'Library.wsgi.application'
 
 TEMPLATE_DIRS = (
-	os.path.join(PROJECT_PATH, 'templates'),
-	#'/var/www/Library/templates',
+	env_var('DEFAULT_TEMPLATE_DIR', os.path.join(PROJECT_PATH, 'templates')),
 )
 
 INSTALLED_APPS = (
