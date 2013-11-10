@@ -121,6 +121,13 @@ div.right_arrow {position: fixed;
 
 .arrow-e:hover { border-left-color: #333;}
 .arrow-w:hover { border-right-color: #333;}
+.arrow-e:active { position: relative;
+	top: 1px;
+	right: -1px;}
+
+.arrow-w:active { position: relative;
+	top: 1px;
+	right: 1px;}
 
 
 
