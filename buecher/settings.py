@@ -1,4 +1,4 @@
-# Django settings for Library project.
+# Django settings for buecher project.
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 import os
 
@@ -16,9 +16,9 @@ MANAGERS = ADMINS
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'dj_library',
-		'USER': 'library',
-		'PASSWORD': 'library',
+		'NAME': 'dj_buecher',
+		'USER': 'buecher',
+		'PASSWORD': 'buecher',
 		'HOST': '',
 		'PORT': '',
 	}
@@ -107,10 +107,10 @@ MIDDLEWARE_CLASSES = (
 	#'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Library.urls'
+ROOT_URLCONF = 'buecher.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Library.wsgi.application'
+WSGI_APPLICATION = 'buecher.wsgi.application'
 
 TEMPLATE_DIRS = (
 	os.path.join(PROJECT_PATH, 'templates'),
@@ -129,7 +129,7 @@ INSTALLED_APPS = (
 )
 
 SUIT_CONFIG = {
-	'ADMIN_NAME':'b&uuml;cher administration',
+	'ADMIN_NAME':'buecher administration',
 	'LIST_PER_PAGE': 50,
 }
 
