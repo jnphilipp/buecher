@@ -82,11 +82,11 @@ def detail(request, book_id):
 def publishing_list(request):
 	year = request.GET.get('year')
 	month = request.GET.get('month')
-	purchased = request.GET.get('purchased')
+	purchased = True if request.GET.get('purchased') == 'True' else False
 	if month and year:
 		month = int(month)
 		year = int(year)
-		if purchased == 'True':
+		if purchased:
 			if month == -1:
 				book_list = Book.objects.filter(Q(published_on__year=year)).order_by('series__name', 'volume', 'published_on')
 			else:
