@@ -87,9 +87,15 @@ def publishing_list(request):
 		month = int(month)
 		year = int(year)
 		if purchased == 'True':
-			book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month)).order_by('series__name', 'volume', 'published_on')
+			if month == -1:
+				book_list = Book.objects.filter(Q(published_on__year=year)).order_by('series__name', 'volume', 'published_on')
+			else:
+				book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month)).order_by('series__name', 'volume', 'published_on')
 		else:
-			book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month) & Q(purchased_on__isnull=True)).order_by('series__name', 'volume', 'published_on')
+			if month == -1:
+				book_list = Book.objects.filter(Q(published_on__year=year) & Q(purchased_on__isnull=True)).order_by('series__name', 'volume', 'published_on')
+			else:
+				book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month) & Q(purchased_on__isnull=True)).order_by('series__name', 'volume', 'published_on')
 	else:
 		year = date.today().year
 		month = date.today().month

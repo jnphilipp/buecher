@@ -4,6 +4,7 @@
 <div id="publishing_list_box">
 	<form action="" method="get" accept-charset="UTF-8" autocomplete="off">
 		<select name="month">
+			<option value="-1"{% ifequal selected_month -1 %} selected{% endifequal %}></option>
 			{% for month in months %}
 				<option value="{{ forloop.counter }}"{% ifequal forloop.counter selected_month %} selected{% endifequal %}>{{ month }}</option>
 			{% endfor %}
@@ -24,10 +25,10 @@
 
 {% block page_arrows %}
 {% if books.has_previous %}
-	<div class="left_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
+	<div class="left_arrow"><a href="?{% if request.GET.month %}month={{ request.GET.month }}&{% endif %}{% if request.GET.year %}year={{ request.GET.year }}&{% endif %}{% if request.GET.purchased %}purchased={{ request.GET.purchased }}&{% endif %}page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
 {% endif %}
 {% if books.has_next %}
-	<div class="right_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
+	<div class="right_arrow"><a href="?{% if request.GET.month %}month={{ request.GET.month }}&{% endif %}{% if request.GET.year %}year={{ request.GET.year }}&{% endif %}{% if request.GET.purchased %}purchased={{ request.GET.purchased }}&{% endif %}page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
 {% endif %}
 {% endblock %}
 
