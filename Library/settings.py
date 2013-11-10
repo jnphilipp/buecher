@@ -2,19 +2,9 @@
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 import os
 
-def env_var(key, default=None):
-	"""Retrieves env vars and makes Python boolean replacements"""
-	val = os.environ.get(key, default)
-	if val == 'True':
-		val = True
-	elif val == 'False':
-		val = False
-	return val
-
-
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
 
-DEBUG = env_var('DEBUG', True)
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -26,9 +16,9 @@ MANAGERS = ADMINS
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': env_var('DATABASE_NAME', 'dj_library'),
-		'USER': env_var('DATABASE_USER', ''),
-		'PASSWORD': env_var('DATABASE_PASSWORD', ''),
+		'NAME': 'dj_library',
+		'USER': 'library',
+		'PASSWORD': 'library',
 		'HOST': '',
 		'PORT': '',
 	}
@@ -123,14 +113,13 @@ ROOT_URLCONF = 'Library.urls'
 WSGI_APPLICATION = 'Library.wsgi.application'
 
 TEMPLATE_DIRS = (
-	env_var('DEFAULT_TEMPLATE_DIR', os.path.join(PROJECT_PATH, 'templates')),
+	os.path.join(PROJECT_PATH, 'templates'),
 )
 
 INSTALLED_APPS = (
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
-	'django.contrib.sites',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'suit',
@@ -138,6 +127,11 @@ INSTALLED_APPS = (
 	'south',
 	'books',
 )
+
+SUIT_CONFIG = {
+	'ADMIN_NAME':'b&uuml;cher administration',
+	'LIST_PER_PAGE': 50,
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
