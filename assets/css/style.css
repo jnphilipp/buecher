@@ -67,6 +67,10 @@ nav ul li a {display: block;
 	color: #777;}
 
 nav ul li a:hover {color: #fff;}
+nav ul li:active {position: relative;
+	top: 1px;
+	right: -1px;}
+
 nav ul li.selected a {color: #fff;}
 
 
@@ -100,7 +104,7 @@ div.right_arrow {position: fixed;
 	right: -1em;}
 
 .arrow-e,
-.arrow-w { border-style: dashed;
+.arrow-w {border-style: dashed;
 	border-color: transparent;
 	border-width: 0.50em;
 	display: -moz-inline-box;
@@ -111,21 +115,21 @@ div.right_arrow {position: fixed;
 	vertical-align: middle;
 	width: 0;}
 
-.arrow-e { border-left-width: 0.4em;
+.arrow-e {border-left-width: 0.4em;
 	border-left-style: solid;
 	border-left-color: #777;}
 
-.arrow-w { border-right-width: 0.4em;
+.arrow-w {border-right-width: 0.4em;
 	border-right-style: solid;
 	border-right-color: #777/*#666*/;}
 
-.arrow-e:hover { border-left-color: #333;}
-.arrow-w:hover { border-right-color: #333;}
-.arrow-e:active { position: relative;
+.arrow-e:hover {border-left-color: #333;}
+.arrow-w:hover {border-right-color: #333;}
+.arrow-e:active {position: relative;
 	top: 1px;
 	right: -1px;}
 
-.arrow-w:active { position: relative;
+.arrow-w:active {position: relative;
 	top: 1px;
 	right: 1px;}
 
@@ -144,16 +148,19 @@ figure#list figcaption {width: 144px;
 
 figure#list img {border: 2px solid gray;}
 figure#list img:hover {border: 2px solid #303030;}
+figure#list:active {position: relative;
+	top: 1px;
+	right: -1px;}
 
 
 
 /*### search box ###*/
 
-#search_box { display: block; position: relative;
+#search_box {display: block; position: relative;
 	left: 50%;
 	width: 0;}
 
-#search { background: url(/static/images/search-white.png) 6px center no-repeat #fcfcfc;
+#search {background: url(/static/images/search-white.png) 6px center no-repeat #fcfcfc;
 	border: 1px solid #b1b1b1;
 	color: black;
 	width: 400px;
@@ -171,7 +178,7 @@ figure#list img:hover {border: 2px solid #303030;}
 	-o-transition: all 0.7s ease 0s;
 	transition: all 0.7s ease 0s;}
 
-#search:focus { margin-left: -275px;
+#search:focus {margin-left: -275px;
 	width: 550px;
 	outline: 0;}
 
@@ -191,12 +198,11 @@ figure#list img:hover {border: 2px solid #303030;}
 
 /*### publishing box list ###*/
 
-#publishing_list_box { margin-left: auto;
+#publishing_list_box {margin-left: auto;
 	margin-right: auto;
 	text-align: center;}
 
-.reload_button {
-	background-image: url(/static/images/refresh.png);
+.reload_button {background-image: url(/static/images/refresh.png);
 	background-size: 20px 20px;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -219,6 +225,6 @@ figure#list img:hover {border: 2px solid #303030;}
 	-o-transition-property: -o-transform;
 	transition-property: transform;}
 
-.reload_button:hover { -webkit-transform:rotate(360deg);
+.reload_button:hover {-webkit-transform:rotate(360deg);
 	-moz-transform:rotate(360deg);
 	-o-transform:rotate(360deg);}
