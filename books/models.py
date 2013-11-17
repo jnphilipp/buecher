@@ -66,7 +66,7 @@ class Book(models.Model):
 	isbn = models.CharField(max_length=13, blank=True)
 	asin = models.CharField(max_length=10, blank=True)
 	price = models.FloatField(default=0)
-	published_on = models.DateField()
+	published_on = models.DateField(blank=True, null=True)
 	purchased_on = models.DateField(blank=True, null=True)
 	read_on = models.DateField(blank=True, null=True)
 
