@@ -112,14 +112,22 @@ class Book(models.Model):
 		return u", ".join([unicode(author) for author in self.authors.all()])
 
 	def get_list_title(self, length):
-		if len(self.title) + len(unicode(self.authors.first())) + 4 > length:
-			return self.title[:length - len(unicode(self.authors.first())) - 5] + u"… by " + unicode(self.authors.first())
+		if self.series:
+			if len(unicode(self.series)) < (length / 4) + 1:
+				series = u" (" + unicode(self.series) + u" #%g)" % self.volume
+			else:
+				series = u" (" + unicode(self.series)[:length / 4] + u"… #%g)" % self.volume
 		else:
-			return self.title + u" by " + unicode(self.authors.first())
+			series = u""
+
+		if len(self.title) + len(unicode(self.authors.first())) + len(series) + 4 > length:
+			return self.title[:length - len(unicode(self.authors.first())) - len(series) - 5] + u"… by " + unicode(self.authors.first()) + series
+		else:
+			return self.title + u" by " + unicode(self.authors.first()) + series
 
 	def __unicode__(self):
 		base = self.title if not self.authors else u"%s - %s" % (self.title, u", ".join([unicode(author) for author in self.authors.all()]))
-		base = base if not self.series else u"%s (%s #%s)" % (base, unicode(self.series), unicode(self.volume))
+		base = base if not self.series else u"%s (%s #%g)" % (base, unicode(self.series), self.volume)
 		return base
 
 class EBookFile(models.Model):
