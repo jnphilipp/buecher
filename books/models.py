@@ -8,7 +8,7 @@ import shutil
 
 def get_ebook_path(instance, filename):
 	name = instance.book.title if not instance.book.authors else u"%s - %s" % (instance.book.title, u", ".join([unicode(author) for author in instance.book.authors.all()]))
-	nam = slugify(name)
+	name = slugify(name)
 	return os.path.join('books', unicode(instance.book.id), name + os.path.splitext(filename)[1])
 
 class Person(models.Model):
