@@ -1,11 +1,14 @@
 # Django settings for buecher project.
+from ConfigParser import RawConfigParser
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
+config = RawConfigParser()
+config.read(BASE_DIR + '/buecher/settings.ini')
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+DEBUG = config.get('debug','DEBUG')
+TEMPLATE_DEBUG = config.get('debug','TEMPLATE_DEBUG')
 
 ADMINS = (
 	('jnphilipp', 'jnphilipp@gmail.com'),
@@ -15,12 +18,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'dj_buecher',
-		'USER': 'buecher',
-		'PASSWORD': 'buecher',
-		'HOST': '',
-		'PORT': '',
+		'ENGINE': config.get('database', 'DATABASE_ENGINE'),
+		'NAME': config.get('database', 'DATABASE_NAME'),
+		'USER': config.get('database', 'DATABASE_USER'),
+		'PASSWORD': config.get('database', 'DATABASE_PASSWORD'),
+		'HOST': config.get('database', 'DATABASE_HOST'),
+		'PORT': config.get('database', 'DATABASE_PORT'),
 	}
 }
 
@@ -84,7 +87,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'u9$2d38k1@eueqqosp*+evt9qxg^38jcyka4mpa%a-7^ne$o%y'
+SECRET_KEY = config.get('secrets','SECRET_KEY')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -129,7 +132,7 @@ INSTALLED_APPS = (
 )
 
 SUIT_CONFIG = {
-	'ADMIN_NAME':'buecher administration',
+	'ADMIN_NAME':'buecher',
 	'LIST_PER_PAGE': 50,
 }
 

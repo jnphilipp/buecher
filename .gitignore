@@ -1,4 +1,5 @@
 *.pyc
+buecher/settings.ini
 media/*
 static/*
 venv/*
