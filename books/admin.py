@@ -4,6 +4,7 @@ from django.forms import TextInput
 from django.db import models
 
 class PersonAdmin(admin.ModelAdmin):
+	list_display = ('lastname', 'firstname')
 	search_fields = ('firstname', 'lastname')
 
 	formfield_overrides = {
@@ -87,6 +88,8 @@ class BookAdmin(admin.ModelAdmin):
 		return '<a href="%s">view</a>' % obj.get_absolute_url()
 
 	list_display = ('title', 'get_authors', 'series', 'volume', 'show_link')
+	search_fields = ('title',)
+	list_filter = ('authors', 'series',)
 	ordering = ('-updated_at',)
 	show_link.allow_tags = True
 
