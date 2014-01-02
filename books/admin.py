@@ -89,7 +89,7 @@ class BookAdmin(admin.ModelAdmin):
 
 	list_display = ('title', 'get_authors', 'series', 'volume', 'show_link')
 	search_fields = ('title',)
-	list_filter = ('authors', 'series',)
+	list_filter = ('authors', 'series')
 	ordering = ('-updated_at',)
 	show_link.allow_tags = True
 
