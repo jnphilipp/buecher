@@ -5,13 +5,13 @@ body {background: #F0F0F0;
 	font-weight: normal;
 	color: black;}
 
-h1 {font-family: JaneAusten;
+h1 {font-family: JaneAusten, fantasy, monospace;
 	text-align: center;
 	font-size: 30pt;
 	font-weight: bold;
 	color: black;}
 
-h2 {font-family: JaneAusten;
+h2 {font-family: JaneAusten, fantasy, monospace;
 	text-align: center;
 	font-size: 20pt;
 	color: black;}
