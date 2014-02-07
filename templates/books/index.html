@@ -3,17 +3,26 @@
 {% block searchbox %}
 <div id="search_box">
 	<form action="" method="get" accept-charset="UTF-8" autocomplete="off">
-		<input type="text" id="search" name="search" placeholder="search ..." required />
+		<input type="text" id="search" name="search" placeholder="search ..."/>
+		<select name="filter">
+			<option value="">filter</option>
+			<option value="">---</option>
+			<option value="unread">unread</option>
+			<option value="read">read</option>
+			<option value="wishlist">wishlist</option>
+			<option value="purchased">purchased</option>
+		</select>
+		<button type="submit" class="reload_button" />
 	</form>
 </div>
 {% endblock %}
 
 {% block page_arrows %}
 {% if books.has_previous %}
-	<div class="left_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
+	<div class="left_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.filter %}filter={{ request.GET.filter }}&{% endif %}page={{ books.previous_page_number }}"><span class="arrow-w"></span></a></div>
 {% endif %}
 {% if books.has_next %}
-	<div class="right_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
+	<div class="right_arrow"><a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.filter %}filter={{ request.GET.filter }}&{% endif %}page={{ books.next_page_number }}"><span class="arrow-e"></span></a></div>
 {% endif %}
 {% endblock %}
 
