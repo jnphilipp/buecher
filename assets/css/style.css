@@ -1,3 +1,11 @@
+@font-face {
+	font-family: 'Audiowide';
+	src:
+		local('Audiowide'),
+		local('Audiowide Regular'),
+		url('Audiowide-Regular.ttf');
+}
+
 header, footer, nav, article, aside {display: block;}
 body {background: #F0F0F0;
 	font-family: 'Audiowide', monospace;
