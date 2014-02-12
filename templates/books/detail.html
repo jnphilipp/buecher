@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load books_extras %}
 
 {% block content %}
 <h1>{{ book.title }}</h1>
@@ -27,7 +28,7 @@
 			{% if book.publisher %}
 				<p><b>Publisher:</b> <a href="{% url 'books.views.index' %}?search={{ book.publisher }}">{{ book.publisher }}</a></p>
 			{% endif %}
-			<p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>
+			{% if book.published_on %}<p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>{% endif %}
 			{% if book.binding %}
 				<p><b>Binding:</b> {{ book.binding }}</p>
 			{% endif %}
@@ -35,7 +36,7 @@
 				<p><b>Language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</p>
 			{% endwith %}
 			{% if book.price %}
-				<p><b>Price:</b> {{ book.price }} €</p>
+				<p><b>Price:</b> {{ book.price|floatdot }} €</p>
 			{% endif %}
 			{% if urls %}
 				<p><b>Urls:</b>
