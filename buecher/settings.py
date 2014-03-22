@@ -9,6 +9,9 @@ config.read(BASE_DIR + '/buecher/settings.ini')
 
 DEBUG = config.get('debug','DEBUG')
 TEMPLATE_DEBUG = config.get('debug','TEMPLATE_DEBUG')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 ADMINS = (
 	('jnphilipp', 'jnphilipp@gmail.com'),
