@@ -18,7 +18,8 @@ def books_autocomplete(request):
 			book_json['id'] = book.id
 			book_json['label'] = book.title
 			book_json['value'] = book.title
-			results.append(book_json)
+			if not next((True for item in results if item['value'] == book.title), False):
+				results.append(book_json)
 
 		persons = Person.objects.filter(Q(firstname__icontains=q) | Q(lastname__icontains=q)).distinct('lastname', 'firstname')[:10]
 		for person in persons:
@@ -26,7 +27,8 @@ def books_autocomplete(request):
 			person_json['id'] = person.id
 			person_json['label'] = unicode(person)
 			person_json['value'] = unicode(person)
-			results.append(person_json)
+			if not next((True for item in results if item['value'] == unicode(person)), False):
+				results.append(person_json)
 
 		series = Series.objects.filter(name__icontains=q).distinct('name')[:10]
 		for s in series:
@@ -34,7 +36,8 @@ def books_autocomplete(request):
 			series_json['id'] = s.id
 			series_json['label'] = s.name
 			series_json['value'] = s.name
-			results.append(series_json)
+			if not next((True for item in results if item['value'] == s.name), False):
+				results.append(series_json)
 
 		publishers = Publisher.objects.filter(name__icontains=q).distinct('name')[:10]
 		for publisher in publishers:
@@ -42,7 +45,8 @@ def books_autocomplete(request):
 			publisher_json['id'] = publisher.id
 			publisher_json['label'] = publisher.name
 			publisher_json['value'] = publisher.name
-			results.append(publisher_json)
+			if not next((True for item in results if item['value'] == publisher.name), False):
+				results.append(publisher_json)
 
 		results = sorted(results, key=lambda result: result['label'])[:10]
 		data = json.dumps(results)
