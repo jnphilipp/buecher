@@ -85,13 +85,14 @@ class UrlInline(admin.StackedInline):
 
 class BookAdmin(admin.ModelAdmin):
 	def show_link(self, obj):
-		return '<a href="%s">view</a>' % obj.get_absolute_url()
+		return '<a href="%s"><i class="icon-eye-open icon-alpha75"></i>View on site</a>' % obj.get_absolute_url()
 
 	list_display = ('title', 'get_authors', 'series', 'volume', 'show_link')
 	search_fields = ('title',)
 	list_filter = ('authors', 'series')
 	ordering = ('-updated_at',)
 	show_link.allow_tags = True
+	show_link.short_description = 'View on site'
 
 	formfield_overrides = {
 		models.CharField: {'widget': TextInput(attrs={'autocomplete':'off'})},

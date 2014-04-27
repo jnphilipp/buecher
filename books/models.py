@@ -7,15 +7,15 @@ import os
 import shutil
 
 def get_ebook_path(instance, filename):
-	name = instance.book.title if not instance.book.authors else u"%s - %s" % (instance.book.title, u", ".join([unicode(author) for author in instance.book.authors.all()]))
+	name = instance.book.title if not instance.book.authors else u"%s - %s" % (instance.book.title, u", ".join([str(author) for author in instance.book.authors.all()]))
 	name = slugify(name)
-	return os.path.join('books', unicode(instance.book.id), name + os.path.splitext(filename)[1])
+	return os.path.join('books', str(instance.book.id), name + os.path.splitext(filename)[1])
 
 class Person(models.Model):
 	firstname = models.TextField()
 	lastname = models.TextField()
 
-	def __unicode__(self):
+	def __str__(self):
 		return u"%s %s" % (self.firstname, self.lastname)
 
 	class Meta:
@@ -25,7 +25,7 @@ class Person(models.Model):
 class Publisher(models.Model):
 	name = models.TextField(unique=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
@@ -34,7 +34,7 @@ class Publisher(models.Model):
 class Binding(models.Model):
 	binding = models.TextField(unique=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.binding
 
 	class Meta:
@@ -43,7 +43,7 @@ class Binding(models.Model):
 class Language(models.Model):
 	language = models.TextField(unique=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.language
 
 	class Meta:
@@ -52,7 +52,7 @@ class Language(models.Model):
 class Series(models.Model):
 	name = models.TextField(unique=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
@@ -93,7 +93,7 @@ class Book(models.Model):
 				super(Book, self).save()
 
 	def get_image_path(self, filename):
-		save_name = os.path.join('books', unicode(self.id), 'cover.jpg')
+		save_name = os.path.join('books', str(self.id), 'cover.jpg')
 		current_path = os.path.join(settings.MEDIA_ROOT, self.cover_image.path)
 		new_path = os.path.join(settings.MEDIA_ROOT, save_name)
 
@@ -109,25 +109,25 @@ class Book(models.Model):
 		return "/books/%i/" % self.id
 
 	def get_authors(self):
-		return u", ".join([unicode(author) for author in self.authors.all()])
+		return u", ".join([str(author) for author in self.authors.all()])
 
 	def get_list_title(self, length):
 		if self.series:
-			if len(unicode(self.series)) < (length / 4) + 1:
-				series = u" (" + unicode(self.series) + u" #%g)" % self.volume
+			if len(str(self.series)) < (length / 4) + 1:
+				series = u" (" + str(self.series) + u" #%g)" % self.volume
 			else:
-				series = u" (" + unicode(self.series)[:length / 4] + u"… #%g)" % self.volume
+				series = u" (" + str(self.series)[:int(length / 4)] + u"… #%g)" % self.volume
 		else:
 			series = u""
 
-		if len(self.title) + len(unicode(self.authors.first())) + len(series) + 4 > length:
-			return self.title[:length - len(unicode(self.authors.first())) - len(series) - 5] + u"… by " + unicode(self.authors.first()) + series
+		if len(self.title) + len(str(self.authors.first())) + len(series) + 4 > length:
+			return self.title[:length - len(str(self.authors.first())) - len(series) - 5] + u"… by " + str(self.authors.first()) + series
 		else:
-			return self.title + u" by " + unicode(self.authors.first()) + series
+			return self.title + u" by " + str(self.authors.first()) + series
 
-	def __unicode__(self):
-		base = self.title if not self.authors else u"%s - %s" % (self.title, u", ".join([unicode(author) for author in self.authors.all()]))
-		base = base if not self.series else u"%s (%s #%g)" % (base, unicode(self.series), self.volume)
+	def __str__(self):
+		base = self.title if not self.authors else u"%s - %s" % (self.title, u", ".join([str(author) for author in self.authors.all()]))
+		base = base if not self.series else u"%s (%s #%g)" % (base, str(self.series), self.volume)
 		return base
 
 class EBookFile(models.Model):
@@ -137,7 +137,7 @@ class EBookFile(models.Model):
 	def filename(self):
 		return os.path.basename(self.ebook_file.name)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.filename()
 
 	class Meta:
@@ -147,5 +147,5 @@ class Url(models.Model):
 	url = models.TextField()
 	book = models.ForeignKey(Book)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.url
