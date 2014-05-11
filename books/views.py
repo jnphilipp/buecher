@@ -25,9 +25,9 @@ def books_autocomplete(request):
 		for person in persons:
 			person_json = {}
 			person_json['id'] = person.id
-			person_json['label'] = unicode(person)
-			person_json['value'] = unicode(person)
-			if not next((True for item in results if item['value'] == unicode(person)), False):
+			person_json['label'] = str(person)
+			person_json['value'] = str(person)
+			if not next((True for item in results if item['value'] == str(person)), False):
 				results.append(person_json)
 
 		series = Series.objects.filter(name__icontains=q).distinct('name')[:10]
