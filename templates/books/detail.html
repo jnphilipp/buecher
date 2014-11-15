@@ -28,7 +28,7 @@
 			{% if book.publisher %}
 				<p><b>Publisher:</b> <a href="{% url 'books.views.index' %}?search={{ book.publisher }}">{{ book.publisher }}</a></p>
 			{% endif %}
-			{% if book.published_on %}<p><b>Published on:</b> {{ book.published_on|date:"d. M Y" }}</p>{% endif %}
+			{% if book.published_on %}<p><b>Published on:</b> {{ book.published_on|date:"d. F Y" }}</p>{% endif %}
 			{% if book.binding %}
 				<p><b>Binding:</b> {{ book.binding }}</p>
 			{% endif %}
@@ -53,10 +53,10 @@
 				<p>&nbsp;</p>
 				<h3>Owning details:</h3>
 				{% if book.purchased_on %}
-					<p><b>Purchased on:</b> {{ book.purchased_on|date:"d. M Y" }}</p>
+					<p><b>Purchased on:</b> {{ book.purchased_on|date:"d. F Y" }}</p>
 				{% endif %}
 				{% if book.read_on %}
-					<p><b>Read on:</b> {{ book.read_on|date:"d. M Y" }}</p>
+					<p><b>Read on:</b> {{ book.read_on|date:"d. F Y" }}</p>
 				{% endif %}
 				{% if ebook_files %}
 					<p><b>E-Book files:</b>
