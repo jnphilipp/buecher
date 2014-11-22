@@ -7,7 +7,7 @@ import os
 import shutil
 
 def get_ebook_path(instance, filename):
-	name = instance.book.title if not instance.book.authors else u"%s - %s" % (instance.book.title, u", ".join([str(author) for author in instance.book.authors.all()]))
+	name = instance.book.title if not instance.book.authors.count() == 0 else u"%s - %s" % (instance.book.title, u", ".join([str(author) for author in instance.book.authors.all()]))
 	name = slugify(name)
 	return os.path.join('books', str(instance.book.id), name + os.path.splitext(filename)[1])
 
@@ -112,21 +112,22 @@ class Book(models.Model):
 		return u", ".join([str(author) for author in self.authors.all()])
 
 	def get_list_title(self, length):
+		author = self.authors.first()
 		if self.series:
-			if len(str(self.series)) < (length / 4) + 1:
+			if len(str(self.series)) < (length / 4) + 1 or author == None:
 				series = u" (" + str(self.series) + u" #%g)" % self.volume
 			else:
 				series = u" (" + str(self.series)[:int(length / 4)] + u"… #%g)" % self.volume
 		else:
 			series = u""
 
-		if len(self.title) + len(str(self.authors.first())) + len(series) + 4 > length:
-			return self.title[:length - len(str(self.authors.first())) - len(series) - 5] + u"… by " + str(self.authors.first()) + series
+		if len(self.title) + len(str(author if author != None else '')) + len(series) + 4 > length:
+			return self.title[:length - len(str(author if author != None else '')) - len(series) - 5] + ((u" by " + str(author)) if author != None else '') + series
 		else:
-			return self.title + u" by " + str(self.authors.first()) + series
+			return self.title + ((u" by " + str(author)) if author != None else '') + series
 
 	def __str__(self):
-		base = self.title if not self.authors else u"%s - %s" % (self.title, u", ".join([str(author) for author in self.authors.all()]))
+		base = self.title if self.authors.count() == 0 else u"%s - %s" % (self.title, u", ".join([str(author) for author in self.authors.all()]))
 		base = base if not self.series else u"%s (%s #%g)" % (base, str(self.series), self.volume)
 		return base
 
