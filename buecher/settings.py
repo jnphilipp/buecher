@@ -126,6 +126,7 @@ SUIT_CONFIG = {
 		{'label': 'buecher', 'icon':'logo', 'url': '/'},
 		'auth',
 		'books',
+		'django_cron',
 	),
 }
 
