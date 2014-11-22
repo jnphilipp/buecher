@@ -2,3 +2,8 @@ buecher
 =======
 
 Website to manage books.
+
+
+crontab
+===============
+0,10,20,30,40,50 * * * * cd /var/www/buecher && /var/www/buecher/venv/bin/python manage.py runcrons
