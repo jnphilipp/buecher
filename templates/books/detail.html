@@ -5,7 +5,7 @@
 <h1>{{ book.title }}</h1>
 <div class="details" style="width: 55%; margin: 0 auto;">
 	{% if book.cover_image %}
-		<img src="{{ book.cover_image.url }}" style="float: right; min-height: 400px; max-height: 500px; margin-top: -1.5em;" />
+		<img src="{{ book.cover_image.url }}" style="float: right; display: block; min-height: 300px; max-height: 500px; max-width: 450px; width: auto; height: auto; margin-top: -1.5em;" />
 	{% endif %}
 	<div style="width: 50%;">
 		{% if book.series %}

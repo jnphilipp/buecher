@@ -121,8 +121,8 @@ class Book(models.Model):
 		else:
 			series = u""
 
-		if len(self.title) + len(str(author if author != None else '')) + len(series) + 4 > length:
-			return self.title[:length - len(str(author if author != None else '')) - len(series) - 5] + ((u" by " + str(author)) if author != None else '') + series
+		if len(self.title) + (len(str(author)) + 4 if author != None else 0) + len(series) > length:
+			return self.title[:length - (len(str(author)) - 5 if author != None else 0) - len(series) - 5] + ((u" by " + str(author)) if author != None else '') + series
 		else:
 			return self.title + ((u" by " + str(author)) if author != None else '') + series
 

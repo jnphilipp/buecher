@@ -3,7 +3,11 @@
 
 <figure id="list">
 	<a class="overview" id="{{ book.id }}" href="{{ url }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">
-		<img src="{% if book.cover_image %}{{ book.cover_image.url }}{% else %}{% static "images/default_cover.jpg" %}{% endif %}" height="140px" alt=" {{ book.title }} by {{ book.authors.all|first }} " title=" {{ book.title }} by {{ book.authors.all|first }} " />
-		<figcaption>{{ book|list_title:45 }}</figcaption>
+		<span class="image_container">
+			<img src="{% if book.cover_image %}{{ book.cover_image.url }}{% else %}{% static "images/default_cover.jpg" %}{% endif %}" alt=" {{ book.title }} {% if book.authors.count != 0 %} by {{ book.authors.all|first }} {% endif %}" title=" {{ book.title }} {% if book.authors.count != 0 %} by {{ book.authors.all|first }} {% endif %}"/>
+		</span>
+		<span class="caption_container">
+			<figcaption>{{ book|list_title:45 }}</figcaption>
+		</span>
 	</a>
 </figure>

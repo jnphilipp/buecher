@@ -75,7 +75,7 @@ def index(request):
 	else:
 		book_list = Book.objects.all().order_by('-updated_at')
 
-	paginator = Paginator(book_list, 30)
+	paginator = Paginator(book_list, 27)
 	page = request.GET.get('page')
 	try:
 		books = paginator.page(page)
