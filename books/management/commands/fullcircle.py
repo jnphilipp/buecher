@@ -1,0 +1,58 @@
+from books.models import Binding, Book, EBookFile, Language, Series, Url
+from django.conf import settings
+from django.core import management
+from django.core.mail import mail_admins
+from django.core.management import call_command
+from django.core.management.base import BaseCommand, CommandError
+from django.db.models import Max
+from http import client as HTTP
+from os import makedirs
+from os.path import exists, join
+from urllib.error import HTTPError
+from urllib.request import urlopen, urlretrieve
+
+class Command(BaseCommand):
+	help = 'Checks the status of the Full Circle Magazine (http://fullcirclemagazine.org) issues in the database against the online status and adds the new issues.'
+
+	def handle(self, *args, **options):
+		series, created = Series.objects.get_or_create(name='Full Circle Magazine')
+		binding, created = Binding.objects.get_or_create(binding='E-Book')
+		language, created = Language.objects.get_or_create(language='Englisch')
+		volume = Book.objects.filter(series=series).aggregate(Max('volume'))['volume__max']
+		if volume == None:
+			volume = 0
+
+		code = HTTP.OK
+		while code == HTTP.OK:
+			volume += 1
+			try:
+				code = urlopen('http://fullcirclemagazine.org/issue-%d/' % volume).code
+				if code == HTTP.OK:
+					self.stdout.write('Adding Issue %d...' % volume)
+					book = Book(title='Issue %d' % volume, series=series, volume=volume, binding=binding)
+					book.save()
+					book.languages.add(language)
+					book.save()
+
+					folder = join(settings.MEDIA_ROOT, 'books', str(book.id))
+					if not exists(folder):
+						makedirs(folder)
+
+					image = join(folder, 'cover.jpg')
+					urlretrieve('http://dl.fullcirclemagazine.org/cover/%d/xen.jpg.pagespeed.ic.OYt0Nw3Yh8.jpg' % volume, image)
+					book.cover_image = image
+					book.save()
+
+					pdf = join(folder, 'Issue %s.pdf' % volume)
+					urlretrieve('http://dl.fullcirclemagazine.org/issue%s_en.pdf' % volume, pdf)
+					EBookFile.objects.create(ebook_file=pdf, book=book)
+
+					epub = join(folder, 'Issue %s.epub' % volume)
+					urlretrieve('http://dl.fullcirclemagazine.org/issue%s_en.epub' % volume, epub)
+					EBookFile.objects.create(ebook_file=epub, book=book)
+
+					Url.objects.create(url='http://fullcirclemagazine.org/issue-%d/' % volume, book=book)
+					book.save()
+			except HTTPError as e:
+				self.stdout.write('No Issue %d, stopping.' % volume)
+				break
