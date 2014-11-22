@@ -1,4 +1,5 @@
 from books.models import Binding, Book, EBookFile, Language, Series, Url
+from datetime import date
 from django.conf import settings
 from django.core import management
 from django.core.mail import mail_admins
@@ -29,7 +30,7 @@ class Command(BaseCommand):
 				code = urlopen('http://fullcirclemagazine.org/issue-%d/' % volume).code
 				if code == HTTP.OK:
 					self.stdout.write('Adding Issue %d...' % volume)
-					book = Book(title='Issue %d' % volume, series=series, volume=volume, binding=binding)
+					book = Book(title='Issue %d' % volume, series=series, volume=volume, binding=binding, purchased_on=date.today())
 					book.save()
 					book.languages.add(language)
 					book.save()
