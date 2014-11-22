@@ -131,4 +131,5 @@ SUIT_CONFIG = {
 
 CRON_CLASSES = [
 	'books.crons.FullCircleMagazineJob',
+	'books.crons.FreiesMagazinJob',
 ]
