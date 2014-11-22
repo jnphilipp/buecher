@@ -128,3 +128,7 @@ SUIT_CONFIG = {
 		'books',
 	),
 }
+
+CRON_CLASSES = [
+	'books.crons.FullCircleMagazineJob',
+]
