@@ -44,7 +44,7 @@
 					<li><b>language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</li>
 				{% endwith %}
 				{% if book.price %}
-					<p><b>price:</b> {{ book.price|floatdot }} €</p>
+					<li><b>price:</b> {{ book.price|floatdot }} €</li>
 				{% endif %}
 				{% if urls %}
 					<li><b>urls:</b>
