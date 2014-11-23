@@ -32,22 +32,22 @@ class Publisher(models.Model):
 		ordering = ('name',)
 
 class Binding(models.Model):
-	binding = models.TextField(unique=True)
+	name = models.TextField(unique=True)
 
 	def __str__(self):
-		return self.binding
+		return self.name
 
 	class Meta:
-		ordering = ('binding',)
+		ordering = ('name',)
 
 class Language(models.Model):
-	language = models.TextField(unique=True)
+	name = models.TextField(unique=True)
 
 	def __str__(self):
-		return self.language
+		return self.name
 
 	class Meta:
-		ordering = ('language',)
+		ordering = ('name',)
 
 class Series(models.Model):
 	name = models.TextField(unique=True)

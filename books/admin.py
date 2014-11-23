@@ -32,7 +32,7 @@ class BindingAdmin(admin.ModelAdmin):
 	}
 
 	fieldsets = [
-		(None, {'fields': ['binding']}),
+		(None, {'fields': ['name']}),
 	]
 
 class LanguageAdmin(admin.ModelAdmin):
@@ -41,7 +41,7 @@ class LanguageAdmin(admin.ModelAdmin):
 	}
 
 	fieldsets = [
-		(None, {'fields': ['language']}),
+		(None, {'fields': ['name']}),
 	]
 
 class SeriesAdmin(admin.ModelAdmin):

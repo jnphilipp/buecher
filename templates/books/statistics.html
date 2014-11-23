@@ -17,7 +17,7 @@
 	{% for binding in statistics.book_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
@@ -31,7 +31,7 @@
 	{% for binding in statistics.purchased_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
@@ -45,7 +45,7 @@
 	{% for binding in statistics.sub_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
@@ -59,7 +59,7 @@
 	{% for binding in statistics.read_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
@@ -73,7 +73,7 @@
 	{% for binding in statistics.wishlist_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
@@ -87,7 +87,7 @@
 	{% for binding in statistics.year_purchased_binding_counts %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
@@ -101,7 +101,7 @@
 	{% for binding in statistics.month_purchased_binding_counts %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
@@ -115,7 +115,7 @@
 	{% for binding in statistics.year_read_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
@@ -129,7 +129,7 @@
 	{% for binding in statistics.month_read_bindings %}
 		<tr>
 			<td></td>
-			<td> {{ binding.binding__binding|default_if_none:"Not Provided" }} </td>
+			<td> {{ binding.binding__name|default_if_none:"Not Provided" }} </td>
 			<td class="right"> {{ binding.count }} </td>
 			<td class="right" style="padding-left: 2em;"> {{ binding.sum|default_if_none:"0.0" }} &euro; </td>
 		</tr>
