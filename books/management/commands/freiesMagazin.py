@@ -67,5 +67,5 @@ class Command(BaseCommand):
 					Url.objects.create(url='http://www.freiesmagazin.de/freiesMagazin-%d-%02d' % (month[0], month[1]), book=book)
 					book.save()
 			except HTTPError as e:
-				self.stdout.write('No Issue %d (%02d/%d), stopping.' % volume, month[1], month[0]))
+				self.stdout.write('No Issue %d (%02d/%d), stopping.' % (volume, month[1], month[0]))
 				break
