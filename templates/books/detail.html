@@ -1,88 +1,86 @@
 {% extends "base.html" %}
-{% load books_extras %}
+{% load books_extras static %}
 
 {% block content %}
-<h1>{{ book.title }}</h1>
-<div class="details" style="width: 55%; margin: 0 auto;">
-	{% if book.cover_image %}
-		<img src="{{ book.cover_image.url }}" style="float: right; display: block; min-height: 300px; max-height: 500px; max-width: 450px; width: auto; height: auto; margin-top: -1.5em;" />
-	{% endif %}
-	<div style="width: 50%;">
-		{% if book.series %}
-			<p><b>Series:</b> Volume {{ book.volume }} of <a href="{% url 'books.views.index' %}?search={{ book.series }}">{{ book.series }}</a></p>
-		{% endif %}
-		<p><b>Authors:</b>
-			{% for author in book.authors.all %}
-				<a href="{% url 'books.views.index' %}?search={{ author }}">{{ author }}</a>{%if not forloop.last %},{% endif %}
-			{% endfor %}</p>
-
-		<div class="edition">
-			<p>&nbsp;</p>
-			<h3>Edition details:</h3>
-			{% if book.isbn %}
-				<p><b>ISBN:</b> {{ book.isbn }}</p>
-			{% endif %}
-			{% if book.asin %}
-				<p><b>ASIN:</b> <a href="http://amazon.com/dp/{{ book.asin }}" target="_blank">{{ book.asin }}</a></p>
-			{% endif %}
-			{% if book.publisher %}
-				<p><b>Publisher:</b> <a href="{% url 'books.views.index' %}?search={{ book.publisher }}">{{ book.publisher }}</a></p>
-			{% endif %}
-			{% if book.published_on %}<p><b>Published on:</b> {{ book.published_on|date:"d. F Y" }}</p>{% endif %}
-			{% if book.binding %}
-				<p><b>Binding:</b> {{ book.binding }}</p>
-			{% endif %}
-			{% with count=book.languages.count %}
-				<p><b>Language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</p>
-			{% endwith %}
-			{% if book.price %}
-				<p><b>Price:</b> {{ book.price|floatdot }} €</p>
-			{% endif %}
-			{% if urls %}
-				<p><b>Urls:</b>
-					<ul>
-					{% for url in urls %}
-						<li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
-					{% endfor %}
-					</ul></p>
+<div class="details">
+	<div class="left">
+		<img src="{% if book.cover_image %}{{ book.cover_image.url }}{% else %}{% static "images/default_cover.jpg" %}{% endif %}"/>
+	</div>
+	<div class="right">
+		<div class="book">
+			<h1>{{ book.title }}<a href="{% url 'admin:books_book_change' book.id %}"><i class="ui-icon ui-icon-pencil" style="display: inline-block;"></i></a></h1>
+			<ul class="clear">
+				{% if book.series %}
+					<li><b>Series:</b> Volume {{ book.volume }} of <a href="{% url 'books.views.index' %}?search={{ book.series }}">{{ book.series }}</a></li>
 				{% endif %}
+				{% if book.authors.count != 0 %}
+					<li><b>Authors:</b>
+						{% for author in book.authors.all %}
+							<a href="{% url 'books.views.index' %}?search={{ author }}">{{ author }}</a>{%if not forloop.last %},{% endif %}
+						{% endfor %}
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="edition">
+			<h3>edition details:</h3>
+			<ul class="clear" style="margin-left: 1em;">
+				{% if book.isbn %}
+					<li><b>isbn:</b> {{ book.isbn }}</li>
+				{% endif %}
+				{% if book.asin %}
+					<li><b>asin:</b> <a href="http://amazon.com/dp/{{ book.asin }}" target="_blank">{{ book.asin }}</a></li>
+				{% endif %}
+				{% if book.publisher %}
+					<li><b>publisher:</b> <a href="{% url 'books.views.index' %}?search={{ book.publisher }}">{{ book.publisher }}</a></li>
+				{% endif %}
+				{% if book.published_on %}
+					<li><b>published on:</b> {{ book.published_on|date:"d. F Y" }}</li>
+				{% endif %}
+				{% if book.binding %}
+					<li><b>binding:</b> {{ book.binding }}</li>
+				{% endif %}
+				{% with count=book.languages.count %}
+					<li><b>language{{ count|pluralize }}:</b> {{ book.languages.all|join:", " }}</li>
+				{% endwith %}
+				{% if book.price %}
+					<p><b>price:</b> {{ book.price|floatdot }} €</p>
+				{% endif %}
+				{% if urls %}
+					<li><b>urls:</b>
+						<ul>
+						{% for url in urls %}
+							<li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+						{% endfor %}
+						</ul>
+					</li>
+				{% endif %}
+			</ul>
 		</div>
 
 		{% if book.purchased_on or book.read_on or ebook_files %}
 			<div class="owning">
-				<p>&nbsp;</p>
-				<h3>Owning details:</h3>
-				{% if book.purchased_on %}
-					<p><b>Purchased on:</b> {{ book.purchased_on|date:"d. F Y" }}</p>
-				{% endif %}
-				{% if book.read_on %}
-					<p><b>Read on:</b> {{ book.read_on|date:"d. F Y" }}</p>
-				{% endif %}
-				{% if ebook_files %}
-					<p><b>E-Book files:</b>
-					<ul>
-					{% for ebook_file in ebook_files %}
-						<li><a href="{{ ebook_file.ebook_file.url }}">{{ ebook_file.filename }}</a></li>
-					{% endfor %}
-					</ul></p>
-				{% endif %}
+				<h3>owning details:</h3>
+				<ul class="clear" style="margin-left: 1em;">
+					{% if book.purchased_on %}
+						<li><b>purchased on:</b> {{ book.purchased_on|date:"d. F Y" }}</li>
+					{% endif %}
+					{% if book.read_on %}
+						<li><b>read on:</b> {{ book.read_on|date:"d. F Y" }}</li>
+					{% endif %}
+					{% if ebook_files %}
+						<li><b>e-book files:</b>
+							<ul>
+								{% for ebook_file in ebook_files %}
+									<li><a href="{{ ebook_file.ebook_file.url }}">{{ ebook_file.filename }}</a></li>
+								{% endfor %}
+							</ul>
+						</li>
+					{% endif %}
+				</ul>
 			</div>
 		{% endif %}
+		</div>
 	</div>
-
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p style="text-align: center;">
-		{% url 'books.views.detail' book_id=book.id as detail %}
-		{% if request.path = detail %}
-			{% url 'books.views.index' as url %}
-		{% endif %}
-		{% url 'books.views.publishing_list_detail' book_id=book.id as publishing_list %}
-		{% if request.path = publishing_list %}
-			{% url 'books.views.publishing_list' as url %}
-		{% endif %}
-		<a href="{{ url }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" style="margin-right: 5em;">back</a>
-		<a href="{% url 'admin:books_book_change' book.id %}">edit</a></p>
 </div>
 {% endblock %}
