@@ -2,7 +2,7 @@
 {% load books_extras %}
 
 <figure id="list">
-	<a class="overview" id="{{ book.id }}" href="{{ url }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">
+	<a class="overview" id="{{ book.id }}" href="{% url 'book' book.id %}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">
 		<span class="image_container">
 			<img src="{% if book.cover_image %}{{ book.cover_image.url }}{% else %}{% static "images/default_cover.jpg" %}{% endif %}" alt=" {{ book.title }} {% if book.authors.count != 0 %} by {{ book.authors.all|first }} {% endif %}" title=" {{ book.title }} {% if book.authors.count != 0 %} by {{ book.authors.all|first }} {% endif %}"/>
 		</span>

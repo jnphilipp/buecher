@@ -3,14 +3,14 @@
 {% block searchbox %}
 <div id="search_box">
 	<form action="" method="get" accept-charset="UTF-8" autocomplete="off">
-		<input type="text" id="search" name="search" placeholder="search ..."/>
+		<input type="text" id="search" name="search" placeholder="search ..." {% if search %}value="{{ search }}"{% endif %}/>
 		<select name="filter">
 			<option value="">filter</option>
 			<option value="">---</option>
-			<option value="unread">unread</option>
-			<option value="read">read</option>
-			<option value="wishlist">wishlist</option>
-			<option value="purchased">purchased</option>
+			<option value="unread" {% if filter == 'unread' %}selected{% endif %}>unread</option>
+			<option value="read" {% if filter == 'read' %}selected{% endif %}>read</option>
+			<option value="wishlist" {% if filter == 'wishlist' %}selected{% endif %}>wish list</option>
+			<option value="purchased" {% if filter == 'purchased' %}selected{% endif %}>purchased</option>
 		</select>
 		<button type="submit" class="reload_button" />
 	</form>
@@ -29,8 +29,7 @@
 {% block content %}
 {% if books %}
 	{% for book in books %}
-		{% url 'books.views.detail' book.id as url %}
-		{% include "books/book_list_partial.html" with book=book url=url %}
+		{% include "books/books/_book_list_shape.html" with book=book %}
 	{% endfor %}
 {% else %}
 	<p>No books are available.</p>

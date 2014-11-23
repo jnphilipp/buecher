@@ -57,14 +57,14 @@ def books_autocomplete(request):
 	return HttpResponse(data, mimetype)
 
 
-def index(request):
+def books(request):
 	search = request.GET.get('search') if request.GET.get('search') else ''
 	filter = request.GET.get('filter')
 	if search or filter:
 		firstname, _, lastname = search.rpartition(' ')
 		if filter == 'unread':
 			book_list = Book.objects.filter((Q(title__icontains=search) | Q(series__name__icontains=search) | (Q(authors__firstname__icontains=firstname) & Q(authors__lastname__icontains=lastname)) | Q(publisher__name__icontains=search)) & Q(read_on__isnull=True)).order_by('authors__lastname', 'authors__firstname', 'series__name', 'volume', 'published_on').distinct()
-		elif filter == 'unread':
+		elif filter == 'read':
 			book_list = Book.objects.filter((Q(title__icontains=search) | Q(series__name__icontains=search) | (Q(authors__firstname__icontains=firstname) & Q(authors__lastname__icontains=lastname)) | Q(publisher__name__icontains=search)) & Q(read_on__isnull=False)).order_by('authors__lastname', 'authors__firstname', 'series__name', 'volume', 'published_on').distinct()
 		elif filter == 'wishlist':
 			book_list = Book.objects.filter((Q(title__icontains=search) | Q(series__name__icontains=search) | (Q(authors__firstname__icontains=firstname) & Q(authors__lastname__icontains=lastname)) | Q(publisher__name__icontains=search)) & Q(purchased_on__isnull=True)).order_by('authors__lastname', 'authors__firstname', 'series__name', 'volume', 'published_on').distinct()
@@ -84,14 +84,14 @@ def index(request):
 	except EmptyPage:
 		books = paginator.page(paginator.num_pages)
 
-	return render(request, 'books/index.html', {'books': books})
+	return render(request, 'books/books/books.html', locals())
 
-def detail(request, book_id):
+def book(request, book_id):
 	book = get_object_or_404(Book, pk=book_id)
 	ebook_files = EBookFile.objects.filter(book=book_id)
 	urls = Url.objects.filter(book=book_id)
 
-	return render(request, 'books/detail.html', {'book': book, 'ebook_files': ebook_files, 'urls': urls})
+	return render(request, 'books/books/book.html', {'book': book, 'ebook_files': ebook_files, 'urls': urls})
 
 def publishing_list(request):
 	year = request.GET.get('year')
@@ -127,13 +127,6 @@ def publishing_list(request):
 
 	years = Book.objects.dates('published_on', 'year')
 	return render(request, 'books/publishing_list.html', {'books': books, 'months': calendar.month_name[1:], 'selected_month': month, 'years': years, 'selected_year': year, 'selected_purchased': purchased})
-
-def publishing_list_detail(request, book_id):
-	book = get_object_or_404(Book, pk=book_id)
-	ebook_files = EBookFile.objects.filter(book=book_id)
-	urls = Url.objects.filter(book=book_id)
-
-	return render(request, 'books/detail.html', {'book': book, 'ebook_files': ebook_files, 'urls': urls})
 
 def statistics(request):
 	statistics = {}
