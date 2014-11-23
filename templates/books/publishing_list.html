@@ -6,7 +6,7 @@
 		<select name="month">
 			<option value="-1"{% ifequal selected_month -1 %} selected{% endifequal %}></option>
 			{% for month in months %}
-				<option value="{{ forloop.counter }}"{% ifequal forloop.counter selected_month %} selected{% endifequal %}>{{ month }}</option>
+				<option value="{{ forloop.counter }}"{% ifequal forloop.counter selected_month %} selected{% endifequal %}>{{ month|lower }}</option>
 			{% endfor %}
 		</select>
 		<select name="year">

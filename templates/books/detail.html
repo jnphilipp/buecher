@@ -11,10 +11,10 @@
 			<h1>{{ book.title }}<a href="{% url 'admin:books_book_change' book.id %}"><i class="ui-icon ui-icon-pencil" style="display: inline-block;"></i></a></h1>
 			<ul class="clear">
 				{% if book.series %}
-					<li><b>Series:</b> Volume {{ book.volume }} of <a href="{% url 'books.views.index' %}?search={{ book.series }}">{{ book.series }}</a></li>
+					<li><b>series:</b> Volume {{ book.volume }} of <a href="{% url 'books.views.index' %}?search={{ book.series }}">{{ book.series }}</a></li>
 				{% endif %}
 				{% if book.authors.count != 0 %}
-					<li><b>Authors:</b>
+					<li><b>authors:</b>
 						{% for author in book.authors.all %}
 							<a href="{% url 'books.views.index' %}?search={{ author }}">{{ author }}</a>{%if not forloop.last %},{% endif %}
 						{% endfor %}

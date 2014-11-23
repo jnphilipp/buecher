@@ -4,12 +4,12 @@
 <table class="statistics">
 	<tr>
 		<th style="padding-right: 8em;"></th>
-		<th style="text-align: center;">Binding</th>
-		<th style="text-align: right;">Count</th>
-		<th style="text-align: right;">Total</th>
+		<th style="text-align: center;">binding</th>
+		<th style="text-align: right;">count</th>
+		<th style="text-align: right;">total</th>
 	</tr>
 	<tr>
-		<th> Books: </th>
+		<th> books: </th>
 		<td></td>
 		<td class="right"> {{ statistics.book_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.book_sum.sum|default_if_none:"0.0" }} &euro; </td>
@@ -23,7 +23,7 @@
 		</tr>
 	{% endfor %}
 	<tr class="border_top">
-		<th> Purchased: </th>
+		<th> purchased: </th>
 		<td></td>
 		<td class="right"> {{ statistics.purchased_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.purchased_sum.sum|default_if_none:"0.0" }} &euro; </td>
@@ -37,7 +37,7 @@
 		</tr>
 	{% endfor %}
 	<tr class="border_top">
-		<th> SUB: </th>
+		<th> unread: </th>
 		<td></td>
 		<td class="right"> {{ statistics.sub_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.sub_sum.sum|default_if_none:"0.0" }} &euro; </td>
@@ -51,7 +51,7 @@
 		</tr>
 	{% endfor %}
 	<tr class="border_top">
-		<th> Read: </th>
+		<th> read: </th>
 		<td></td>
 		<td class="right"> {{ statistics.read_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.read_sum.sum|default_if_none:"0.0" }} &euro; </td>
@@ -65,7 +65,7 @@
 		</tr>
 	{% endfor %}
 	<tr class="border_top">
-		<th> Wish List: </th>
+		<th> wish list: </th>
 		<td></td>
 		<td class="right"> {{ statistics.wishlist_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.wishlist_sum.sum|default_if_none:"0.0" }} &euro; </td>
@@ -79,7 +79,7 @@
 		</tr>
 	{% endfor %}
 	<tr class="border_top">
-		<th> Purchased this year: </th>
+		<th> purchased this year: </th>
 		<td></td>
 		<td class="right"> {{ statistics.year_purchased_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.year_purchased_sum.sum }} &euro; </td>
@@ -93,7 +93,7 @@
 		</tr>
 	{% endfor %}
 	<tr class="border_top">
-		<th> Purchased this month: </th>
+		<th> purchased this month: </th>
 		<td></td>
 		<td class="right"> {{ statistics.month_purchased_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.month_purchased_sum.sum }} &euro; </td>
@@ -107,7 +107,7 @@
 		</tr>
 	{% endfor %}
 	<tr class="border_top">
-		<th> Read this year: </th>
+		<th> read this year: </th>
 		<td></td>
 		<td class="right"> {{ statistics.year_read_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.year_read_sum.sum|default_if_none:"0.0" }} &euro; </td>
@@ -121,7 +121,7 @@
 		</tr>
 	{% endfor %}
 	<tr class="border_top">
-		<th> Read this month: </th>
+		<th> read this month: </th>
 		<td></td>
 		<td class="right"> {{ statistics.month_read_count }} </td>
 		<td class="right" style="padding-left: 2em;"> {{ statistics.month_read_sum.sum|default_if_none:"0.0" }} &euro; </td>
