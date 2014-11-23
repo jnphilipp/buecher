@@ -47,7 +47,7 @@
 					<li><b>price:</b> {{ book.price|floatdot }} €</li>
 				{% endif %}
 				{% if urls %}
-					<li><b>urls:</b>
+					<li><b>url{{ urls.count|pluralize }}:</b>
 						<ul>
 						{% for url in urls %}
 							<li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
@@ -69,7 +69,7 @@
 						<li><b>read on:</b> {{ book.read_on|date:"d. F Y" }}</li>
 					{% endif %}
 					{% if ebook_files %}
-						<li><b>e-book files:</b>
+						<li><b>e-book file{{ ebook_files.count|pluralize }}:</b>
 							<ul>
 								{% for ebook_file in ebook_files %}
 									<li><a href="{{ ebook_file.ebook_file.url }}">{{ ebook_file.filename }}</a></li>
