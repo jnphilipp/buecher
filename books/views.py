@@ -115,7 +115,7 @@ def publishing_list(request):
 		month = date.today().month
 		purchased = True
 		book_list = Book.objects.filter(Q(published_on__year=year) & Q(published_on__month=month)).order_by('series__name', 'volume', 'published_on')
-	paginator = Paginator(book_list, 30)
+	paginator = Paginator(book_list, 27)
 
 	page = request.GET.get('page')
 	try:
