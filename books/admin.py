@@ -1,3 +1,4 @@
+from books.forms import BookForm
 from books.models import Binding, Book, EBookFile, Language, Person, Publisher, Series, Url
 from django.contrib import admin
 from django.forms import TextInput
@@ -87,6 +88,7 @@ class BookAdmin(admin.ModelAdmin):
 	def show_link(self, obj):
 		return '<a href="%s"><i class="icon-eye-open icon-alpha75"></i>View on site</a>' % obj.get_absolute_url()
 
+	form = BookForm
 	list_display = ('title', 'get_authors', 'series', 'volume', 'show_link')
 	search_fields = ('title',)
 	list_filter = ('authors', 'series')

@@ -43,6 +43,7 @@ EMAIL_HOST_PASSWORD = config.get('host_email','EMAIL_HOST_PASSWORD')
 # Application definition
 INSTALLED_APPS = (
 	'suit',
+	'autocomplete_light',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
