@@ -125,7 +125,18 @@ SUIT_CONFIG = {
 	'MENU': (
 		{'label': 'buecher', 'icon':'logo', 'url': '/'},
 		'auth',
-		'books',
+		{'label':'Books', 'models':(
+				'books.binding',
+				'books.book',
+				'books.ebookfile',
+				'books.language',
+				'books.person',
+				'books.publisher',
+				'books.series',
+				'books.url',
+				{'label': 'Parse BibTex', 'url': '/admin/books/bibtex/'},
+			)
+		},
 		'django_cron',
 	),
 }

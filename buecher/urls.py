@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 	url(r'^books/(?P<book_id>\d+)/$', 'books.views.book', name='book'),
 	url(r'^books/publishing_list/$', 'books.views.publishing_list', name='publishing_list'),
 	url(r'^books/statistics/$', 'books.views.statistics', name='statistics'),
+	url(r'^admin/books/bibtex/$', 'books.views.bibtex', name='bibtex'),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^autocomplete/', include('autocomplete_light.urls')),
 )

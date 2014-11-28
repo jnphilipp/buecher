@@ -57,6 +57,7 @@ class SeriesAdmin(admin.ModelAdmin):
 	]
 
 class EBookFileAdmin(admin.ModelAdmin):
+	list_display = ('filename', 'book')
 	fieldsets = [
 		('E-Book File', {'fields': ['ebook_file']}),
 		('Book', {'fields': ['book']})
@@ -99,7 +100,7 @@ class BookAdmin(admin.ModelAdmin):
 	formfield_overrides = {
 		models.CharField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 		models.FloatField: {'widget': TextInput(attrs={'autocomplete':'off'})},
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off', 'style':'width:50%;'})},
 		models.DateField: {'widget': admin.widgets.AdminDateWidget(attrs={'autocomplete':'off'})},
 	}
 
