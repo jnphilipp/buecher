@@ -8,7 +8,7 @@ import os
 import shutil
 
 def get_ebook_path(instance, filename):
-	name = instance.book.title if not instance.book.authors.count() == 0 else u"%s - %s" % (instance.book.title, u", ".join([str(author) for author in instance.book.authors.all()]))
+	name = instance.book.title if instance.book.authors.count() == 0 else u"%s - %s" % (instance.book.title, u", ".join([str(author) for author in instance.book.authors.all()]))
 	name = slugify(name)
 	return os.path.join('books', str(instance.book.id), name + os.path.splitext(filename)[1])
 
