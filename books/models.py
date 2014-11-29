@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
 import os
@@ -106,7 +107,7 @@ class Book(models.Model):
 		return save_name
 
 	def get_absolute_url(self):
-		return "/books/%i/" % self.id
+		return reverse('book', args=[self.id])
 
 	def get_authors(self):
 		return u", ".join([str(author) for author in self.authors.all()])

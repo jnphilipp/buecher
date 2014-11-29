@@ -8,13 +8,13 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-	url(r'^$', 'books.views.books'),
-	url(r'^api/search/autocomplete/', 'books.views.books_autocomplete', name='autocomplete'),
-	url(r'^books/$', 'books.views.books', name='books'),
-	url(r'^books/(?P<book_id>\d+)/$', 'books.views.book', name='book'),
-	url(r'^books/publishing_list/$', 'books.views.publishing_list', name='publishing_list'),
-	url(r'^books/statistics/$', 'books.views.statistics', name='statistics'),
-	url(r'^admin/books/bibtex/$', 'books.views.bibtex', name='bibtex'),
+	url(r'^$', 'books.views.books.books', name='home'),
+	url(r'^api/search/autocomplete/', 'books.views.api.search_autocomplete', name='search_autocomplete'),
+	url(r'^books/$', 'books.views.books.books', name='books'),
+	url(r'^books/(?P<book_id>\d+)/$', 'books.views.books.book', name='book'),
+	url(r'^books/publishing_list/$', 'books.views.books.publishing_list', name='publishing_list'),
+	url(r'^books/statistics/$', 'books.views.statistics.statistics', name='statistics'),
+	url(r'^admin/books/bibtex/$', 'books.views.bibtex.bibtex', name='bibtex'),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^autocomplete/', include('autocomplete_light.urls')),
 )
