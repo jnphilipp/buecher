@@ -48,12 +48,12 @@ class Command(BaseCommand):
 					name = slugify('Issue %s' % volume) + '.pdf'
 					pdf = join(folder, name)
 					urlretrieve('http://dl.fullcirclemagazine.org/issue%s_en.pdf' % volume, pdf)
-					EBookFile.objects.create(ebook_file=join('books' str(book.id), name), book=book)
+					EBookFile.objects.create(ebook_file=join('books', str(book.id), name), book=book)
 
 					name = slugify('Issue %s' % volume) + '.epub'
 					epub = join(folder, name)
 					urlretrieve('http://dl.fullcirclemagazine.org/issue%s_en.epub' % volume, epub)
-					EBookFile.objects.create(ebook_file=join('books' str(book.id), name), book=book)
+					EBookFile.objects.create(ebook_file=join('books', str(book.id), name), book=book)
 
 					Url.objects.create(url='http://fullcirclemagazine.org/issue-%d/' % volume, book=book)
 					book.save()

@@ -27,7 +27,7 @@ class Command(BaseCommand):
 			month = (2006, 2)
 		else:
 			title = Book.objects.get(series=series, volume=volume).title
-			month = (int(title[-4:]), int(title[-7:]-5))
+			month = (int(title[-4:]), int(title[-7:-5]))
 
 		code = HTTP.OK
 		while code == HTTP.OK:
