@@ -18,8 +18,8 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		series, created = Series.objects.get_or_create(name='Full Circle Magazine')
-		binding, created = Binding.objects.get_or_create(binding='E-Book')
-		language, created = Language.objects.get_or_create(language='Englisch')
+		binding, created = Binding.objects.get_or_create(name='E-Book')
+		language, created = Language.objects.get_or_create(name='Englisch')
 		volume = Book.objects.filter(series=series).aggregate(Max('volume'))['volume__max']
 		if volume == None:
 			volume = 0
@@ -45,13 +45,15 @@ class Command(BaseCommand):
 					book.cover_image = image
 					book.save()
 
-					pdf = join(folder, slugify('Issue %s.pdf' % volume))
+					name = slugify('Issue %s' % volume) + '.pdf'
+					pdf = join(folder, name)
 					urlretrieve('http://dl.fullcirclemagazine.org/issue%s_en.pdf' % volume, pdf)
-					EBookFile.objects.create(ebook_file=pdf, book=book)
+					EBookFile.objects.create(ebook_file=join('books' str(book.id), name), book=book)
 
-					epub = join(folder, slugify('Issue %s.epub' % volume))
+					name = slugify('Issue %s' % volume) + '.epub'
+					epub = join(folder, name)
 					urlretrieve('http://dl.fullcirclemagazine.org/issue%s_en.epub' % volume, epub)
-					EBookFile.objects.create(ebook_file=epub, book=book)
+					EBookFile.objects.create(ebook_file=join('books' str(book.id), name), book=book)
 
 					Url.objects.create(url='http://fullcirclemagazine.org/issue-%d/' % volume, book=book)
 					book.save()

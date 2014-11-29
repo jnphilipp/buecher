@@ -19,8 +19,8 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		series, created = Series.objects.get_or_create(name='freiesMagazin')
-		binding, created = Binding.objects.get_or_create(binding='E-Book')
-		language, created = Language.objects.get_or_create(language='Deutsch')
+		binding, created = Binding.objects.get_or_create(name='E-Book')
+		language, created = Language.objects.get_or_create(name='Deutsch')
 		volume = Book.objects.filter(series=series).aggregate(Max('volume'))['volume__max']
 		if volume == None:
 			volume = 0
@@ -54,14 +54,16 @@ class Command(BaseCommand):
 					except HTTPError as e:
 						pass
 
-					pdf = join(folder, slugify('freiesMagazin-%d-%02d.pdf' % (month[0], month[1])))
+					name = slugify('freiesMagazin-%d-%02d' % (month[0], month[1])) + '.pdf'
+					pdf = join(folder, name)
 					urlretrieve('http://www.freiesmagazin.de/ftp/%d/freiesMagazin-%d-%02d.pdf' % (month[0], month[0], month[1]), pdf)
-					EBookFile.objects.create(ebook_file=pdf, book=book)
+					EBookFile.objects.create(ebook_file=join('books', str(book.id), name), book=book)
 
 					try:
-						epub = join(folder, slugify('freiesMagazin-%d-%02d.epub' % (month[0], month[1])))
+						name = slugify('freiesMagazin-%d-%02d' % (month[0], month[1])) + '.epub'
+						epub = join(folder, name)
 						urlretrieve('http://www.freiesmagazin.de/ftp/%d/freiesMagazin-%d-%02d-bilder.epub' % (month[0], month[0], month[1]), epub)
-						EBookFile.objects.create(ebook_file=epub, book=book)
+						EBookFile.objects.create(ebook_file=join('books', str(book.id), name), book=book)
 					except HTTPError as e:
 						pass
 

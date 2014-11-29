@@ -72,7 +72,7 @@
 						<li><b>e-book file{{ ebook_files.count|pluralize }}:</b>
 							<ul>
 								{% for ebook_file in ebook_files %}
-									<li><a href="{{ ebook_file.ebook_file.url }}">{{ ebook_file.filename }}</a></li>
+									<li><a href="{{ ebook_file.ebook_file.url }}" target="_blank">{{ ebook_file.filename }}</a></li>
 								{% endfor %}
 							</ul>
 						</li>
