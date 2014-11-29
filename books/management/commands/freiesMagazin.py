@@ -7,6 +7,7 @@ from django.core.mail import mail_admins
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Max
+from django.template.defaultfilters import slugify
 from http import client as HTTP
 from os import makedirs
 from os.path import exists, join
@@ -53,12 +54,12 @@ class Command(BaseCommand):
 					except HTTPError as e:
 						pass
 
-					pdf = join(folder, 'freiesMagazin-%d-%02d.pdf' % (month[0], month[1]))
+					pdf = join(folder, slugify('freiesMagazin-%d-%02d.pdf' % (month[0], month[1])))
 					urlretrieve('http://www.freiesmagazin.de/ftp/%d/freiesMagazin-%d-%02d.pdf' % (month[0], month[0], month[1]), pdf)
 					EBookFile.objects.create(ebook_file=pdf, book=book)
 
 					try:
-						epub = join(folder, 'freiesMagazin-%d-%02d.epub' % (month[0], month[1]))
+						epub = join(folder, slugify('freiesMagazin-%d-%02d.epub' % (month[0], month[1])))
 						urlretrieve('http://www.freiesmagazin.de/ftp/%d/freiesMagazin-%d-%02d-bilder.epub' % (month[0], month[0], month[1]), epub)
 						EBookFile.objects.create(ebook_file=epub, book=book)
 					except HTTPError as e:

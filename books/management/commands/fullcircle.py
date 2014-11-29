@@ -6,6 +6,7 @@ from django.core.mail import mail_admins
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Max
+from django.template.defaultfilters import slugify
 from http import client as HTTP
 from os import makedirs
 from os.path import exists, join
@@ -44,11 +45,11 @@ class Command(BaseCommand):
 					book.cover_image = image
 					book.save()
 
-					pdf = join(folder, 'Issue %s.pdf' % volume)
+					pdf = join(folder, slugify('Issue %s.pdf' % volume))
 					urlretrieve('http://dl.fullcirclemagazine.org/issue%s_en.pdf' % volume, pdf)
 					EBookFile.objects.create(ebook_file=pdf, book=book)
 
-					epub = join(folder, 'Issue %s.epub' % volume)
+					epub = join(folder, slugify('Issue %s.epub' % volume))
 					urlretrieve('http://dl.fullcirclemagazine.org/issue%s_en.epub' % volume, epub)
 					EBookFile.objects.create(ebook_file=epub, book=book)
 
