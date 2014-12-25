@@ -23,7 +23,7 @@ def books(request):
 	else:
 		book_list = Book.objects.all().order_by('-updated_at')
 
-	paginator = Paginator(book_list, 27)
+	paginator = Paginator(book_list, 44)
 	page = request.GET.get('page')
 	try:
 		books = paginator.page(page)
@@ -63,7 +63,7 @@ def publishing_list(request):
 		selected_month = date.today().month
 		selected_purchased = True
 		book_list = Book.objects.filter(Q(published_on__year=selected_year) & Q(published_on__month=selected_month)).order_by('series__name', 'volume', 'published_on')
-	paginator = Paginator(book_list, 27)
+	paginator = Paginator(book_list, 44)
 
 	page = request.GET.get('page')
 	try:
