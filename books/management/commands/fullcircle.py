@@ -50,7 +50,7 @@ class Command(BaseCommand):
 					urlretrieve('http://dl.fullcirclemagazine.org/issue%d_en.pdf' % volume, pdf)
 					EBookFile.objects.create(ebook_file=join('books', str(book.id), name), book=book)
 
-					name = slugify('Issue %s' % volume) + '.epub'
+					name = slugify('Issue %d' % volume) + '.epub'
 					epub = join(folder, name)
 					urlretrieve('http://dl.fullcirclemagazine.org/issue%d_en.epub' % volume, epub)
 					EBookFile.objects.create(ebook_file=join('books', str(book.id), name), book=book)
