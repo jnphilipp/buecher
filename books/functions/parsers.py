@@ -9,7 +9,7 @@ def bibtex(text):
 	for entry in bib_database.entries:
 		title = entry['title'] if 'title' in entry else ''
 		authors = []
-		for author in re.compile(r'\s*and\s*').split(re.sub(r'(?s)\s*\n\s*', ' ', entry['author'])):
+		for author in re.compile(r'\s+and\s+').split(re.sub(r'(?s)\s*\n\s*', ' ', entry['author'])):
 			if ',' in author:
 				s = author.split(',')
 				authors.append({'firstname':s[1], 'lastname':s[0]})
@@ -25,5 +25,5 @@ def bibtex(text):
 		published_on = datetime.strptime(entry['timestamp'], '%a, %d %b %Y %H:%M:%S %z').date() if 'timestamp' in entry else year
 		url = entry['link'] if 'link' in entry else ''
 
-		entries.append({'title':title, 'authors':authors, 'journal':journal, 'volume':volume, 'publisher':publisher, 'published_on':published_on, 'url':url})
+		entries.append({'title':title, 'authors':authors, 'journal':journal, 'volume':volume, 'publisher':publisher, 'published_on':published_on, 'url':url, 'bibtex':text})
 	return entries

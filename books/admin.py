@@ -1,7 +1,7 @@
 from books.forms import BookForm
-from books.models import Binding, Book, EBookFile, Language, Person, Publisher, Series, Url
+from books.models import Binding, Book, EBookFile, Language, Person, Publisher, Series, Url, TextFieldSingleLine
 from django.contrib import admin
-from django.forms import TextInput
+from django.forms import TextInput, Textarea
 from django.db import models
 
 class PersonAdmin(admin.ModelAdmin):
@@ -9,7 +9,7 @@ class PersonAdmin(admin.ModelAdmin):
 	search_fields = ('firstname', 'lastname')
 
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -20,7 +20,7 @@ class PublisherAdmin(admin.ModelAdmin):
 	search_fields = ('name',)
 
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -29,7 +29,7 @@ class PublisherAdmin(admin.ModelAdmin):
 
 class BindingAdmin(admin.ModelAdmin):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -38,7 +38,7 @@ class BindingAdmin(admin.ModelAdmin):
 
 class LanguageAdmin(admin.ModelAdmin):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -49,7 +49,7 @@ class SeriesAdmin(admin.ModelAdmin):
 	search_fields = ('name',)
 
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -69,7 +69,7 @@ class EBookFileInline(admin.StackedInline):
 
 class UrlAdmin(admin.ModelAdmin):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	fieldsets = [
@@ -79,7 +79,7 @@ class UrlAdmin(admin.ModelAdmin):
 
 class UrlInline(admin.StackedInline):
 	formfield_overrides = {
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off'})},
+		TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off'})},
 	}
 
 	model = Url
@@ -100,14 +100,15 @@ class BookAdmin(admin.ModelAdmin):
 	formfield_overrides = {
 		models.CharField: {'widget': TextInput(attrs={'autocomplete':'off'})},
 		models.FloatField: {'widget': TextInput(attrs={'autocomplete':'off'})},
-		models.TextField: {'widget': TextInput(attrs={'autocomplete':'off', 'style':'width:50%;'})},
+		TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off', 'style':'width:50%;'})},
 		models.DateField: {'widget': admin.widgets.AdminDateWidget(attrs={'autocomplete':'off'})},
+		models.TextField: {'widget': Textarea(attrs={'autocomplete':'off', 'style':'resize:none;width:50%;', 'rows':15, 'cols':100})},
 	}
 
 	fieldsets = [
 		(None, {'fields': ['title', 'authors']}),
 		('Series details', {'fields': ['series', 'volume']}),
-		('Edition details', {'fields': ['isbn', 'asin', 'publisher', 'published_on', 'binding', 'languages', 'price', 'cover_image']}),
+		('Edition details', {'fields': ['isbn', 'asin', 'publisher', 'published_on', 'binding', 'languages', 'price', 'cover_image', 'bibtex']}),
 		('Details', {'fields': ['purchased_on', 'read_on']}),
 	]
 	inlines = [EBookFileInline, UrlInline]

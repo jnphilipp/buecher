@@ -17,7 +17,7 @@ def bibtex(request):
 				if len(entries) >= 1:
 					messages.add_message(request, messages.SUCCESS, 'Successfully parsed entry from BibTex.')
 					e = entries[0]
-					form = ParsedBibTexForm(initial={'title':e['title'], 'authors':'\n'.join(str(author) for author in e['authors']), 'series':e['journal'], 'volume':e['volume'], 'publisher':e['publisher'], 'published_on':e['published_on'], 'url':e['url']})
+					form = ParsedBibTexForm(initial={'title':e['title'], 'authors':'\n'.join(str(author) for author in e['authors']), 'series':e['journal'], 'volume':e['volume'], 'publisher':e['publisher'], 'published_on':e['published_on'], 'url':e['url'], 'bibtex':e['bibtex']})
 					return render(request, 'books/admin/parsed_bibtex.html', locals())
 				else:
 					messages.add_message(request, messages.ERROR, 'No entries found.')
@@ -35,6 +35,7 @@ def bibtex(request):
 				book.series = series
 				book.volume = form.cleaned_data['volume']
 				book.publisher = publisher
+				book.bibtex = form.cleaned_data['bibtex']
 				book.save()
 
 				authors = form.cleaned_data['authors'].split('\n')

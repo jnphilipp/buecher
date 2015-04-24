@@ -2,6 +2,18 @@
 {% load books_extras static %}
 
 {% block content %}
+<script>
+	$(function() {
+		$( "#dialog" ).dialog({
+			autoOpen: false,
+			minWidth: 600,
+		});
+
+		$( "#opener" ).click(function() {
+			$( "#dialog" ).dialog( "open" );
+		});
+	});
+</script>
 <div class="details">
 	<div class="left">
 		<img src="{% if book.cover_image %}{{ book.cover_image.url }}{% else %}{% static "images/default_cover.jpg" %}{% endif %}"/>
@@ -54,6 +66,12 @@
 						{% endfor %}
 						</ul>
 					</li>
+				{% endif %}
+				{% if book.bibtex %}
+					<div id="dialog" title="BibTeX">
+						<p>{{ book.bibtex|linebreaks }}</p>
+					</div>
+					<li><b>BibTeX:</b> <a id="opener" style="cursor:pointer;">display</a></li>
 				{% endif %}
 			</ul>
 		</div>

@@ -9,7 +9,7 @@ class BookForm(autocomplete_light.ModelForm):
 		autocomplete_fields = ('binding', 'publisher', 'series')
 
 class ParseBibTexForm(Form):
-	bibtex = CharField(widget=Textarea(attrs={'rows':15, 'cols':70, 'style':'resize:none;width:auto;'}), required=True)
+	bibtex = CharField(widget=Textarea(attrs={'rows':20, 'cols':70, 'style':'resize:none;width:50%;'}), required=True)
 
 class ParsedBibTexForm(Form):
 	title = CharField(widget=TextInput(attrs={'style':'width:50%;'}), required=True)
@@ -19,3 +19,4 @@ class ParsedBibTexForm(Form):
 	publisher = CharField(widget=TextInput(attrs={'style':'width:50%;'}), required=False)
 	published_on = DateField(required=False)
 	url = CharField(widget=TextInput(attrs={'style':'width:50%;'}), required=False)
+	bibtex = CharField(widget=Textarea(attrs={'rows':15, 'cols':50, 'style':'resize:none;width:50%;'}), required=False)

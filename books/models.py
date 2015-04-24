@@ -12,9 +12,12 @@ def get_ebook_path(instance, filename):
 	name = slugify(name)
 	return os.path.join('books', str(instance.book.id), name + os.path.splitext(filename)[1])
 
+class TextFieldSingleLine(models.TextField):
+	pass
+
 class Person(models.Model):
-	firstname = models.TextField()
-	lastname = models.TextField()
+	firstname = TextFieldSingleLine()
+	lastname = TextFieldSingleLine()
 
 	def __str__(self):
 		return u"%s %s" % (self.firstname, self.lastname)
@@ -24,7 +27,7 @@ class Person(models.Model):
 		unique_together = ('firstname', 'lastname')
 
 class Publisher(models.Model):
-	name = models.TextField(unique=True)
+	name = TextFieldSingleLine(unique=True)
 
 	def __str__(self):
 		return self.name
@@ -33,7 +36,7 @@ class Publisher(models.Model):
 		ordering = ('name',)
 
 class Binding(models.Model):
-	name = models.TextField(unique=True)
+	name = TextFieldSingleLine(unique=True)
 
 	def __str__(self):
 		return self.name
@@ -42,7 +45,7 @@ class Binding(models.Model):
 		ordering = ('name',)
 
 class Language(models.Model):
-	name = models.TextField(unique=True)
+	name = TextFieldSingleLine(unique=True)
 
 	def __str__(self):
 		return self.name
@@ -51,7 +54,7 @@ class Language(models.Model):
 		ordering = ('name',)
 
 class Series(models.Model):
-	name = models.TextField(unique=True)
+	name = TextFieldSingleLine(unique=True)
 
 	def __str__(self):
 		return self.name
@@ -63,7 +66,7 @@ class Book(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 
-	title = models.TextField()
+	title = TextFieldSingleLine()
 	isbn = models.CharField(max_length=13, blank=True)
 	asin = models.CharField(max_length=10, blank=True)
 	price = models.FloatField(default=0)
@@ -80,6 +83,7 @@ class Book(models.Model):
 
 	series = models.ForeignKey(Series, blank=True, null=True)
 	volume = models.FloatField(blank=True, null=True)
+	bibtex = models.TextField(blank=True, null=True)
 
 	def save(self):
 		if self.id is None:
@@ -146,7 +150,7 @@ class EBookFile(models.Model):
 		verbose_name = 'E-Book File'
 
 class Url(models.Model):
-	url = models.TextField()
+	url = TextFieldSingleLine()
 	book = models.ForeignKey(Book)
 
 	def __str__(self):

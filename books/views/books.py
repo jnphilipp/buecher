@@ -2,6 +2,7 @@ from books.models import Book, EBookFile, Url
 from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 import calendar
 
@@ -40,6 +41,10 @@ def book(request, book_id):
 	urls = Url.objects.filter(book=book_id)
 
 	return render(request, 'books/books/book.html', locals())
+
+def bibtex(request, book_id):
+	book = get_object_or_404(Book, pk=book_id)
+	return HttpResponse(book.bibtex, content_type='text/plain')
 
 def publishing_list(request):
 	selected_year = request.GET.get('year')
