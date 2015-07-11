@@ -21,6 +21,7 @@ class Migration(migrations.Migration):
                 ('name', series.models.TextFieldSingleLine(unique=True)),
             ],
             options={
+                'verbose_name': 'series',
                 'verbose_name_plural': 'series',
                 'ordering': ('name',),
             },
