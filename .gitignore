@@ -1,5 +1,5 @@
-*.pyc
+__pycache__
 buecher/settings.ini
-media/*
-static/*
-venv/*
+media
+static
+.venv

@@ -1,26 +1,21 @@
-from django.conf import settings
-from django.conf.urls import patterns, include, url
+"""buecher URL Configuration
 
-import autocomplete_light
-autocomplete_light.autodiscover()
-
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/1.8/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
+Including another URLconf
+    1. Add an import:  from blog import urls as blog_urls
+    2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
+"""
+from django.conf.urls import include, url
 from django.contrib import admin
-admin.autodiscover()
 
-urlpatterns = patterns('',
-	url(r'^$', 'books.views.books.books', name='home'),
-	url(r'^api/search/autocomplete/', 'books.views.api.search_autocomplete', name='search_autocomplete'),
-	url(r'^books/$', 'books.views.books.books', name='books'),
-	url(r'^books/(?P<book_id>\d+)/$', 'books.views.books.book', name='book'),
-	url(r'^books/(?P<book_id>\d+)/bibtex/$', 'books.views.books.bibtex', name='book_bibtex'),
-	url(r'^books/publishing_list/$', 'books.views.books.publishing_list', name='publishing_list'),
-	url(r'^books/statistics/$', 'books.views.statistics.statistics', name='statistics'),
-	url(r'^admin/books/bibtex/$', 'books.views.bibtex.bibtex', name='bibtex'),
-	url(r'^admin/', include(admin.site.urls)),
-	url(r'^autocomplete/', include('autocomplete_light.urls')),
-)
-
-if settings.DEBUG:
-	urlpatterns += patterns('',
-		url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-	)
+urlpatterns = [
+    url(r'^admin/', include(admin.site.urls)),
+]
