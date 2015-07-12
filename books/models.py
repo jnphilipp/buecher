@@ -13,6 +13,10 @@ from persons.models import Person
 from publishers.models import Publisher
 from series.models import Series
 
+def get_ebook_path(obj, filename):
+    name = slugify('%s%s' % (obj.edition.book.title, '' if obj.edition.book.authors.count() == 0 else ' - %s' % ', '.join([str(a) for a in obj.edition.book.authors.all()])))
+    return os.path.join('books', str(obj.edition.id), name + os.path.splitext(filename)[1])
+
 class TextFieldSingleLine(models.TextField):
     pass
 
@@ -84,3 +88,17 @@ class Edition(models.Model):
     class Meta:
         ordering = ('book',)
         verbose_name = ' edition'
+
+class EBookFile(models.Model):
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    edition = models.ForeignKey(Edition, related_name='ebookfiles')
+    ebook = models.FileField(upload_to=get_ebook_path, max_length=4096)
+
+    def __str__(self):
+        return os.path.basename(self.ebook.name)
+
+    class Meta:
+        ordering = ('edition',)
+        verbose_name = ' ebook file'

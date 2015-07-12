@@ -1,5 +1,5 @@
-from books.forms import BookForm, EditionForm
-from books.models import Book, Edition, TextFieldSingleLine
+from books.forms import BookForm, EBookFileForm, EditionForm
+from books.models import Book, EBookFile, Edition, TextFieldSingleLine
 from django.contrib import admin
 from django.db import models
 from django.forms import Textarea, TextInput
@@ -28,8 +28,20 @@ class BookAdmin(admin.ModelAdmin):
 
     filter_horizontal = ('authors',)
 
-class BookInline(admin.StackedInline):
-    model = Book
+class EBookFileAdmin(admin.ModelAdmin):
+    form = EBookFileForm
+    list_display = ('edition', 'ebook')
+    list_filter = ('edition__book__series', 'edition__book', 'edition')
+    search_fields = ('edition__book__title', 'edition__book__authors__first_name', 'edition__book__authors__last_name', 'edition__book__series__name', 'edition__isbn', 'edition__asin')
+
+    fieldsets = [
+        ('edition', {'fields': ['edition']}),
+        ('ebook file', {'fields': ['ebook']}),
+    ]
+
+class EBookFileInline(admin.StackedInline):
+    model = EBookFile
+    extra = 1
 
 class EditionAdmin(admin.ModelAdmin):
     form = EditionForm
@@ -55,19 +67,22 @@ class EditionAdmin(admin.ModelAdmin):
     series.admin_order_field = 'book__series'
     volume.admin_order_field = 'book__volume'
 
+    inlines = [EBookFileInline]
+
     formfield_overrides = {
         TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off', 'style':'min-width:50%; '})},
         models.TextField: {'widget': Textarea(attrs={'autocomplete':'off', 'rows':20, 'style':'width: 100%; resize: none;'})},
     }
 
     fieldsets = [
-        ('Book', {'fields': ['book']}),
-        ('Edition', {'fields': ['cover_image', 'isbn', 'asin', 'publisher', 'published_on', 'binding', 'languages']}),
-        ('Bibtex', {'fields': ['bibtex']}),
-        ('Links', {'fields': ['links']}),
+        ('book', {'fields': ['book']}),
+        ('edition', {'fields': ['cover_image', 'isbn', 'asin', 'publisher', 'published_on', 'binding', 'languages']}),
+        ('bibtex', {'fields': ['bibtex']}),
+        ('links', {'fields': ['links']}),
     ]
 
     filter_horizontal = ('languages', 'links')
 
 admin.site.register(Book, BookAdmin)
+admin.site.register(EBookFile, EBookFileAdmin)
 admin.site.register(Edition, EditionAdmin)

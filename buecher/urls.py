@@ -17,6 +17,8 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
+admin.site.site_header = 'buecher administration'
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
