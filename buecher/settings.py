@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bindings',
     'books',
+    'languages',
     'links',
     'persons',
     'publishers',
