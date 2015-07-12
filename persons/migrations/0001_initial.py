@@ -25,6 +25,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('last_name', 'first_name'),
+                'verbose_name': ' person',
             },
         ),
         migrations.AlterUniqueTogether(

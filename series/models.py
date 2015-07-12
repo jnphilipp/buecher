@@ -25,5 +25,5 @@ class Series(models.Model):
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'series'
-        verbose_name_plural = 'series'
+        verbose_name = ' series'
+        verbose_name_plural = ' series'

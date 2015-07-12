@@ -27,6 +27,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('title',),
+                'verbose_name': ' book',
             },
         ),
     ]

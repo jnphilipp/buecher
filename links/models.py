@@ -11,3 +11,4 @@ class Link(models.Model):
 
     class Meta:
         ordering = ('link',)
+        verbose_name = ' link'

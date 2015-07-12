@@ -20,6 +20,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('link',),
+                'verbose_name': ' link',
             },
         ),
     ]

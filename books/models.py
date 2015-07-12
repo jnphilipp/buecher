@@ -32,3 +32,4 @@ class Book(models.Model):
 
     class Meta:
         ordering = ('title',)
+        verbose_name = ' book'
