@@ -5,6 +5,7 @@ import shutil
 
 from bindings.models import Binding
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
 from languages.models import Language
@@ -62,6 +63,9 @@ class Edition(models.Model):
     languages = models.ManyToManyField(Language, related_name='editions', blank=True)
     links = models.ManyToManyField(Link, related_name='editions', blank=True)
     bibtex = models.TextField(blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('edition', args=[self.book.slug, self.id])
 
     def save(self, *args, **kwargs):
         super(Edition, self).save()

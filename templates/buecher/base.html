@@ -1,0 +1,67 @@
+{% load buecher admin_urls static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="shortcut icon" href="{% static 'images/icon.png' %}"/>
+        <link rel="stylesheet" media="all" href="{% static 'css/bootstrap.min.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/buecher.css' %}"/>
+        <script type="text/javascript" src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+        {% include 'autocomplete_light/static.html' %}
+        <title>{% block title %}buecher{% endblock %}</title>
+        {% block extrahead %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#buecher-navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'home' %}">
+                        <img alt="Brand" src="{% static "images/icon.png" %}" style="margin-top: -5px; height: 30px; display: inline-block;"/>buecher
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="buecher-navbar-collapse">
+                    {% if user.is_authenticated %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><b>{{ user }}</b> <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'home' %}">profile</a></li>
+                                    {% if user.is_staff %}
+                                        <li><a href="{% url 'admin:index' %}">admin</a></li>
+                                    {% endif %}
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{% url 'home' %}">sign out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <div class="nav navbar-right" style="margin-right:3px;">
+                            <a href="{% url 'home' %}" class="btn btn-default navbar-btn" role="button">sign in</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row"><div class="col-md-8 col-md-offset-2">{% bootstrap_messages %}</div></div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

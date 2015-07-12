@@ -1,0 +1,12 @@
+{% load books static %}
+
+<figure class="book">
+    <a class="overview" id="{{ book.id }}" href="{% url 'book' book.slug %}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">
+        <span class="image_container">
+            <img src="{{ book|image }}" alt=" {{ book }} " title=" {{ book }}"/>
+        </span>
+        <span class="caption_container">
+            <figcaption>{{ book|shorttitle:45 }}</figcaption>
+        </span>
+    </a>
+</figure>

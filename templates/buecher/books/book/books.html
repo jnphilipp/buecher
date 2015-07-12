@@ -1,0 +1,11 @@
+{% extends 'buecher/base.html' %}
+
+{% block content %}
+{% if books %}
+    {% for book in books %}
+        {% include 'buecher/books/book/partials/_list_shape.html' with book=book %}
+    {% endfor %}
+{% else %}
+    <p>No books are available.</p>
+{% endif %}
+{% endblock %}

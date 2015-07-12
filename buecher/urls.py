@@ -20,6 +20,11 @@ from django.contrib import admin
 admin.site.site_header = 'buecher administration'
 
 urlpatterns = [
+    url(r'^$', 'books.views.books', name='home'),
+
+    url(r'^books/book/(?P<slug>[\w-]+)/$', 'books.views.book', name='book'),
+    url(r'^books/book/(?P<slug>[\w-]+)/edition/(?P<edition_id>\d+)/$', 'books.views.edition', name='edition'),
+
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 ]
