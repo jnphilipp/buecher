@@ -65,6 +65,7 @@ INSTALLED_APPS = (
     'books',
     'links',
     'persons',
+    'publishers',
     'series',
 )
 
