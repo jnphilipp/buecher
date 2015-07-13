@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('series', models.ForeignKey(null=True, to='series.Series', blank=True)),
             ],
             options={
-                'ordering': ('title',),
+                'ordering': ('series', 'volume', 'title'),
                 'verbose_name': ' book',
             },
         ),

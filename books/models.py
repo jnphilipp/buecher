@@ -45,7 +45,7 @@ class Book(models.Model):
         return '%s%s%s' % (self.title, '' if self.authors.count() == 0 else ' - %s' % ', '.join([str(a) for a in self.authors.all()]), ' (%s #%g)' % (self.series, self.volume) if self.series else '')
 
     class Meta:
-        ordering = ('title',)
+        ordering = ('series', 'volume', 'title')
         verbose_name = ' book'
 
 class Edition(models.Model):
