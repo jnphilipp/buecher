@@ -4,44 +4,95 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header">{{ book.title }} <small>{{ book.authors.all|join:', ' }}</small></h1>
+        <h1 class="page-header">
+            {{ book.title }}
+            <small>
+                by
+                {% for author in book.authors.all %}
+                    <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                {% if book.series %}
+                    ({{ book.series }} #{{ book.volume }})
+                {% endif %}
+            </small>
+        </h1>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <h2>editions</h2>
-        {% if book.editions.all %}
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>cover</th>
-                        <th>isbn</th>
-                        <th>asin</th>
-                        <th>publisher</th>
-                        <th>published on</th>
-                        <th>languages</th>
-                        <th>binding</th>
-                        <th>view</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for edition in book.editions.all %}
-                        <tr>
-                            <th><img src="{% if edition.cover_image %}{{ edition.cover_image.url }}{% else %}{% static 'images/default_cover.jpg' %}{% endif%}" style="height: 140px;"></th>
-                            <td>{{ edition.isbn }}</td>
-                            <td>{{ edition.asin }}</td>
-                            <td>{{ edition.publisher }}</td>
-                            <td>{{ edition.published_on|date:'d.m.Y' }}</td>
-                            <td>{{ edition.langauges.all|join:', ' }}</td>
-                            <td>{{ edition.binding }}</td>
-                            <td><a href="{% url 'edition' book.slug edition.id %}"><span class="glyphicon glyphicon-eye-open"></span></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No editions are available.</p>
-        {% endif %}
+    <div class="col-md-8 col-md-offset-2">
+        <h2 class="page-header">editions</h2>
     </div>
 </div>
+{% if book.editions.all %}
+    {% for edition in book.editions.all %}
+        <div class="row">
+            <div class="col-md-3 col-md-offset-2">
+                <a href="{% url 'edition' book.slug edition.id %}"><img class="img-responsive img-thumbnail" src="{% if edition.cover_image %}{{ edition.cover_image.url }}{% else %}{% static 'images/default_cover.jpg' %}{% endif%}" style="height: 300px;" alt=" {{ book }} " title=" {{ book }} "></a>
+                </div>
+            <div class="col-md-5">
+                <table class="table">
+                    <tbody>
+                        {% if edition.isin %}
+                            <tr>
+                                <th>isin:</th>
+                                <td>{{ edition.isin }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if edition.asin %}
+                            <tr>
+                                <th>asin:</th>
+                                <td>{{ edition.asin }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if edition.publisher %}
+                            <tr>
+                                <th>publisher:</th>
+                                <td>{{ edition.publisher }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if edition.published_on %}
+                            <tr>
+                                <th>published on:</th>
+                                <td>{{ edition.published_on|date:'d. F Y' }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if edition.binding %}
+                            <tr>
+                                <th>binding:</th>
+                                <td>{{ edition.binding }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if edition.languages.all %}
+                            <tr>
+                                <th>languages:</th>
+                                <td>{{ edition.languages.all|join:', ' }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if edition.links.all %}
+                            <tr>
+                                <th>links:</th>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        {% for link in edition.links.all %}
+                                            <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% if not forloop.last %}
+            <div class="row"><div class="col-md-8 col-md-offset-2"><hr/></div></div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <p>No editions are available.</p>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}

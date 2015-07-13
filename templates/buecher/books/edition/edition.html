@@ -6,7 +6,13 @@
     <div class="col-md-12">
         <h1 class="page-header"><a href="{% url 'book' edition.book.slug %}">{{ edition.book.title }}</a>
             <small>
-                {{ edition.book.authors.all|join:', ' }}
+                by
+                {% for author in edition.book.authors.all %}
+                    <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                {% if edition.book.series %}
+                    ({{ edition.book.series }} #{{ edition.book.volume }})
+                {% endif %}
                 {% if user.is_staff %}
                     <a href="{% url 'admin:books_edition_change' edition.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                 {% endif %}
@@ -15,18 +21,12 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
-        <img class="img-responsive" src="{% if edition.cover_image %}{{ edition.cover_image.url }}{% else %}{% static 'images/default_cover.jpg' %}{% endif%}"></th>
+    <div class="col-md-3 col-md-offset-2">
+        <img class="img-responsive img-thumbnail" src="{% if edition.cover_image %}{{ edition.cover_image.url }}{% else %}{% static 'images/default_cover.jpg' %}{% endif%}" alt=" {{ edition.book }} " title=" {{ edition.book }} ">
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <table class="table">
             <tbody>
-                {% if edition.book.series %}
-                    <tr>
-                        <th>series:</th>
-                        <td>volume {{ edition.book.volume }} of {{ edition.book.series }}</td>
-                    </tr>
-                {% endif %}
                 {% if edition.isin %}
                     <tr>
                         <th>isin:</th>
@@ -54,7 +54,7 @@
                 {% if edition.binding %}
                     <tr>
                         <th>binding:</th>
-                        <td>{{ edition.published_on|date:'d. F Y' }}</td>
+                        <td>{{ edition.binding }}</td>
                     </tr>
                 {% endif %}
                 {% if edition.languages.all %}

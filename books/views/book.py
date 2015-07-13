@@ -1,5 +1,5 @@
-from books.models import Book, Edition
 from django.shortcuts import get_object_or_404, redirect, render
+from books.models import Book
 
 def books(request):
     books = Book.objects.all()
@@ -11,7 +11,3 @@ def book(request, slug):
         return redirect('edition', slug=book.slug, edition_id=book.editions.first().id)
     else:
         return render(request, 'buecher/books/book/book.html', locals())
-
-def edition(request, slug, edition_id):
-    edition = get_object_or_404(Edition, book__slug=slug, id=edition_id)
-    return render(request, 'buecher/books/edition/edition.html', locals())

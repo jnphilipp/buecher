@@ -1,0 +1,35 @@
+{% extends 'buecher/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">
+            {{ person }}
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h2 class="page-header">Books</h2>
+        {% if person.books.all %}
+            {% for book in person.books.all %}
+                {% include 'buecher/books/book/partials/_list_shape.html' with book=book %}
+            {% endfor %}
+        {% else %}
+            <p>No books are available.</p>
+        {% endif %}
+    </div>
+</div>
+{% if person.links.all %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h2 class="page-header">Links</h2>
+            <ul>
+                {% for link in person.links.all %}
+                    <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
