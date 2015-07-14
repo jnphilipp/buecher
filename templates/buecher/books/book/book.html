@@ -12,7 +12,7 @@
                     <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
                 {% if book.series %}
-                    ({{ book.series }} #{{ book.volume }})
+                    (<a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }})
                 {% endif %}
             </small>
         </h1>
@@ -91,7 +91,7 @@
 {% else %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <p>No editions are available.</p>
+            <p>no editions are available.</p>
         </div>
     </div>
 {% endif %}

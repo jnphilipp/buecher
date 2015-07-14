@@ -1,0 +1,12 @@
+{% load books static %}
+
+<figure class="book">
+    <a class="overview" id="{{ edition.id }}" href="{% url 'edition' edition.book.slug edition.id %}">
+        <span class="image_container">
+            <img src="{{ edition.book|image }}" alt=" {{ edition }} " title=" {{ edition }}"/>
+        </span>
+        <span class="caption_container">
+            <figcaption>{{ edition.book|shorttitle:45 }}</figcaption>
+        </span>
+    </a>
+</figure>

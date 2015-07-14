@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from series.models import Series
 
-# Create your views here.
+def series(request, slug):
+    series = get_object_or_404(Series, slug=slug)
+    return render(request, 'buecher/series/series/series.html', locals())

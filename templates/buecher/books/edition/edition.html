@@ -11,7 +11,7 @@
                     <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
                 {% if edition.book.series %}
-                    ({{ edition.book.series }} #{{ edition.book.volume }})
+                    (<a href="{% url 'series' edition.book.series.slug %}">{{ edition.book.series }}</a> #{{ edition.book.volume }})
                 {% endif %}
                 {% if user.is_staff %}
                     <a href="{% url 'admin:books_edition_change' edition.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -42,7 +42,7 @@
                 {% if edition.publisher %}
                     <tr>
                         <th>publisher:</th>
-                        <td>{{ edition.publisher }}</td>
+                        <td><a href="{% url 'publisher' edition.publisher.slug %}">{{ edition.publisher }}</a></td>
                     </tr>
                 {% endif %}
                 {% if edition.published_on %}

@@ -22,10 +22,15 @@ admin.site.site_header = 'buecher administration'
 urlpatterns = [
     url(r'^$', 'books.views.book.books', name='home'),
 
+    url(r'^books/book/$', 'books.views.book.books', name='books'),
     url(r'^books/book/(?P<slug>[\w-]+)/$', 'books.views.book.book', name='book'),
-    url(r'^books/book/(?P<slug>[\w-]+)/edition/(?P<edition_id>\d+)/$', 'books.views.edition.edition', name='edition'),
+    url(r'^books/edition/$', 'books.views.edition.editions', name='editions'),
+    url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/$', 'books.views.edition.edition', name='edition'),
 
     url(r'^persons/person/(?P<slug>[\w-]+)/$', 'persons.views.person', name='person'),
+    url(r'^publishers/publisher/(?P<slug>[\w-]+)/$', 'publishers.views.publisher', name='publisher'),
+
+    url(r'^series/series/(?P<slug>[\w-]+)/$', 'series.views.series', name='series'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),

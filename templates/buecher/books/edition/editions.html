@@ -1,0 +1,12 @@
+{% extends 'buecher/base.html' %}
+
+{% block content %}
+<h1 class="page-header">editions</h1>
+{% if editions %}
+    {% for edition in editions %}
+        {% include 'buecher/books/edition/partials/_list_shape.html' with edition=edition %}
+    {% endfor %}
+{% else %}
+    <p>no editions are available.</p>
+{% endif %}
+{% endblock %}

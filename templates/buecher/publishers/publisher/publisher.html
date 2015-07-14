@@ -1,0 +1,23 @@
+{% extends 'buecher/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">
+            {{ publisher }}
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h2 class="page-header">editions</h2>
+        {% if publisher.editions.all %}
+            {% for edition in publisher.editions.all %}
+                {% include 'buecher/books/edition/partials/_list_shape.html' with edition=edition %}
+            {% endfor %}
+        {% else %}
+            <p>no editions are available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
