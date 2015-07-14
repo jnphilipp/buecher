@@ -32,6 +32,9 @@ urlpatterns = [
 
     url(r'^series/series/(?P<slug>[\w-]+)/$', 'series.views.series', name='series'),
 
+    url(r'^api/books/book/$', 'books.views.api.book.books'),
+    url(r'^api/books/book/(?P<slug>[\w-]+)/$', 'books.views.api.book.book'),
+
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 ]

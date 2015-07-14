@@ -23,6 +23,9 @@ class Person(models.Model):
                 self.slug = slugify('%s %s' % (self.first_name, self.last_name))
         super(Person, self).save(*args, **kwargs)
 
+    def to_json(self):
+        return {'first_name':self.first_name, 'last_name':self.last_name}
+
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
 

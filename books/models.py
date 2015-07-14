@@ -41,6 +41,15 @@ class Book(models.Model):
                 self.slug = slugify(self.title)
         super(Book, self).save(*args, **kwargs)
 
+    def to_json(self):
+        data = {'title':self.title}
+        if self.authors.all():
+            data['authors'] = [author.to_json() for author in self.authors.all()]
+        if self.series:
+            data['series'] = self.series.name
+            data['volume'] = self.volume
+        return data
+
     def __str__(self):
         return '%s%s%s' % (self.title, '' if self.authors.count() == 0 else ' - %s' % ', '.join([str(a) for a in self.authors.all()]), ' (%s #%g)' % (self.series, self.volume) if self.series else '')
 
