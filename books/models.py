@@ -29,7 +29,7 @@ class Book(models.Model):
     title = TextFieldSingleLine(unique=True)
     authors = models.ManyToManyField(Person, related_name='books', blank=True)
 
-    series = models.ForeignKey(Series, blank=True, null=True)
+    series = models.ForeignKey(Series, related_name='books', blank=True, null=True)
     volume = models.FloatField(default=0, blank=True)
 
     def save(self, *args, **kwargs):

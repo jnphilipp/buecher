@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('title', books.models.TextFieldSingleLine(unique=True)),
                 ('volume', models.FloatField(blank=True, default=0)),
                 ('authors', models.ManyToManyField(related_name='books', blank=True, to='persons.Person')),
-                ('series', models.ForeignKey(null=True, to='series.Series', blank=True)),
+                ('series', models.ForeignKey(related_name='books', null=True, to='series.Series', blank=True)),
             ],
             options={
                 'ordering': ('series', 'volume', 'title'),
