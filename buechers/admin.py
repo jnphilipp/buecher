@@ -28,7 +28,7 @@ class PossessionAdmin(admin.ModelAdmin):
     volume.admin_order_field = 'edition__book__volume'
 
     fieldsets = [
-        (None, {'fields': ['user', 'edition', 'acquisition', 'price']}),
+        (None, {'fields': ['user', 'edition', 'acquisition', 'price', 'unit']}),
     ]
 
 admin.site.register(Possession, PossessionAdmin)

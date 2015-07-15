@@ -3,6 +3,7 @@
 from books.models import Edition
 from django.conf import settings
 from django.db import models
+from units.models import Unit
 
 class Possession(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
@@ -10,6 +11,7 @@ class Possession(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     edition = models.ForeignKey(Edition)
+    unit = models.ForeignKey(Unit)
     acquisition = models.DateField(verbose_name=' date of acquisition')
     price = models.FloatField(default=0)
 

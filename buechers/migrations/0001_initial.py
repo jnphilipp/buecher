@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
                 ('price', models.FloatField(default=0)),
                 ('edition', models.ForeignKey(to='books.Edition')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('unit', models.ForeignKey(to='units.Unit')),
             ],
             options={
                 'ordering': ('user', 'edition'),
