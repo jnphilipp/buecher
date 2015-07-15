@@ -70,6 +70,7 @@ INSTALLED_APPS = (
     'persons',
     'publishers',
     'series',
+    'units',
 )
 
 MIDDLEWARE_CLASSES = (
