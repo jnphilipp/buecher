@@ -1,4 +1,4 @@
-from _buecher.templatetags.buecher import register
+from buechers.templatetags.buecher import register
 from django.template.loader import get_template
 
 @register.simple_tag(takes_context=True)
