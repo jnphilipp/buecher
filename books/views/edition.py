@@ -1,4 +1,5 @@
 from books.models import Edition
+from buechers.models import Possession
 from django.shortcuts import get_object_or_404, render
 
 def editions(request):
@@ -7,4 +8,5 @@ def editions(request):
 
 def edition(request, slug, edition_id):
     edition = get_object_or_404(Edition, book__slug=slug, id=edition_id)
+    possessions = Possession.objects.filter(user=request.user).filter(edition=edition)
     return render(request, 'buecher/books/edition/edition.html', locals())

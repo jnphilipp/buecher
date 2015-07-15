@@ -1,8 +1,8 @@
 from buechers.templatetags.buecher import register
 
 @register.filter
-def floatdot(value, decimal_pos=2):
-    return round(value, decimal_pos)
+def floatdot(value, precision=2):
+    return round(value, precision)
 
 @register.filter
 def decrement(value):
