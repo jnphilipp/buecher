@@ -78,15 +78,27 @@
                 {% for possession in possessions %}
                     <tr>
                         <th>acquisition:</th>
-                        <td>{{ possession.acquisition|date:'d. F Y' }} for {{ possession.price|floatdot:possession.unit.precision }}{{ possession.unit.symbol }}</td>
+                        <td>{{ possession.acquisition|date:'d. F Y' }} for {{ possession.price|floatdot:possession.unit.precision }}{{ possession.unit.symbol }} <a href="{% url 'possession_edit' edition.book.slug edition.id possession.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                     </tr>
                 {% endfor %}
+                {% if user.is_authenticated %}
+                    <tr>
+                        <th></th>
+                        <td><a href="{% url 'possession_add' edition.book.slug edition.id %}"><span class="glyphicon glyphicon-plus"></span> add possession</a></td>
+                    </tr>
+                {% endif %}
                 {% for read in reads %}
                     <tr>
                         <th>read:</th>
-                        <td>{% edition_read read %}</td>
+                        <td>{% edition_read read %} <a href="{% url 'read_edit' edition.book.slug edition.id read.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                     </tr>
                 {% endfor %}
+                {% if user.is_authenticated %}
+                    <tr>
+                        <th></th>
+                        <td><a href="{% url 'read_add' edition.book.slug edition.id %}"><span class="glyphicon glyphicon-plus"></span> add read</a></td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>

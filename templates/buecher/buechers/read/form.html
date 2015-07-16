@@ -1,0 +1,76 @@
+{% extends 'buecher/base.html' %}
+
+{% block content %}
+<script>
+    $(function() {
+        $('#id_started').datepicker({dateFormat:'yy-mm-dd'});
+        $('#id_finished').datepicker({dateFormat:'yy-mm-dd'});
+    });
+</script>
+{{ form.media }}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header"><a href="{% url 'book' edition.book.slug %}">{{ edition.book.title }}</a>
+            <small>
+                by
+                {% for author in edition.book.authors.all %}
+                    <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                {% if edition.book.series %}
+                    (<a href="{% url 'series' edition.book.series.slug %}">{{ edition.book.series }}</a> #{{ edition.book.volume }})
+                {% endif %}
+            </small>
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2 class="page-header"><a href="{% url 'edition' edition.book.slug edition.id %}">edition</a> <small>{% if read %}edit{% else %}add{% endif %} read</small></h1>
+        <form action="{% if gnext %}?next={{ gnext }}{% endif %}" method="post" id="login-form" class="form">
+            {% csrf_token %}
+            {% for field in form.hidden_fields %}
+                {{ field }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                <div class="form-group{% if form.errors %} {{ field.errors|yesno:'has-error,has-success' }}{% endif %}">
+                    <label class="col-sm-4 control-label{% if field.field.required %} required{% endif %}" for="{{ field.auto_id }}">{{ field.label|lower }}:</label>
+                    <div class="col-sm-6">
+                        {{ field }}
+                        <span class="help-block">{{ field.help_text|lower }}</span>
+                        <span class="help-block">{{ field.errors|lower }}</span>
+                    </div>
+                    <div class="col-sm-2">
+                        {% if field.auto_id == 'id_started' %}
+                            <a id="started_today" style="cursor: pointer; vertical-align: middle; line-height: 34px;">today</a>
+                            <script>
+                                $('#started_today').click(function() {
+                                    $('#id_started').val('{{ today|date:'Y-m-d' }}');
+                                    $('#id_finished').focus();
+                                    return false;
+                                });
+                            </script>
+                        {% endif %}
+                        {% if field.auto_id == 'id_finished' %}
+                            <a id="finished_today" style="cursor: pointer; vertical-align: middle; line-height: 34px;">today</a>
+                            <script>
+                                $('#finished_today').click(function() {
+                                    $('#id_finished').val('{{ today|date:'Y-m-d' }}');
+                                    return false;
+                                });
+                            </script>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn btn-primary">save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

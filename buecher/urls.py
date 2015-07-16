@@ -26,6 +26,10 @@ urlpatterns = [
     url(r'^books/book/(?P<slug>[\w-]+)/$', 'books.views.book.book', name='book'),
     url(r'^books/edition/$', 'books.views.edition.editions', name='editions'),
     url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/$', 'books.views.edition.edition', name='edition'),
+    url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/possession/add/$', 'buechers.views.possession.add', name='possession_add'),
+    url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/possession/(?P<possession_id>\d+)/edit/$', 'buechers.views.possession.edit', name='possession_edit'),
+    url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/read/add/$', 'buechers.views.read.add', name='read_add'),
+    url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/read/(?P<read_id>\d+)/edit/$', 'buechers.views.read.edit', name='read_edit'),
 
     url(r'^persons/person/(?P<slug>[\w-]+)/$', 'persons.views.person', name='person'),
     url(r'^publishers/publisher/(?P<slug>[\w-]+)/$', 'publishers.views.publisher', name='publisher'),

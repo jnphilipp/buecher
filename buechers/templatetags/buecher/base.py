@@ -45,5 +45,7 @@ def edition_read(read):
         return '%s days, %s - %s' % ((read.finished - read.started).days, read.started.strftime('%d. %B %Y'), read.finished.strftime('%d. %B %Y'))
     elif read.started:
         return '%s days, started on %s' % ((timezone.now().date() - read.started).days, read.started.strftime('%d. %B %Y'))
+    elif read.finished:
+        return 'finished on %s' % read.finished.strftime('%d. %B %Y')
     else:
         return ''

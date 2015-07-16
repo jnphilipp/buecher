@@ -1,10 +1,10 @@
-from buechers.forms import PossessionForm, ReadForm
+from buechers.forms import PossessionAdminForm, ReadAdminForm
 from buechers.models import Possession, Read
 from django.contrib import admin
 from django.db import models
 
 class PossessionAdmin(admin.ModelAdmin):
-    form = PossessionForm
+    form = PossessionAdminForm
     def authors(self, inst):
         return ', '.join([str(a) for a in inst.edition.book.authors.all()])
 
@@ -32,7 +32,7 @@ class PossessionAdmin(admin.ModelAdmin):
     ]
 
 class ReadAdmin(admin.ModelAdmin):
-    form = ReadForm
+    form = ReadAdminForm
     def authors(self, inst):
         return ', '.join([str(a) for a in inst.edition.book.authors.all()])
 
