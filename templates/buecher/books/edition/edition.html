@@ -81,6 +81,12 @@
                         <td>{{ possession.acquisition|date:'d. F Y' }} for {{ possession.price|floatdot:possession.unit.precision }}{{ possession.unit.symbol }}</td>
                     </tr>
                 {% endfor %}
+                {% for read in reads %}
+                    <tr>
+                        <th>read:</th>
+                        <td>{% edition_read read %}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

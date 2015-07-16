@@ -1,4 +1,5 @@
 from buechers.templatetags.buecher import register
+from django.utils import timezone
 
 @register.filter
 def floatdot(value, precision=2):
@@ -37,3 +38,12 @@ def next(value, arg):
 @register.filter(name='addcss')
 def addcss(field, css):
     return field.as_widget(attrs={"class":css})
+
+@register.simple_tag
+def edition_read(read):
+    if read.started and read.finished:
+        return '%s days, %s - %s' % ((read.finished - read.started).days, read.started.strftime('%d. %B %Y'), read.finished.strftime('%d. %B %Y'))
+    elif read.started:
+        return '%s days, started on %s' % ((timezone.now().date() - read.started).days, read.started.strftime('%d. %B %Y'))
+    else:
+        return ''
