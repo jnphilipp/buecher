@@ -8,27 +8,26 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('books', '0003_ebookfile'),
-        ('units', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('books', '0003_ebookfile'),
+        ('buechers', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Possession',
+            name='Read',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('acquisition', models.DateField(verbose_name=' date of acquisition')),
-                ('price', models.FloatField(default=0)),
+                ('started', models.DateField(verbose_name=' date started', null=True, blank=True)),
+                ('finished', models.DateField(verbose_name=' date finished', null=True, blank=True)),
                 ('edition', models.ForeignKey(to='books.Edition')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('unit', models.ForeignKey(to='units.Unit')),
             ],
             options={
+                'verbose_name': ' read',
                 'ordering': ('user', 'edition'),
-                'verbose_name': ' possession',
             },
         ),
     ]
