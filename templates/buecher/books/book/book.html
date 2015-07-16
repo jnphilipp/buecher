@@ -20,7 +20,10 @@
 </div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h2 class="page-header">editions</h2>
+        <h2 class="page-header">
+            editions
+            <a href="{% url 'edition_add' book.slug %}" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> add edition</a>
+        </h2>
     </div>
 </div>
 {% if book.editions.all %}
@@ -32,10 +35,10 @@
             <div class="col-md-5">
                 <table class="table">
                     <tbody>
-                        {% if edition.isin %}
+                        {% if edition.isbn %}
                             <tr>
-                                <th>isin:</th>
-                                <td>{{ edition.isin }}</td>
+                                <th>isbn:</th>
+                                <td>{{ edition.isbn }}</td>
                             </tr>
                         {% endif %}
                         {% if edition.asin %}

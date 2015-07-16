@@ -15,7 +15,7 @@ def add(request, slug, edition_id):
         form = ReadForm(request.POST)
         if form.is_valid():
             read = form.save()
-            messages.add_message(request, messages.SUCCESS, 'the read successfully addded.')
+            messages.add_message(request, messages.SUCCESS, 'read successfully addded.')
             return redirect('edition', slug=slug, edition_id=edition_id)
     else:
         form = ReadForm(initial={'user':request.user, 'edition':edition})
@@ -33,7 +33,7 @@ def edit(request, slug, edition_id, read_id):
         form = ReadForm(instance=read, data=request.POST)
         if form.is_valid():
             read = form.save()
-            messages.add_message(request, messages.SUCCESS, 'the read successfully addded.')
+            messages.add_message(request, messages.SUCCESS, 'read successfully updated.')
             return redirect('edition', slug=slug, edition_id=edition_id)
     else:
         form = ReadForm(instance=read)

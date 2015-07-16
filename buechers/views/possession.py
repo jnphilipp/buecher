@@ -15,7 +15,7 @@ def add(request, slug, edition_id):
         form = PossessionForm(request.POST)
         if form.is_valid():
             possession = form.save()
-            messages.add_message(request, messages.SUCCESS, 'the possession successfully addded.')
+            messages.add_message(request, messages.SUCCESS, 'possession successfully addded.')
             return redirect('edition', slug=slug, edition_id=edition_id)
     else:
         form = PossessionForm(initial={'user':request.user, 'edition':edition})
@@ -33,7 +33,7 @@ def edit(request, slug, edition_id, possession_id):
         form = PossessionForm(instance=possession, data=request.POST)
         if form.is_valid():
             possession = form.save()
-            messages.add_message(request, messages.SUCCESS, 'the possession successfully addded.')
+            messages.add_message(request, messages.SUCCESS, 'possession successfully updated.')
             return redirect('edition', slug=slug, edition_id=edition_id)
     else:
         form = PossessionForm(instance=possession)

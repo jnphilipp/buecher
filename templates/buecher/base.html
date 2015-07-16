@@ -33,8 +33,10 @@
 
                 <div class="collapse navbar-collapse" id="buecher-navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown active">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">books <span class="caret"></span></a>
+                        {% url 'books' as books_url %}
+                        {% url 'editions' as editions_url %}
+                        <li class="dropdown {% if request.path|startswith:books_url or request.path|startswith:editions_url %}active{% endif %}">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">books {% if request.path|startswith:books_url or request.path|startswith:editions_url %}<span class="sr-only">(current)</span>{% endif %}<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{% url 'books' %}">books</a></li>
                                 <li><a href="{% url 'editions' %}">editions</a></li>
