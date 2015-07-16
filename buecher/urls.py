@@ -35,6 +35,9 @@ urlpatterns = [
     url(r'^api/books/book/$', 'books.views.api.book.books'),
     url(r'^api/books/book/(?P<slug>[\w-]+)/$', 'books.views.api.book.book'),
 
+    url(r'^profile/signin/$', 'buechers.views.base.signin', name='signin'),
+    url(r'^profile/signout/$', 'django.contrib.auth.views.logout', name='signout'),
+
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 ]
