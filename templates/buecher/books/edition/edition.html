@@ -14,7 +14,7 @@
                     (<a href="{% url 'series' edition.book.series.slug %}">{{ edition.book.series }}</a> #{{ edition.book.volume }})
                 {% endif %}
                 {% if user.is_staff %}
-                    <a href="{% url 'admin:books_edition_change' edition.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="{% url 'edition_edit' edition.book.slug edition.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                 {% endif %}
             </small>
         </h1>
@@ -27,10 +27,10 @@
     <div class="col-md-4">
         <table class="table">
             <tbody>
-                {% if edition.isin %}
+                {% if edition.isbn %}
                     <tr>
-                        <th>isin:</th>
-                        <td>{{ edition.isin }}</td>
+                        <th>isbn:</th>
+                        <td>{{ edition.isbn }}</td>
                     </tr>
                 {% endif %}
                 {% if edition.asin %}

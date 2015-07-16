@@ -1,0 +1,66 @@
+{% extends 'buecher/base.html' %}
+
+{% block content %}
+<script>
+    $(function() {
+        $('#id_published_on').datepicker({dateFormat:'yy-mm-dd'});
+    });
+</script>
+{{ form.media }}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header"><a href="{% url 'book' book.slug %}">{{ book.title }}</a>
+            <small>
+                by
+                {% for author in book.authors.all %}
+                    <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                {% if book.series %}
+                    (<a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }})
+                {% endif %}
+            </small>
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2 class="page-header">{% if edition %}edit{% else %}add{% endif %} edition</h2>
+        <form action="{% if gnext %}?next={{ gnext }}{% endif %}" method="post" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            {% for field in form.hidden_fields %}
+                {{ field }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                <div class="form-group{% if form.errors %} {{ field.errors|yesno:'has-error,has-success' }}{% endif %}">
+                    <label class="col-sm-4 control-label{% if field.field.required %} required{% endif %}" for="{{ field.auto_id }}">{{ field.label|lower }}:</label>
+                    <div class="col-sm-6">
+                        {{ field }}
+                        <span class="help-block">{{ field.help_text|lower }}</span>
+                        <span class="help-block">{{ field.errors|lower }}</span>
+                    </div>
+                    <div class="col-sm-2">
+                        {% if field.auto_id == 'id_published_on' %}
+                            <a id="published_on_today" style="cursor: pointer; vertical-align: middle; line-height: 34px;">today</a>
+                            <script>
+                                $('#published_on_today').click(function() {
+                                    $('#id_published_on').val('{{ today|date:'Y-m-d' }}');
+                                    $('#id_finished').focus();
+                                    return false;
+                                });
+                            </script>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn btn-primary">save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

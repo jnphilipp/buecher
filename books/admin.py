@@ -1,4 +1,4 @@
-from books.forms import BookForm, EBookFileForm, EditionForm
+from books.forms import BookForm, EBookFileForm, EditionAdminForm
 from books.models import Book, EBookFile, Edition, TextFieldSingleLine
 from django.contrib import admin
 from django.db import models
@@ -44,7 +44,7 @@ class EBookFileInline(admin.StackedInline):
     extra = 1
 
 class EditionAdmin(admin.ModelAdmin):
-    form = EditionForm
+    form = EditionAdminForm
     def authors(self, inst):
         return ', '.join([str(a) for a in inst.book.authors.all()])
 
