@@ -1,6 +1,6 @@
-from publishers.models import Publisher
-
 import autocomplete_light
+
+from publishers.models import Publisher
 
 class Autocomplete(autocomplete_light.AutocompleteModelBase):
     search_fields=['name']
@@ -16,4 +16,4 @@ class Autocomplete(autocomplete_light.AutocompleteModelBase):
     def choice_html(self, choice):
         return self.choice_html_format % (self.choice_value(choice), self.choice_label(choice).lower())
 
-autocomplete_light.register(Publisher, Autocomplete)
+autocomplete_light.register(Publisher, Autocomplete, add_another_url_name='publisher_add_another_create')

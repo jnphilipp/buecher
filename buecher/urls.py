@@ -13,9 +13,13 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+import autocomplete_light
+
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from publishers.forms import PublisherForm
+from publishers.models import Publisher
 
 admin.site.site_header = 'buecher administration'
 
@@ -34,6 +38,7 @@ urlpatterns = [
     url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/read/(?P<read_id>\d+)/edit/$', 'buechers.views.read.edit', name='read_edit'),
 
     url(r'^persons/person/(?P<slug>[\w-]+)/$', 'persons.views.person', name='person'),
+    url(r'^publishers/publisher/add_another/$', autocomplete_light.CreateView.as_view(model=Publisher, form_class=PublisherForm, template_name='buecher/publishers/publisher/add_another.html'), name='publisher_add_another_create'),
     url(r'^publishers/publisher/(?P<slug>[\w-]+)/$', 'publishers.views.publisher', name='publisher'),
 
     url(r'^series/series/(?P<slug>[\w-]+)/$', 'series.views.series', name='series'),
