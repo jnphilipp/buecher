@@ -12,10 +12,6 @@ def editions(request):
 
 def edition(request, slug, edition_id):
     edition = get_object_or_404(Edition, book__slug=slug, id=edition_id)
-
-    if not request.user.is_anonymous():
-        possessions = Possession.objects.filter(user=request.user).filter(edition=edition)
-        reads = Read.objects.filter(user=request.user).filter(edition=edition)
     return render(request, 'buecher/books/edition/edition.html', locals())
 
 def add(request, slug):

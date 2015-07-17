@@ -33,58 +33,7 @@
                 <a href="{% url 'edition' book.slug edition.id %}"><img class="img-responsive img-thumbnail" src="{% if edition.cover_image %}{{ edition.cover_image.url }}{% else %}{% static 'images/default_cover.jpg' %}{% endif%}" style="height: 300px;" alt=" {{ book }} " title=" {{ book }} "></a>
                 </div>
             <div class="col-md-5">
-                <table class="table">
-                    <tbody>
-                        {% if edition.isbn %}
-                            <tr>
-                                <th>isbn:</th>
-                                <td>{{ edition.isbn }}</td>
-                            </tr>
-                        {% endif %}
-                        {% if edition.asin %}
-                            <tr>
-                                <th>asin:</th>
-                                <td>{{ edition.asin }}</td>
-                            </tr>
-                        {% endif %}
-                        {% if edition.publisher %}
-                            <tr>
-                                <th>publisher:</th>
-                                <td>{{ edition.publisher }}</td>
-                            </tr>
-                        {% endif %}
-                        {% if edition.published_on %}
-                            <tr>
-                                <th>published on:</th>
-                                <td>{{ edition.published_on|date:'d. F Y' }}</td>
-                            </tr>
-                        {% endif %}
-                        {% if edition.binding %}
-                            <tr>
-                                <th>binding:</th>
-                                <td>{{ edition.binding }}</td>
-                            </tr>
-                        {% endif %}
-                        {% if edition.languages.all %}
-                            <tr>
-                                <th>languages:</th>
-                                <td>{{ edition.languages.all|join:', ' }}</td>
-                            </tr>
-                        {% endif %}
-                        {% if edition.links.all %}
-                            <tr>
-                                <th>links:</th>
-                                <td>
-                                    <ul class="list-unstyled">
-                                        {% for link in edition.links.all %}
-                                            <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+                {% include 'buecher/books/edition/partials/_table.html' with edition=edition thead=True %}
             </div>
         </div>
         {% if not forloop.last %}
