@@ -1,7 +1,15 @@
 from buechers.forms import PossessionAdminForm, ReadAdminForm
-from buechers.models import Possession, Read
+from buechers.models import Possession, Profile, Read
 from django.contrib import admin
 from django.db import models
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'created_at', 'updated_at')
+    search_fields = ('user__username', 'user__first_name', 'user__last_name')
+
+    fieldsets = [
+        (None, {'fields': ['user', 'default_unit']}),
+    ]
 
 class PossessionAdmin(admin.ModelAdmin):
     form = PossessionAdminForm
@@ -60,4 +68,5 @@ class ReadAdmin(admin.ModelAdmin):
     ]
 
 admin.site.register(Possession, PossessionAdmin)
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Read, ReadAdmin)

@@ -1,6 +1,6 @@
 from books.models import Edition
 from buechers.forms import PossessionForm
-from buechers.models import Possession
+from buechers.models import Possession, Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,6 +8,7 @@ from django.utils import timezone
 
 @login_required(login_url='/profile/signin/')
 def add(request, slug, edition_id):
+    profile = get_object_or_404(Profile, user=request.user)
     edition = get_object_or_404(Edition, book__slug=slug, id=edition_id)
     today = timezone.now()
 
@@ -18,7 +19,7 @@ def add(request, slug, edition_id):
             messages.add_message(request, messages.SUCCESS, 'possession successfully addded.')
             return redirect('edition', slug=slug, edition_id=edition_id)
     else:
-        form = PossessionForm(initial={'user':request.user, 'edition':edition})
+        form = PossessionForm(initial={'user':request.user, 'edition':edition, 'unit':profile.default_unit})
 
     return render(request, 'buecher/buechers/possession/form.html', locals())
 

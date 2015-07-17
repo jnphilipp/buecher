@@ -14,6 +14,8 @@ class AuthenticationForm(AuthAuthenticationForm):
         self.fields['password'].widget = forms.PasswordInput(attrs={'autocomplete':'off', 'class':'form-control', 'placeholder':'password'})
 
 class UserChangeForm(AuthUserChangeForm):
+    default_unit = autocomplete_light.ChoiceField('UnitAutocomplete', required=False)
+
     def __init__(self, *args, **kwargs):
         super(UserChangeForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control'})
