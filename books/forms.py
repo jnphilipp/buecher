@@ -4,6 +4,16 @@ from books.models import Book, EBookFile, Edition
 from django import forms
 
 class BookForm(autocomplete_light.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BookForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control'})
+        self.fields['volume'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control'})
+
+    class Meta:
+        model = Book
+        fields = ('title', 'authors', 'series', 'volume')
+
+class BookAdminForm(autocomplete_light.ModelForm):
     class Meta:
         model = Book
         fields = '__all__'

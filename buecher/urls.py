@@ -27,7 +27,9 @@ urlpatterns = [
     url(r'^$', 'books.views.book.books', name='home'),
 
     url(r'^books/book/$', 'books.views.book.books', name='books'),
+    url(r'^books/book/add/$', 'books.views.book.add', name='book_add'),
     url(r'^books/book/(?P<slug>[\w-]+)/$', 'books.views.book.book', name='book'),
+    url(r'^books/book/(?P<slug>[\w-]+)/edit/$', 'books.views.book.edit', name='book_edit'),
     url(r'^books/edition/$', 'books.views.edition.editions', name='editions'),
     url(r'^books/edition/(?P<slug>[\w-]+)/add/$', 'books.views.edition.add', name='edition_add'),
     url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/$', 'books.views.edition.edition', name='edition'),

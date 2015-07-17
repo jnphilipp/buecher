@@ -1,7 +1,10 @@
 {% extends 'buecher/base.html' %}
 
 {% block content %}
-<h1 class="page-header">books</h1>
+<h1 class="page-header">
+    books
+    <a href="{% url 'book_add' %}" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> add book</a>
+</h1>
 {% if books %}
     {% for book in books %}
         {% include 'buecher/books/book/partials/_list_shape.html' with book=book %}

@@ -1,11 +1,11 @@
-from books.forms import BookForm, EBookFileForm, EditionAdminForm
+from books.forms import BookAdminForm, EBookFileForm, EditionAdminForm
 from books.models import Book, EBookFile, Edition, TextFieldSingleLine
 from django.contrib import admin
 from django.db import models
 from django.forms import Textarea, TextInput
 
 class BookAdmin(admin.ModelAdmin):
-    form = BookForm
+    form = BookAdminForm
     def get_authors(self, inst):
         return ', '.join([str(a) for a in inst.authors.all()])
 
