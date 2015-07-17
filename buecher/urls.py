@@ -18,6 +18,8 @@ import autocomplete_light
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from persons.forms import PersonForm
+from persons.models import Person
 from publishers.forms import PublisherForm
 from publishers.models import Publisher
 
@@ -39,7 +41,9 @@ urlpatterns = [
     url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/read/add/$', 'buechers.views.read.add', name='read_add'),
     url(r'^books/edition/(?P<slug>[\w-]+)/(?P<edition_id>\d+)/read/(?P<read_id>\d+)/edit/$', 'buechers.views.read.edit', name='read_edit'),
 
+    url(r'^persons/person/add_another/$', autocomplete_light.CreateView.as_view(model=Person, form_class=PersonForm, template_name='buecher/persons/person/add_another.html'), name='person_add_another_create'),
     url(r'^persons/person/(?P<slug>[\w-]+)/$', 'persons.views.person', name='person'),
+
     url(r'^publishers/publisher/add_another/$', autocomplete_light.CreateView.as_view(model=Publisher, form_class=PublisherForm, template_name='buecher/publishers/publisher/add_another.html'), name='publisher_add_another_create'),
     url(r'^publishers/publisher/(?P<slug>[\w-]+)/$', 'publishers.views.publisher', name='publisher'),
 
