@@ -6,13 +6,13 @@
     <div class="col-md-12">
         <h1 class="page-header">
             {{ book.title }}
+            by
+            {% for author in book.authors.all %}
+                <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
             <small>
-                by
-                {% for author in book.authors.all %}
-                    <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
                 {% if book.series %}
-                    (<a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }})
+                    <a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }}
                 {% endif %}
             </small>
         </h1>

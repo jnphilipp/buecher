@@ -11,13 +11,16 @@
 <div class="row">
     <div class="col-md-12">
         <h1 class="page-header"><a href="{% url 'book' book.slug %}">{{ book.title }}</a>
+            by
+            {% for author in book.authors.all %}
+                <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
             <small>
-                by
-                {% for author in book.authors.all %}
-                    <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
                 {% if book.series %}
-                    (<a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }})
+                    <a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }}
+                {% endif %}
+                {% if edition %}
+                    | <a href="{% url 'edition' book.slug edition.id %}">edition #{{ edition.id }}</a>
                 {% endif %}
             </small>
         </h1>
@@ -25,7 +28,7 @@
 </div>
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <h2 class="page-header">{% if edition %}edit{% else %}add{% endif %} edition</h2>
+        <h2 class="page-header">{% if edition %}edit{% else %}add{% endif %} edition {% if edition %}#{{ edition.id }}{% endif %}</h2>
         <form action="{% if gnext %}?next={{ gnext }}{% endif %}" method="post" enctype="multipart/form-data" class="form">
             {% csrf_token %}
             {% for field in form.hidden_fields %}

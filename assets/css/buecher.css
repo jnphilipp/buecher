@@ -21,6 +21,7 @@ a:active {position: relative;
 
 figure.book {float: left;
     display: inline-block;
+    background: #f0f0f0;
     margin: 0 14px 7px 0;
     padding: 0;
     height: 192px;
@@ -42,7 +43,7 @@ figure.book .image_container {display: block;
     text-align: center;}
 
 figure.book .caption_container {display: block;
-    background: #F0F0F0;;
+    background: #E0E0E0;
     height: 50px;
     width: 146px;
     margin: 1px 0 0 0;

@@ -5,14 +5,15 @@
 <div class="row">
     <div class="col-md-12">
         <h1 class="page-header"><a href="{% url 'book' edition.book.slug %}">{{ edition.book.title }}</a>
+            by
+            {% for author in edition.book.authors.all %}
+                <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
             <small>
-                by
-                {% for author in edition.book.authors.all %}
-                    <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
                 {% if edition.book.series %}
-                    (<a href="{% url 'series' edition.book.series.slug %}">{{ edition.book.series }}</a> #{{ edition.book.volume }})
+                    <a href="{% url 'series' edition.book.series.slug %}">{{ edition.book.series }}</a> #{{ edition.book.volume }}
                 {% endif %}
+                | edition #{{ edition.id }}
                 {% if user.is_staff %}
                     <a href="{% url 'edition_edit' edition.book.slug edition.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                 {% endif %}
