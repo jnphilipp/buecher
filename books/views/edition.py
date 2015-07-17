@@ -14,6 +14,7 @@ def edition(request, slug, edition_id):
     edition = get_object_or_404(Edition, book__slug=slug, id=edition_id)
     return render(request, 'buecher/books/edition/edition.html', locals())
 
+@login_required(login_url='/profile/signin/')
 def add(request, slug):
     book = get_object_or_404(Book, slug=slug)
     today = timezone.now()
