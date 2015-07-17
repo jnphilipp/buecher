@@ -5,9 +5,20 @@ from django.conf import settings
 from django.db import models
 from units.models import Unit
 
-class Possession(models.Model):
-    updated_at = models.DateTimeField(auto_now=True)
+class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    default_unit = models.ForeignKey(Unit, blank=True, null=True)
+
+    class Meta:
+        ordering = ('user',)
+        verbose_name = ' profile'
+
+class Possession(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     edition = models.ForeignKey(Edition)
@@ -23,8 +34,8 @@ class Possession(models.Model):
         verbose_name = ' possession'
 
 class Read(models.Model):
-    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     edition = models.ForeignKey(Edition)
