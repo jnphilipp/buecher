@@ -22,6 +22,8 @@ from persons.forms import PersonForm
 from persons.models import Person
 from publishers.forms import PublisherForm
 from publishers.models import Publisher
+from series.forms import SeriesForm
+from series.models import Series
 
 admin.site.site_header = 'buecher administration'
 
@@ -47,6 +49,7 @@ urlpatterns = [
     url(r'^publishers/publisher/add_another/$', autocomplete_light.CreateView.as_view(model=Publisher, form_class=PublisherForm, template_name='buecher/publishers/publisher/add_another.html'), name='publisher_add_another_create'),
     url(r'^publishers/publisher/(?P<slug>[\w-]+)/$', 'publishers.views.publisher', name='publisher'),
 
+    url(r'^series/series/add_another/$', autocomplete_light.CreateView.as_view(model=Series, form_class=SeriesForm, template_name='buecher/series/series/add_another.html'), name='series_add_another_create'),
     url(r'^series/series/(?P<slug>[\w-]+)/$', 'series.views.series', name='series'),
 
     url(r'^api/books/book/$', 'books.views.api.book.books'),
