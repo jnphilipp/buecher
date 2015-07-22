@@ -52,6 +52,8 @@ urlpatterns = [
     url(r'^series/series/add_another/$', autocomplete_light.CreateView.as_view(model=Series, form_class=SeriesForm, template_name='buecher/series/series/add_another.html'), name='series_add_another_create'),
     url(r'^series/series/(?P<slug>[\w-]+)/$', 'series.views.series', name='series'),
 
+    url(r'^statistics/$', 'buechers.views.statistics.statistics', name='statistics'),
+
     url(r'^api/books/book/$', 'books.views.api.book.books'),
     url(r'^api/books/book/(?P<slug>[\w-]+)/$', 'books.views.api.book.book'),
 

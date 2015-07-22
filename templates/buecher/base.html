@@ -42,6 +42,8 @@
                                 <li><a href="{% url 'editions' %}">editions</a></li>
                             </ul>
                         </li>
+                        {% url 'statistics' as statistics_url %}
+                        <li class="{% if request.path|startswith:statistics_url %}active{% endif %}"><a href="{% url 'statistics' %}">statistics {% if request.path|startswith:statistics_url %}<span class="sr-only">(current)</span>{% endif %}</a></li>
                     </ul>
 
                     {% if user.is_authenticated %}

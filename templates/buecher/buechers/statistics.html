@@ -1,0 +1,25 @@
+{% extends 'buecher/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">statistics</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>books</th>
+                    <td>{{ books }}</td>
+                </tr>
+                <tr>
+                    <th>editions</th>
+                    <td>{{ editions }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
