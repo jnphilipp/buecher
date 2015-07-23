@@ -1,0 +1,36 @@
+{% extends 'buecher/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">{{ list.name|lower }}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2 class="page-header">editions</h2>
+    </div>
+</div>
+{% if lst.editions.all %}
+    {% for edition in lst.editions.all %}
+        <div class="row">
+            <div class="col-md-3 col-md-offset-2">
+                <a href="{% url 'edition' book.slug edition.id %}"><img class="img-responsive img-thumbnail" src="{% if edition.cover_image %}{{ edition.cover_image.url }}{% else %}{% static 'images/default_cover.jpg' %}{% endif%}" style="height: 300px;" alt=" {{ book }} " title=" {{ book }} "></a>
+                </div>
+            <div class="col-md-5">
+                {% include 'buecher/books/edition/partials/_table.html' with edition=edition thead=True %}
+            </div>
+        </div>
+        {% if not forloop.last %}
+            <div class="row"><div class="col-md-8 col-md-offset-2"><hr/></div></div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <p>no editions are available.</p>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

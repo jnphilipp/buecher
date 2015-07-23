@@ -1,6 +1,6 @@
 import autocomplete_light
 
-from buechers.models import Possession, Read
+from buechers.models import List, Possession, Read
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm as AuthAuthenticationForm, UserChangeForm as AuthUserChangeForm, UserCreationForm as AuthUserCreationForm
@@ -33,6 +33,23 @@ class UserCreationForm(AuthUserCreationForm):
         self.fields['username'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control'})
         self.fields['password1'].widget = forms.PasswordInput(attrs={'autocomplete':'off', 'class':'form-control'})
         self.fields['password2'].widget = forms.PasswordInput(attrs={'autocomplete':'off', 'class':'form-control'})
+
+class ListForm(autocomplete_light.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ListForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control'})
+        self.fields['user'].widget = forms.HiddenInput()
+        self.fields['books'].widget = forms.HiddenInput()
+        self.fields['editions'].widget = forms.HiddenInput()
+
+    class Meta:
+        model = List
+        fields = ('name', 'user', 'books', 'editions')
+
+class ListAdminForm(autocomplete_light.ModelForm):
+    class Meta:
+        model = List
+        fields = '__all__'
 
 class PossessionForm(autocomplete_light.ModelForm):
     def __init__(self, *args, **kwargs):

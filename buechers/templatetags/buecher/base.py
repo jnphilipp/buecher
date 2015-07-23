@@ -1,3 +1,4 @@
+from buechers.models import List
 from buechers.templatetags.buecher import register
 from django.utils import timezone
 
@@ -49,3 +50,10 @@ def edition_read(read):
         return 'finished on %s' % read.finished.strftime('%d. %B %Y')
     else:
         return ''
+
+@register.assignment_tag
+def user_lists(user):
+    if user.is_authenticated():
+        return List.objects.filter(user=user)
+    else:
+        return None

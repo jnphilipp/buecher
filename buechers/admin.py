@@ -1,7 +1,31 @@
-from buechers.forms import PossessionAdminForm, ReadAdminForm
-from buechers.models import Possession, Profile, Read
+from buechers.forms import ListAdminForm, PossessionAdminForm, ReadAdminForm
+from buechers.models import List, Possession, Profile, Read, TextFieldSingleLine
 from django.contrib import admin
 from django.db import models
+from django.db.models import Count
+from django.forms import TextInput
+
+class ListAdmin(admin.ModelAdmin):
+    form = ListAdminForm
+    def get_queryset(self, request):
+        return List.objects.annotate(book_count=Count('books'))
+
+    def book_count(self, inst):
+        return inst.book_count
+
+    formfield_overrides = {
+        TextFieldSingleLine: {'widget': TextInput(attrs={'autocomplete':'off', 'style':'min-width:50%; '})},
+    }
+
+    list_display = ('name', 'user', 'book_count')
+    readonly_fields = ('slug',)
+    search_fields = ('name', 'user__username')
+    book_count.admin_order_field = 'book_count'
+    book_count.short_description = 'Number of Books'
+
+    fieldsets = [
+        (None, {'fields': ['user', 'slug', 'name', 'books', 'editions']}),
+    ]
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'created_at', 'updated_at')
@@ -67,6 +91,7 @@ class ReadAdmin(admin.ModelAdmin):
         (None, {'fields': ['user', 'edition', 'started', 'finished']}),
     ]
 
+admin.site.register(List, ListAdmin)
 admin.site.register(Possession, PossessionAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Read, ReadAdmin)
