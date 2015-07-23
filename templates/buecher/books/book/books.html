@@ -3,7 +3,9 @@
 {% block content %}
 <h1 class="page-header">
     books
-    <a href="{% url 'book_add' %}" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> add book</a>
+    {% if user.is_staff %}
+        <a href="{% url 'book_add' %}" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> add book</a>
+    {% endif %}
 </h1>
 {% if books %}
     {% for book in books %}

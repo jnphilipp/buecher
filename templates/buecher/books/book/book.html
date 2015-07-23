@@ -27,7 +27,9 @@
     <div class="col-md-8 col-md-offset-2">
         <h2 class="page-header">
             editions
-            <a href="{% url 'edition_add' book.slug %}" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> add edition</a>
+            {% if user.is_staff %}
+                <a href="{% url 'edition_add' book.slug %}" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> add edition</a>
+            {% endif %}
         </h2>
     </div>
 </div>

@@ -3,6 +3,7 @@
 from books.models import Book, Edition
 from django.conf import settings
 from django.db import models
+from django.template.defaultfilters import slugify
 from units.models import Unit
 
 class TextFieldSingleLine(models.TextField):

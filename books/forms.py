@@ -29,11 +29,12 @@ class EditionForm(autocomplete_light.ModelForm):
         self.fields['asin'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control', 'maxlength':'10'})
         self.fields['isbn'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control', 'maxlength':'13'})
         self.fields['published_on'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control', 'placeholder':'yyyy-mm-dd'})
+        self.fields['bibtex'].widget = forms.Textarea(attrs={'autocomplete':'off', 'class':'form-control', 'style':'resize:none;'})
         self.fields['book'].widget = forms.HiddenInput()
 
     class Meta:
         model = Edition
-        fields = ('book', 'asin', 'isbn', 'publisher', 'published_on', 'binding', 'languages', 'cover_image')
+        fields = ('book', 'cover_image', 'asin', 'isbn', 'publisher', 'published_on', 'binding', 'languages', 'bibtex')
 
 class EditionAdminForm(autocomplete_light.ModelForm):
     class Meta:

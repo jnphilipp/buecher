@@ -22,8 +22,8 @@ class TextFieldSingleLine(models.TextField):
     pass
 
 class Book(models.Model):
-    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     slug = models.SlugField(unique=True)
     title = TextFieldSingleLine(unique=True)
@@ -58,8 +58,8 @@ class Book(models.Model):
         verbose_name = ' book'
 
 class Edition(models.Model):
-    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     book = models.ForeignKey(Book, related_name='editions')
     isbn = models.CharField(max_length=13, blank=True, null=True)
@@ -96,15 +96,15 @@ class Edition(models.Model):
         return save_name
 
     def __str__(self):
-        return str(self.book)
+        return '%s-%s' % (self.book, self.id)
 
     class Meta:
         ordering = ('book',)
         verbose_name = ' edition'
 
 class EBookFile(models.Model):
-    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     edition = models.ForeignKey(Edition, related_name='ebookfiles')
     ebook = models.FileField(upload_to=get_ebook_path, max_length=4096)
