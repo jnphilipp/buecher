@@ -52,8 +52,11 @@ def edition_read(read):
         return ''
 
 @register.assignment_tag
-def user_lists(user):
+def user_lists(user, edition=None):
     if user.is_authenticated():
-        return List.objects.filter(user=user)
+        lists = List.objects.filter(user=user)
+        if edition:
+            lists = lists.filter(editions=edition)
+        return lists
     else:
         return None

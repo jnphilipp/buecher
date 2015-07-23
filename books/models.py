@@ -41,6 +41,30 @@ class Book(models.Model):
                 self.slug = slugify(self.title)
         super(Book, self).save(*args, **kwargs)
 
+    def shorttitle(self, length):
+        author = self.authors.first()
+        if author:
+            if self.series:
+                if (len(str(author)) + len(self.title) + len(str(self.series)) + len('%g' % self.volume) + 11) > length:
+                    length -= (len(str(author)) + len('%g' % self.volume) + 11)
+                    return '%s… by %s (%s… #%g)' % (self.title[:int(length / 2)], author, str(self.series)[:int(length / 2)], self.volume)
+                else:
+                    return '%s by %s (%s #%g)' % (self.title, author, self.series, self.volume)
+            else:
+                if (len(str(author)) + len(self.title) + 5) > length:
+                    return '%s… by %s' % (self.title[:(length - 5 - len(str(author)))], author)
+                else:
+                    return '%s by %s' % (self.title, author)
+        else:
+            if self.series:
+                if (len(self.title) + len(str(self.series)) + len('%g' % self.volume) + 7) > length:
+                    length -= (len('%g' % self.volume) + 7)
+                    return '%s… (%s… #%g)' % (self.title[:int(length / 2)], str(self.series)[:int(length / 2)], self.volume)
+                else:
+                    return '%s (%s #%g)' % (self.title, self.series, self.volume)
+            else:
+                return self.title[:length]
+
     def to_json(self):
         data = {'title':self.title}
         if self.authors.all():
@@ -75,6 +99,9 @@ class Edition(models.Model):
 
     def get_absolute_url(self):
         return reverse('edition', args=[self.book.slug, self.id])
+
+    def shorttitle(self, length):
+        return '%s #%s' % (self.book.shorttitle(length - 2 - len(str(self.id))), self.id)
 
     def save(self, *args, **kwargs):
         super(Edition, self).save()

@@ -34,6 +34,9 @@ class UserCreationForm(AuthUserCreationForm):
         self.fields['password1'].widget = forms.PasswordInput(attrs={'autocomplete':'off', 'class':'form-control'})
         self.fields['password2'].widget = forms.PasswordInput(attrs={'autocomplete':'off', 'class':'form-control'})
 
+class ListEditionForm(forms.Form):
+    lst = autocomplete_light.ModelChoiceField('ListAutocomplete')
+
 class ListForm(autocomplete_light.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ListForm, self).__init__(*args, **kwargs)

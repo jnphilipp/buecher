@@ -1,5 +1,6 @@
 from books.forms import EditionForm
 from books.models import Book, Edition
+from buechers.forms import ListEditionForm
 from buechers.models import Possession, Read
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,6 +13,15 @@ def editions(request):
 
 def edition(request, slug, edition_id):
     edition = get_object_or_404(Edition, book__slug=slug, id=edition_id)
+    if request.method == 'POST':
+        form = ListEditionForm(request.POST)
+        if form.is_valid():
+            lst = form.cleaned_data['lst']
+            lst.editions.add(edition)
+            lst.save()
+            form = ListEditionForm()
+    else:
+        form = ListEditionForm()
     return render(request, 'buecher/books/edition/edition.html', locals())
 
 @login_required(login_url='/profile/signin/')

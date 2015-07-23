@@ -58,6 +58,7 @@ urlpatterns = [
     url(r'^api/books/book/(?P<slug>[\w-]+)/$', 'books.views.api.book.book'),
 
     url(r'^profile/$', 'buechers.views.profile.profile', name='profile'),
+    url(r'^profile/list/$', 'buechers.views.list.lists', name='lists'),
     url(r'^profile/list/(?P<slug>[\w-]+)/$', 'buechers.views.list.list', name='list'),
     url(r'^profile/password/$', 'django.contrib.auth.views.password_change', name='password_change'),
     url(r'^profile/password/done/$', 'django.contrib.auth.views.password_change_done', name='password_change_done'),

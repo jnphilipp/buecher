@@ -83,5 +83,37 @@
                 </tr>
             {% endif %}
         {% endif %}
+        {% if user.is_authenticated %}
+            <tr>
+                <th>lists:</th>
+                <td>
+                    {% user_lists user edition as lists %}
+                    {% for lst in lists %}
+                        <a href="{% url 'list' lst.slug %}">{{ lst.name|lower }}</a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <form action="{% if gnext %}?next={{ gnext }}{% endif %}" method="post" enctype="multipart/form-data" class="form-inline">
+                        {% csrf_token %}
+                        {% for field in form.hidden_fields %}
+                            {{ field }}
+                        {% endfor %}
+
+                        {% for field in form.visible_fields %}
+                            <div class="form-group{% if form.errors %} {{ field.errors|yesno:'has-error,has-success' }}{% endif %}">
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">save</button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        {% endif %}
     </tbody>
 </table>
