@@ -34,7 +34,7 @@ class UserCreationForm(AuthUserCreationForm):
         self.fields['password1'].widget = forms.PasswordInput(attrs={'autocomplete':'off', 'class':'form-control'})
         self.fields['password2'].widget = forms.PasswordInput(attrs={'autocomplete':'off', 'class':'form-control'})
 
-class ListEditionForm(forms.Form):
+class ListFilterForm(forms.Form):
     lst = autocomplete_light.ModelChoiceField('ListAutocomplete')
 
 class ListForm(autocomplete_light.ModelForm):
@@ -42,12 +42,10 @@ class ListForm(autocomplete_light.ModelForm):
         super(ListForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget = forms.TextInput(attrs={'autocomplete':'off', 'class':'form-control'})
         self.fields['user'].widget = forms.HiddenInput()
-        self.fields['books'].widget = forms.HiddenInput()
-        self.fields['editions'].widget = forms.HiddenInput()
 
     class Meta:
         model = List
-        fields = ('name', 'user', 'books', 'editions')
+        fields = ('name', 'user')
 
 class ListAdminForm(autocomplete_light.ModelForm):
     class Meta:

@@ -34,7 +34,7 @@ class EditionForm(autocomplete_light.ModelForm):
 
     class Meta:
         model = Edition
-        fields = ('book', 'cover_image', 'asin', 'isbn', 'publisher', 'published_on', 'binding', 'languages', 'bibtex')
+        fields = ('book', 'cover_image', 'asin', 'isbn', 'publisher', 'published_on', 'binding', 'languages', 'links', 'bibtex')
 
 class EditionAdminForm(autocomplete_light.ModelForm):
     class Meta:
