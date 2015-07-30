@@ -1,15 +1,22 @@
 {% extends 'buecher/base.html' %}
-{% load staticfiles %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header">{{ lst.name|lower }}</h1>
+        <h1 class="page-header">
+            {{ lst.name|lower }}
+            {% if lst.name != 'wishlist' and lst.name != 'unread books' and lst.name != 'read books' and lst.name != 'reading books' %}
+                <small>
+                    <a href="{% url 'list_edit' lst.slug %}" title="edit list"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="{% url 'list_delete' lst.slug %}" title="delete list"><span class="glyphicon glyphicon-trash"></span></a>
+                </small>
+            {% endif %}
+        </h1>
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h2 class="page-header">books</h2>
+        <h2 class="page-header">books <small><a href="{% url 'list_books_edit' lst.slug %}" title="edit books in {{ lst.name|lower }}"><span class="glyphicon glyphicon-pencil"></span></a></small></h2>
         {% if lst.books.all %}
             {% for book in lst.books.all %}
                 {% include 'buecher/books/book/partials/_list_shape.html' with book=book %}
@@ -21,7 +28,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h2 class="page-header">editions</h2>
+        <h2 class="page-header">editions <small><a href="{% url 'list_editions_edit' lst.slug %}" title="edit editions in {{ lst.name|lower }}"><span class="glyphicon glyphicon-pencil"></span></a></small></h2>
         {% if lst.editions.all %}
             {% for edition in lst.editions.all %}
                 {% include 'buecher/books/edition/partials/_list_shape.html' with edition=edition %}

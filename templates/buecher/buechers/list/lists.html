@@ -1,0 +1,31 @@
+{% extends 'buecher/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">lists</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>number of books</th>
+                    <th>number of editions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for list in lists %}
+                    <tr>
+                        <th><a href="{% url 'list' list.slug %}">{{ list.name|lower }}</a></th>
+                        <td>{{ list.books.count }}</td>
+                        <td>{{ list.editions.count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

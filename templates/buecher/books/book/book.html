@@ -1,19 +1,19 @@
 {% extends 'buecher/base.html' %}
-{% load staticfiles %}
+{% load buecher staticfiles %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-12">
         <h1 class="page-header">
             {{ book.title }}
-            {% if book.authors.all %}
+            {% if book.authors.all and False %}
                 by
                 {% for author in book.authors.all %}
                     <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             {% endif %}
             <small>
-                {% if book.series %}
+                {% if book.series and False %}
                     <a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }}
                 {% endif %}
                 {% if user.is_staff %}
@@ -21,6 +21,70 @@
                 {% endif %}
             </small>
         </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>title</th>
+                    <td>{{ book.title }}</td>
+                </tr>
+                {% if book.authors.all %}
+                    <tr>
+                        <th>authors</th>
+                        <td>
+                            {% for author in book.authors.all %}
+                                <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}<br/>{% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if book.series %}
+                    <tr>
+                        <th>series</th>
+                        <td><a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>editions</th>
+                    <td>{{ book.editions.count }}</td>
+                </tr>
+                {% if user.is_authenticated %}
+                    <tr>
+                        <th>lists</th>
+                        <td>
+                            {% user_lists user book=book as lists %}
+                            {% for lst in lists %}
+                                <a href="{% url 'list' lst.slug %}">{{ lst.name|lower }}</a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <form action="{% if gnext %}?next={{ gnext }}{% endif %}" method="post" enctype="multipart/form-data" class="form-inline">
+                                {% csrf_token %}
+                                {% for field in form.hidden_fields %}
+                                    {{ field }}
+                                {% endfor %}
+
+                                {% for field in form.visible_fields %}
+                                    <div class="form-group{% if form.errors %} {{ field.errors|yesno:'has-error,has-success' }}{% endif %}">
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">save</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
     </div>
 </div>
 <div class="row">
@@ -38,9 +102,9 @@
         <div class="row">
             <div class="col-md-3 col-md-offset-2">
                 <a href="{% url 'edition' book.slug edition.id %}"><img class="img-responsive img-thumbnail" src="{% if edition.cover_image %}{{ edition.cover_image.url }}{% else %}{% static 'images/default_cover.jpg' %}{% endif%}" style="height: 300px;" alt=" {{ book }} " title=" {{ book }} "></a>
-                </div>
+            </div>
             <div class="col-md-5">
-                {% include 'buecher/books/edition/partials/_table.html' with edition=edition thead=True %}
+                {% include 'buecher/books/edition/partials/_table.html' with edition=edition form=None short=True thead=True %}
             </div>
         </div>
         {% if not forloop.last %}

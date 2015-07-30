@@ -52,7 +52,7 @@
                                         <li><a href="{% url 'list' list.slug %}">{{ list.name|lower }}</a></li>
                                     {% endfor %}
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="{% url 'editions' %}"><span class="glyphicon glyphicon-plus"></span> add list</a></li>
+                                    <li><a href="{% url 'list_add' %}"><span class="glyphicon glyphicon-plus"></span> add list</a></li>
                                 </ul>
                             </li>
                         {% endif %}
@@ -76,6 +76,7 @@
                         </ul>
                     {% else %}
                         <div class="nav navbar-right" style="margin-right:3px;">
+                            <a href="{% url 'signup' %}" class="btn btn-success navbar-btn" role="button">sign up</a>
                             <a href="{% url 'signin' %}" class="btn btn-default navbar-btn" role="button">sign in</a>
                         </div>
                     {% endif %}

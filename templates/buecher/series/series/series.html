@@ -3,14 +3,17 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header">
-            {{ series }}
-        </h1>
+        <h1 class="page-header">{{ series }}</h1>
     </div>
 </div>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        <h2 class="page-header">books</h2>
+        <h2 class="page-header">
+            books
+            {% if user.is_staff %}
+                <a href="{% url 'book_add' %}" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> add book</a>
+            {% endif %}
+        </h2>
         {% if series.books.all %}
             {% for book in series.books.all %}
                 {% include 'buecher/books/book/partials/_list_shape.html' with book=book %}

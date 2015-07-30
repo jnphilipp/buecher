@@ -1,0 +1,37 @@
+{% extends "buecher/base.html" %}
+{% load i18n %}
+
+{% block content %}
+{{ form.media }}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+            <h2>{% trans 'sign up' %}</h2>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form action="{% url 'signup' %}" method="post" class="form-horizontal" style="margin-top: 10px;">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group{% if form.errors %} {{ field.errors|yesno:'has-error,has-success' }}{% endif %}">
+                    <label class="col-sm-3 control-label{% if field.field.required %} required{% endif %}" for="{{ field.auto_id }}">{{ field.label|lower }}:</label>
+                    <div class="col-sm-9">
+                        {{ field }}
+                        <span class="help-block">{{ field.help_text|lower }}</span>
+                        <span class="help-block">{{ field.errors|lower }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button class="btn btn-primary" type="submit">{% trans 'sign up' %}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock%}

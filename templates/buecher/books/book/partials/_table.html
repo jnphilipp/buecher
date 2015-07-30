@@ -1,0 +1,50 @@
+{% load books buecher %}
+
+<table class="table">
+    <thead>
+        <tr><th colspan="2"><a href="{% url 'book' book.slug %}" style="font-size: 14pt;">{{ book.title }}</a></th></tr>
+    </thead>
+    <tbody>
+        {% if book.authors.all %}
+            <tr>
+                <th>authors</th>
+                <td>
+                    {% for author in book.authors.all %}
+                        <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}<br/>{% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endif %}
+        {% if book.series %}
+            <tr>
+                <th>series</th>
+                <td><a href="{% url 'series' book.series.slug %}">{{ book.series }}</a> #{{ book.volume }}</td>
+            </tr>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <tr>
+                <th>lists</th>
+                <td>
+                    {% user_lists user book=book as lists %}
+                    {% for lst in lists %}
+                        <a href="{% url 'list' lst.slug %}">{{ lst.name|lower }}</a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            {% if list_remove %}
+                <tr>
+                    <th>remove from list</th>
+                    <td>
+                        <form action="{% url 'list_books_edit' lst.slug %}" class="form" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="book" value="{{ book.id }}">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> remove</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endif %}
+    </tbody>
+</table>

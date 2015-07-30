@@ -1,0 +1,33 @@
+{% extends "buecher/base.html" %}
+{% load buecher %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h1 class="page-header">
+            <a href="{% url 'book' edition.book.slug %}">{{ edition.book.title }}</a>
+            <small>
+                <a href="{% url 'edition' edition.book.slug edition.id %}">edition #{{ edition.id }}</a>
+                | delete possession
+            </small>
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <form action="{% url 'possession_delete' edition.book.slug edition.id possession.id %}" method="post" class="form">
+            {% csrf_token %}
+            <div class="alert alert-danger" role="alert">
+                <h5><b>confirm deletion</b></h5>
+                <p>are you sure you want to delete this possession for the edition "<a href="{% url 'edition' edition.book.slug edition.id %}">{{ edition }}</a>"? all of the following objects and their related items will be deleted:</p>
+
+                <ul>
+                    <li>possession: <a href="{% url 'edition' edition.book.slug edition.id %}">{{ possession.acquisition|date:'d. F Y' }} for {{ possession.price|floatdot:possession.unit.precision }}{{ possession.unit.symbol }}</a></li>
+                </ul>
+                <br/>
+                <button class="btn btn-danger" type="submit">yes, i'm sure</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock%}

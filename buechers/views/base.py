@@ -1,6 +1,7 @@
 from buechers.forms import AuthenticationForm, UserCreationForm
+from buechers.models import List, Profile
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, views
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_protect
 
@@ -27,3 +28,34 @@ def signin(request):
     else:
         form = AuthenticationForm(request)
         return render(request, 'registration/login.html', locals())
+
+@csrf_protect
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+
+            Profile.objects.create(user=new_user)
+            List.objects.create(user=new_user, name='read books')
+            List.objects.create(user=new_user, name='reading books')
+            List.objects.create(user=new_user, name='unread books')
+            List.objects.create(user=new_user, name='whishlist')
+
+            messages.info(request, 'thanks for signing up. you are now logged in.')
+            new_user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+            login(request, new_user)
+            return redirect('profile')
+        else:
+            return render(request, 'registration/signup.html', locals())
+    else:
+        form = UserCreationForm()
+        return render(request, 'registration/signup.html', locals())
+
+@csrf_protect
+def password_reset_confirm(request, uidb64=None, token=None):
+    return views.password_reset_confirm(request, uidb64=uidb64, token=token, post_reset_redirect=reverse('signin'))
+
+@csrf_protect
+def password_reset(request):
+    return views.password_reset(request, post_reset_redirect=reverse('signin'))

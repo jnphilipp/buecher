@@ -1,0 +1,23 @@
+{% extends 'buecher/base.html' %}
+{% load books %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header"><a href="{% url 'list' lst.slug %}">{{ lst.name|lower }}</a> <small>books</small></h1>
+    </div>
+</div>
+{% for book in lst.books.all %}
+    <div class="row">
+        <div class="col-md-3 col-md-offset-2">
+            <a href="{% url 'book' book.slug %}"><img src="{{ book|image }}" style="height: 300px;" alt=" {{ book }} " title=" {{ book }}"/></a>
+        </div>
+        <div class="col-md-5">
+            {% include 'buecher/books/book/partials/_table.html' with book=book list_remove=lst %}
+        </div>
+    </div>
+    {% if not forloop.last %}
+        <div class="row"><div class="col-md-8 col-md-offset-2"><hr/></div></div>
+    {% endif %}
+{% endfor %}
+{% endblock %}

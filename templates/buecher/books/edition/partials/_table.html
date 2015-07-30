@@ -7,45 +7,67 @@
         </thead>
     {% endif %}
     <tbody>
+        {% if not short %}
+            <tr>
+                <th>title</th>
+                <td>{{ edition.book.title }}</td>
+            </tr>
+            {% if edition.book.authors.all %}
+                <tr>
+                    <th>authors</th>
+                    <td>
+                        {% for author in edition.book.authors.all %}
+                            <a href="{% url 'person' author.slug %}">{{ author }}</a>{% if not forloop.last %}<br/>{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endif %}
+            {% if edition.book.series %}
+                <tr>
+                    <th>series</th>
+                    <td><a href="{% url 'series' edition.book.series.slug %}">{{ edition.book.series }}</a> #{{ edition.book.volume }}</td>
+                </tr>
+            {% endif %}
+        {% endif %}
         {% if edition.isbn %}
             <tr>
-                <th>isbn:</th>
+                <th>isbn</th>
                 <td>{{ edition.isbn }}</td>
             </tr>
         {% endif %}
         {% if edition.asin %}
             <tr>
-                <th>asin:</th>
+                <th>asin</th>
                 <td>{{ edition.asin }}</td>
             </tr>
         {% endif %}
         {% if edition.publisher %}
             <tr>
-                <th>publisher:</th>
+                <th>publisher</th>
                 <td><a href="{% url 'publisher' edition.publisher.slug %}">{{ edition.publisher }}</a></td>
             </tr>
         {% endif %}
         {% if edition.published_on %}
             <tr>
-                <th>published on:</th>
+                <th>published on</th>
                 <td>{{ edition.published_on|date:'d. F Y' }}</td>
             </tr>
         {% endif %}
         {% if edition.binding %}
             <tr>
-                <th>binding:</th>
+                <th>binding</th>
                 <td>{{ edition.binding }}</td>
             </tr>
         {% endif %}
         {% if edition.languages.all %}
             <tr>
-                <th>languages:</th>
+                <th>languages</th>
                 <td>{{ edition.languages.all|join:', ' }}</td>
             </tr>
         {% endif %}
         {% if edition.links.all %}
             <tr>
-                <th>links:</th>
+                <th>links</th>
                 <td>
                     <ul class="list-unstyled">
                         {% for link in edition.links.all %}
@@ -55,10 +77,37 @@
                 </td>
             </tr>
         {% endif %}
+        {% if edition.bibtex %}
+            <tr>
+                <th>bibtex</th>
+                <td>
+                    <div id="dialog" title="BibTeX">
+                        <pre>{{ edition.bibtex|linebreaks }}</pre>
+                    </div>
+                    <a id="opener" style="cursor:pointer;">display</a>
+                </td>
+            </tr>
+        {% endif %}
+        {% if edition.ebookfiles.all %}
+            <tr>
+                <th>ebook files:</th>
+                <td>
+                    <ul class="list-unstyled">
+                        {% for ebookfile in edition.ebookfiles.all %}
+                            <li><a href="{{ ebookfile.ebook.url }}" target="_blank">{{ ebookfile }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endif %}
         {% for possession in edition|possessions:request.user %}
             <tr>
-                <th>acquisition:</th>
-                <td>{{ possession.acquisition|date:'d. F Y' }} for {{ possession.price|floatdot:possession.unit.precision }}{{ possession.unit.symbol }} <a href="{% url 'possession_edit' edition.book.slug edition.id possession.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                <th>acquisition</th>
+                <td>
+                    {{ possession.acquisition|date:'d. F Y' }} for {{ possession.price|floatdot:possession.unit.precision }}{{ possession.unit.symbol }}
+                    <a href="{% url 'possession_edit' edition.book.slug edition.id possession.id %}" title="edit acquisition"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="{% url 'possession_delete' edition.book.slug edition.id possession.id %}" title="delete acquisition"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
             </tr>
         {% endfor %}
         {% if add_possessions %}
@@ -71,8 +120,12 @@
         {% endif %}
         {% for read in edition|reads:request.user %}
             <tr>
-                <th>read:</th>
-                <td>{% edition_read read %} <a href="{% url 'read_edit' edition.book.slug edition.id read.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                <th>read</th>
+                <td>
+                    {% edition_read read %}
+                    <a href="{% url 'read_edit' edition.book.slug edition.id read.id %}" title="edit read"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="{% url 'read_delete' edition.book.slug edition.id read.id %}" title="delete read"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
             </tr>
         {% endfor %}
         {% if add_reads %}
@@ -85,35 +138,62 @@
         {% endif %}
         {% if user.is_authenticated %}
             <tr>
-                <th>lists:</th>
+                <th>lists</th>
                 <td>
-                    {% user_lists user edition as lists %}
+                    {% user_lists user edition=edition as lists %}
                     {% for lst in lists %}
                         <a href="{% url 'list' lst.slug %}">{{ lst.name|lower }}</a>{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </td>
             </tr>
-            <tr>
-                <th></th>
-                <td>
-                    <form action="{% if gnext %}?next={{ gnext }}{% endif %}" method="post" enctype="multipart/form-data" class="form-inline">
-                        {% csrf_token %}
-                        {% for field in form.hidden_fields %}
-                            {{ field }}
-                        {% endfor %}
-
-                        {% for field in form.visible_fields %}
-                            <div class="form-group{% if form.errors %} {{ field.errors|yesno:'has-error,has-success' }}{% endif %}">
+            {% if form %}
+                <tr>
+                    <th></th>
+                    <td>
+                        <form action="{% if gnext %}?next={{ gnext }}{% endif %}" method="post" enctype="multipart/form-data" class="form-inline">
+                            {% csrf_token %}
+                            {% for field in form.hidden_fields %}
                                 {{ field }}
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
 
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">save</button>
-                        </div>
-                    </form>
-                </td>
-            </tr>
+                            {% for field in form.visible_fields %}
+                                <div class="form-group{% if form.errors %} {{ field.errors|yesno:'has-error,has-success' }}{% endif %}">
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">save</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endif %}
+            {% if list_remove %}
+                <tr>
+                    <th>remove from list</th>
+                    <td>
+                        <form action="{% url 'list_editions_edit' lst.slug %}" class="form" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="edition" value="{{ edition.id }}">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> remove</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endif %}
         {% endif %}
     </tbody>
 </table>
+<script>
+    $(function() {
+        $( "#dialog" ).dialog({
+            autoOpen: false,
+            minWidth: 600,
+        });
+        $( "#opener" ).click(function() {
+            $( "#dialog" ).dialog( "open" );
+        });
+    });
+</script>

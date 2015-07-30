@@ -1,4 +1,5 @@
 {% extends 'buecher/base.html' %}
+{% load buecher %}
 
 {% block content %}
 <div class="row">
@@ -20,6 +21,27 @@
                 </tr>
             </tbody>
         </table>
+        {% if user.is_authenticated %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>list</th>
+                        <th>books</th>
+                        <th>editions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% user_lists user as lists %}
+                    {% for list in lists %}
+                        <tr>
+                            <th><a href="{% url 'list' list.slug %}">{{ list.name|lower }}</a></th>
+                            <td>{{ list.books.count }}</td>
+                            <td>{{ list.editions.count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
