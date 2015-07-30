@@ -8,7 +8,7 @@ class Language(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=2048, unique=True)
     name = TextFieldSingleLine(unique=True)
 
     def save(self, *args, **kwargs):

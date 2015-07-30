@@ -9,7 +9,7 @@ class Publisher(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=2048, unique=True)
     name = TextFieldSingleLine(unique=True)
     links = models.ManyToManyField(Link, related_name='publishers', blank=True)
 

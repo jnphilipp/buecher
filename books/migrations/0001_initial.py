@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('slug', models.SlugField(unique=True)),
+                ('slug', models.SlugField(max_length=2048, unique=True)),
                 ('title', books.models.TextFieldSingleLine(unique=True)),
                 ('volume', models.FloatField(blank=True, default=0)),
                 ('authors', models.ManyToManyField(related_name='books', blank=True, to='persons.Person')),

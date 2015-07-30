@@ -25,7 +25,7 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=2048, unique=True)
     title = TextFieldSingleLine(unique=True)
     authors = models.ManyToManyField(Person, related_name='books', blank=True)
 
@@ -123,7 +123,7 @@ class Edition(models.Model):
         return save_name
 
     def __str__(self):
-        return '%s-%s' % (self.book, self.id)
+        return '%s - #%s' % (self.book, self.id)
 
     class Meta:
         ordering = ('book',)

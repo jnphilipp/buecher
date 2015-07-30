@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('slug', models.SlugField(unique=True)),
+                ('slug', models.SlugField(max_length=2048, unique=True)),
                 ('name', units.models.TextFieldSingleLine(unique=True)),
                 ('symbol', units.models.TextFieldSingleLine(unique=True)),
                 ('precision', models.PositiveIntegerField(default=2)),

@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('slug', models.SlugField(unique=True)),
+                ('slug', models.SlugField(max_length=2048, unique=True)),
                 ('name', publishers.models.TextFieldSingleLine(unique=True)),
                 ('links', models.ManyToManyField(to='links.Link', blank=True, related_name='publishers')),
             ],

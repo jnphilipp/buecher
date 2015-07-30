@@ -57,7 +57,7 @@ class List(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=2048, unique=True)
     name = TextFieldSingleLine()
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     books = models.ManyToManyField(Book, related_name='lists', blank=True)

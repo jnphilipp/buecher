@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('slug', models.SlugField(unique=True)),
+                ('slug', models.SlugField(max_length=2048, unique=True)),
                 ('name', buechers.models.TextFieldSingleLine()),
                 ('books', models.ManyToManyField(to='books.Book', related_name='lists', blank=True)),
                 ('editions', models.ManyToManyField(to='books.Edition', related_name='lists', blank=True)),
