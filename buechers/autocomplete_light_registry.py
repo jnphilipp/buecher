@@ -19,4 +19,4 @@ class Autocomplete(autocomplete_light.AutocompleteModelBase):
     def choice_html(self, choice):
         return self.choice_html_format % (self.choice_value(choice), self.choice_label(choice.name).lower())
 
-autocomplete_light.register(List, Autocomplete, search_fields=['name'], add_another_url_name='person_add_another_create')
+autocomplete_light.register(List, Autocomplete, search_fields=['name'])

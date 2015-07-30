@@ -16,4 +16,4 @@ class Autocomplete(autocomplete_light.AutocompleteModelBase):
     def choice_html(self, choice):
         return self.choice_html_format % (self.choice_value(choice), self.choice_label(choice).lower())
 
-autocomplete_light.register(Link, Autocomplete)
+autocomplete_light.register(Link, Autocomplete, add_another_url_name='link_add_another_create')
