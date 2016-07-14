@@ -1,9 +1,6 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 
-import autocomplete_light
-autocomplete_light.autodiscover()
-
 from django.contrib import admin
 admin.autodiscover()
 

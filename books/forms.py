@@ -1,12 +1,13 @@
 from books.models import Book
 from django.forms import CharField, DateField, FloatField, Form, Textarea, TextInput
 
-import autocomplete_light
+from autocomplete_light import shortcuts as autocomplete_light
 
 class BookForm(autocomplete_light.ModelForm):
 	class Meta:
 		model = Book
 		autocomplete_fields = ('binding', 'publisher', 'series')
+		fields = '__all__'
 
 class ParseBibTexForm(Form):
 	bibtex = CharField(widget=Textarea(attrs={'rows':20, 'cols':70, 'style':'resize:none;width:50%;'}), required=True)

@@ -26,7 +26,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = config.getboolean('secrets','SESSION_EXPIRE_AT
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean('debug','DEBUG')
-TEMPLATE_DEBUG = config.getboolean('debug','TEMPLATE_DEBUG')
 
 ALLOWED_HOSTS = config.get('host','ALLOWED_HOSTS').split()
 ADMINS = tuple(config.items('admins'))
@@ -42,26 +41,28 @@ EMAIL_HOST_PASSWORD = config.get('host_email','EMAIL_HOST_PASSWORD')
 
 # Application definition
 INSTALLED_APPS = (
-	'suit',
-	'autocomplete_light',
-	'django.contrib.admin',
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
-	'django_cron',
-	'books',
+    'suit',
+    'autocomplete_light',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django_cron',
+    'books',
 )
 
-MIDDLEWARE_CLASSES = (
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+MIDDLEWARE_CLASSES = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
 
 
 ROOT_URLCONF = 'buecher.urls'
@@ -70,14 +71,14 @@ WSGI_APPLICATION = 'buecher.wsgi.application'
 
 # Database
 DATABASES = {
-	'default': {
-		'ENGINE': config.get('database', 'DATABASE_ENGINE'),
-		'NAME': config.get('database', 'DATABASE_NAME'),
-		'USER': config.get('database', 'DATABASE_USER'),
-		'PASSWORD': config.get('database', 'DATABASE_PASSWORD'),
-		'HOST': config.get('database', 'DATABASE_HOST'),
-		'PORT': config.get('database', 'DATABASE_PORT'),
-	}
+    'default': {
+        'ENGINE': config.get('database', 'DATABASE_ENGINE'),
+        'NAME': config.get('database', 'DATABASE_NAME'),
+        'USER': config.get('database', 'DATABASE_USER'),
+        'PASSWORD': config.get('database', 'DATABASE_PASSWORD'),
+        'HOST': config.get('database', 'DATABASE_HOST'),
+        'PORT': config.get('database', 'DATABASE_PORT'),
+    }
 }
 
 # Internationalization
@@ -92,11 +93,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (
-	os.path.join(BASE_DIR, 'assets'),
+    os.path.join(BASE_DIR, 'assets'),
 )
 STATICFILES_FINDERS = (
-	'django.contrib.staticfiles.finders.FileSystemFinder',
-	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 
@@ -106,42 +107,47 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Templates
-TEMPLATE_DIRS = (
-	os.path.join(BASE_DIR, 'templates'),
-)
-TEMPLATE_LOADERS = (
-	'django.template.loaders.filesystem.Loader',
-	'django.template.loaders.app_directories.Loader',
-)
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-	'django.core.context_processors.request',
-	'django.contrib.messages.context_processors.messages',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': config.getboolean('debug','TEMPLATE_DEBUG'),
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 
 SUIT_CONFIG = {
-	'ADMIN_NAME':'buecher',
-	'LIST_PER_PAGE': 50,
-	'MENU': (
-		{'label': 'buecher', 'icon':'logo', 'url': '/'},
-		'auth',
-		{'label':'Books', 'models':(
-				'books.binding',
-				'books.book',
-				'books.ebookfile',
-				'books.language',
-				'books.person',
-				'books.publisher',
-				'books.series',
-				'books.url',
-				{'label': 'Parse BibTex', 'url': '/admin/books/bibtex/'},
-			)
-		},
-		'django_cron',
-	),
+    'ADMIN_NAME':'buecher',
+    'LIST_PER_PAGE': 50,
+    'MENU': (
+        {'label': 'buecher', 'icon':'logo', 'url': '/'},
+        'auth',
+        {'label':'Books', 'models':(
+                'books.binding',
+                'books.book',
+                'books.ebookfile',
+                'books.language',
+                'books.person',
+                'books.publisher',
+                'books.series',
+                'books.url',
+                {'label': 'Parse BibTex', 'url': '/admin/books/bibtex/'},
+            )
+        },
+        'django_cron',
+    ),
 }
 
 CRON_CLASSES = [
-	'books.crons.FullCircleMagazineJob',
-	'books.crons.FreiesMagazinJob',
+    'books.crons.FullCircleMagazineJob',
+    'books.crons.FreiesMagazinJob',
 ]
